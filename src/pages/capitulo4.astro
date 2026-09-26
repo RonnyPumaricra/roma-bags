@@ -240,19 +240,19 @@ import Layout from '../layouts/Layout.astro';
       <div class="gr">
         <div class="cd">
           <strong>Viabilidad técnica (5)</strong>
-          <p style="margin: .4rem 0 0; font-size: .88rem;">La Fase 1 opera sobre herramientas no-code que funcionan en los 6 celulares y 3 laptops existentes desde el primer día, sin configuración técnica compleja. Odoo solo se introduce en la Fase 2, cuando la organización ya tiene el hábito del dato digital y la conectividad está estabilizada.</p>
+          <p style="margin: .4rem 0 0; font-size: .88rem;">La Fase 1 prepara un piloto no-code para usuarios designados en celulares y laptops, tras revisar conectividad y reglas de datos. Odoo se configura y prueba en Integrar antes de la salida en vivo.</p>
         </div>
         <div class="cd">
           <strong>Costo total (4)</strong>
-          <p style="margin: .4rem 0 0; font-size: .88rem;">La Fase 1 tiene costo mínimo (no-code gratuito o de bajo costo). La Fase 2 introduce Odoo Community sin licencias. La inversión se distribuye en el tiempo, aliviando la presión presupuestaria de una microempresa.</p>
+          <p style="margin: .4rem 0 0; font-size: .88rem;">La Fase 1 contempla infraestructura, depuración y gobierno de datos además del piloto. Odoo Community no requiere licencia, pero el servidor, la migración y el trabajo del equipo deben incorporarse al presupuesto recalculado.</p>
         </div>
         <div class="cd">
           <strong>Escalabilidad (5)</strong>
-          <p style="margin: .4rem 0 0; font-size: .88rem;">El diseño por fases garantiza que la arquitectura de datos de la Fase 1 es compatible con Odoo en la Fase 2, y que Odoo en la Fase 2 soporta la analítica de la Fase 3. No hay migración traumática entre etapas porque fueron diseñadas para ser compatibles desde el inicio.</p>
+          <p style="margin: .4rem 0 0; font-size: .88rem;">El diseño por fases incluye mapeo de campos, catálogo y pruebas de conciliación para reducir los riesgos de migración a Odoo. La compatibilidad se verifica antes de aprobar el corte.</p>
         </div>
         <div class="cd">
           <strong>Sostenibilidad sin área de TI (4)</strong>
-          <p style="margin: .4rem 0 0; font-size: .88rem;">Cada fase tiene un gate de aprobación donde la Gerencia valida que el sistema es adoptado antes de avanzar. Esto garantiza que Roma Bag's nunca avanza hacia una fase más compleja sin que la anterior esté estabilizada y el personal la domine.</p>
+          <p style="margin: .4rem 0 0; font-size: .88rem;">Cada fase tiene un gate de aprobación donde la Gerencia valida que el sistema es adoptado antes de avanzar. La Gerencia revisa las evidencias y autoriza cada transición conforme a criterios definidos.</p>
         </div>
         <div class="cd">
           <strong>Ajuste a restricciones operativas y culturales (5)</strong>
@@ -291,7 +291,7 @@ import Layout from '../layouts/Layout.astro';
         </div>
         <div class="cd">
           <strong>Capa de seguridad</strong>
-          <p style="margin: .4rem 0 0; font-size: .88rem;">Política de respaldo automático en la nube (responde al trauma de la pérdida del historial de 2024) y control de accesos básico.</p>
+          <p style="margin: .4rem 0 0; font-size: .88rem;">Política de respaldo, retención y restauración verificable, más control de accesos por rol; no se promete recuperar el historial perdido de 2024.</p>
         </div>
         <div class="cd">
           <strong>Capa de procesos</strong>
@@ -299,18 +299,18 @@ import Layout from '../layouts/Layout.astro';
         </div>
         <div class="cd">
           <strong>Capa cultural</strong>
-          <p style="margin: .4rem 0 0; font-size: .88rem;">Coexistencia total con el Excel de Natalie durante esta fase. No se elimina ni se reemplaza ninguna herramienta actual.</p>
+          <p style="margin: .4rem 0 0; font-size: .88rem;">Coexistencia controlada con Excel y piloto temporal: se define fuente oficial, responsables, conciliación y fecha de corte hacia Odoo.</p>
         </div>
         <div class="cd">
           <strong>Duración estimada</strong>
-          <p style="margin: .4rem 0 0; font-size: .88rem;">4 a 6 semanas.</p>
+          <p style="margin: .4rem 0 0; font-size: .88rem;">Cimentar: 05/10/2026–17/11/2026, con diagnóstico en paralelo.</p>
         </div>
       </div>
 
       <div class="hl">
-        <strong>Gate 1 — Criterios de salida:</strong> 100% del inventario y ventas registrados en la base centralizada, consulta de stock en menos de 2 minutos desde el celular, SOPs firmados por todos los usuarios, cero zonas muertas de Wi-Fi en áreas de trabajo y política de respaldo activa y verificada. Solo si se cumplen todos los criterios se firma el Acta de Aprobación de Fase 1 y se autoriza el inicio de la Fase 2.
-      </div>
+        <strong>Gate 1 — 17/11/2026:</strong> conectividad probada, comité y responsables de datos nombrados, diccionario y calidad aprobados, SOP y respaldo verificados, catálogo depurado y piloto limitado aceptado con coexistencia controlada.</div>
 
+      <div class="hl"><strong>Gobernanza en Cimentar:</strong> comité y responsables de datos, clasificación, diccionario, reglas de calidad, depuración con trazabilidad y política de respaldo. El piloto conserva originales y prepara el mapeo hacia Odoo.</div>
       <h4>Fase 2 — Integrar: Implementación ERP Odoo Community</h4>
       <div class="gr">
         <div class="cd">
@@ -331,17 +331,16 @@ import Layout from '../layouts/Layout.astro';
         </div>
         <div class="cd">
           <strong>Capa cultural</strong>
-          <p style="margin: .4rem 0 0; font-size: .88rem;">Capacitación por rol y reducción gradual de la dependencia del Excel (ya no coexistencia total, sino transición controlada).</p>
+          <p style="margin: .4rem 0 0; font-size: .88rem;">Pruebas UAT por rol y plan de migración conciliada; la capacitación final y el corte a producción se completan en Optimizar.</p>
         </div>
         <div class="cd">
           <strong>Duración estimada</strong>
-          <p style="margin: .4rem 0 0; font-size: .88rem;">6 a 8 semanas.</p>
+          <p style="margin: .4rem 0 0; font-size: .88rem;">Integrar: 18/11/2026–08/03/2027, incluyendo configuración, migración y UAT.</p>
         </div>
       </div>
 
       <div class="hl">
-        <strong>Gate 2 — Criterios de salida:</strong> Flujo integrado Venta-Stock-Despacho operando sin errores críticos en Odoo, pedidos incompletos reducidos a cero en el período de prueba, personal de ventas y producción operando en Odoo, y Certificado de Cero Errores Críticos emitido. Solo si se cumplen todos los criterios se firma el Acta de Aprobación de Fase 2 y se autoriza el inicio de la Fase 3.
-      </div>
+        <strong>Gate 2 — 08/03/2027:</strong> Odoo en entorno de pruebas con datos conciliados, permisos y flujo venta–stock–despacho comprobados, UAT firmadas por Ventas, Producción y Gerencia, cero defectos críticos abiertos y plan de corte autorizado.</div>
 
       <h4>Fase 3 — Optimizar: Analítica Gerencial y Cierre</h4>
       <div class="gr">
@@ -351,7 +350,7 @@ import Layout from '../layouts/Layout.astro';
         </div>
         <div class="cd">
           <strong>Plataforma</strong>
-          <p style="margin: .4rem 0 0; font-size: .88rem;">Activación del módulo Analítico y de Reportes de Odoo: ganancia neta real, rentabilidad por modelo, estacionalidad histórica para proyección de demanda. Acceso restringido al perfil de Gerencia.</p>
+          <p style="margin: .4rem 0 0; font-size: .88rem;">Activación del módulo Analítico y de Reportes de Odoo: ganancia neta real, rentabilidad por modelo, historial íntegro disponible para análisis estacional, sin prometer recuperar los datos perdidos de 2024. Acceso restringido al perfil de Gerencia.</p>
         </div>
         <div class="cd">
           <strong>Capa cultural</strong>
@@ -359,13 +358,12 @@ import Layout from '../layouts/Layout.astro';
         </div>
         <div class="cd">
           <strong>Duración estimada</strong>
-          <p style="margin: .4rem 0 0; font-size: .88rem;">4 a 6 semanas.</p>
+          <p style="margin: .4rem 0 0; font-size: .88rem;">Optimizar: 09/03/2027–26/04/2027, con manuales iniciados en paralelo a la UAT.</p>
         </div>
       </div>
 
       <div class="hl">
-        <strong>Gate 3 — Criterios de salida:</strong> Reportes gerenciales en uso real, cuadre manual semanal eliminado, Natalie resuelve incidencias básicas de forma autónoma, y todos los criterios de aceptación del Enunciado del Alcance verificados. Se firma el Acta de Conformidad y Cierre Formal del proyecto.
-      </div>
+        <strong>Gate 3 — 21/04/2027:</strong> Odoo como fuente oficial tras migración final, reportes y controles de calidad en uso real, personal capacitado, resultados contrastados con la línea base y transferencia del gobierno de datos. El acta de conformidad se firma el 21/04 y el archivo administrativo concluye el 26/04/2027.</div>
     </section>
 
     <section class="sec" id="c7-5">
@@ -395,20 +393,20 @@ import Layout from '../layouts/Layout.astro';
             <tr>
               <td><span class="bg bb">PROPÓSITO</span></td>
               <td>Integrar la gestión de la información operativa y comercial en una fuente única y confiable mediante una transformación digital progresiva adaptada a la madurez de la organización.</td>
-              <td>Tiempo de consulta de información clave (stock y ventas) reducido a menos de 2 minutos al cierre de la Fase 1, y cuadre semanal reducido de 1 día a menos de 1 hora al cierre de la Fase 2.</td>
+              <td>Consulta móvil de stock en menos de 2 minutos verificada en Cimentar; reducción del cuadre semanal evaluada en operación real tras la salida en vivo de Odoo.</td>
               <td>Pruebas de consulta cronometradas y registro del tiempo de cuadre semanal.</td>
-              <td>La Gerencia y el personal usan el sistema como fuente principal de información desde la Fase 1.</td>
+              <td>El piloto es fuente controlada en Fase 1 y Odoo se convierte en fuente oficial después del corte productivo.</td>
             </tr>
             <tr>
               <td><span class="bg by">COMPONENTES</span></td>
-              <td><strong>Fase 1 Cimentar</strong> (base centralizada ligera y procesos), <strong>Fase 2 Integrar</strong> (ERP Odoo con módulos de inventario, ventas y despachos), <strong>Fase 3 Optimizar</strong> (analítica gerencial y cierre).</td>
-              <td>Gate 1 aprobado al mes 1.5, Gate 2 aprobado al mes 3.5, Gate 3 aprobado al mes 4.5.</td>
+              <td><strong>Cimentar</strong> (red, piloto y gobierno de datos), <strong>Integrar</strong> (Odoo, catálogo y migración conciliados, flujo y UAT), <strong>Optimizar</strong> (analítica, capacitación, salida, auditoría y cierre). La dirección y el diagnóstico son entregables transversales de la EDT.</td>
+              <td>Gate 1: 17/11/2026; Gate 2: 08/03/2027; Gate 3: 21/04/2027; fin administrativo: 26/04/2027.</td>
               <td>Actas de aprobación de fase firmadas por la Gerencia.</td>
               <td>El equipo de producción y ventas adopta cada fase sin sabotaje pasivo ante las primeras fricciones.</td>
             </tr>
             <tr>
               <td><span class="bg br">ACTIVIDADES</span></td>
-              <td><strong>A1</strong> diagnóstico y levantamiento de requisitos, <strong>A2</strong> implementación de Fase 1 (base ligera, red, SOPs), <strong>A3</strong> Gate 1 y aprobación, <strong>A4</strong> implementación de Fase 2 (Odoo, módulos, pruebas UAT), <strong>A5</strong> Gate 2 y aprobación, <strong>A6</strong> implementación de Fase 3 (analítica, capacitación, cierre), <strong>A7</strong> Gate 3 y cierre formal.</td>
+              <td><strong>A1</strong> diagnóstico AS-IS/TO-BE y requisitos; <strong>A2</strong> conectividad, piloto y gobierno de datos; <strong>A3</strong> Gate 1; <strong>A4</strong> Odoo, catálogo conciliado y UAT; <strong>A5</strong> Gate 2; <strong>A6</strong> reportes, capacitación, corte, monitoreo y transferencia; <strong>A7</strong> Gate 3 y cierre administrativo.</td>
               <td>Presupuesto y cronograma ejecutados según lo planificado.</td>
               <td>Informes de avance semanales y registro de control de cambios.</td>
               <td>Disponibilidad de tiempo del personal para las actividades de cada fase; conectividad estable durante la implementación.</td>

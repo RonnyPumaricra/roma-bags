@@ -3,9 +3,8 @@ import Layout from '../../layouts/Layout.astro';
 import GanttChart from '../../components/GanttChart.astro';
 import NetworkDiagram from '../../components/NetworkDiagram.astro';
 ---
-
-<Layout title="Capítulo 07: Plan de Gestión del Cronograma - Salidas">
-  <style>
+<Layout title="Capítulo 07: Salidas del cronograma">
+<style>
     .hero-card, .section-card, .note-card, .list-panel { background: #ffffff; border: 1px solid #dbeafe; border-radius: 24px; padding: 1.6rem; margin-bottom: 1.6rem; box-shadow: 0 22px 48px rgba(15,23,42,.09); }
     .hero-card { background: linear-gradient(180deg, #eff6ff 0%, #f8fbff 100%); border-color: #c7d2fe; }
     .hero-card h2 { margin: 0; color: #1e40af; font-size: 2rem; letter-spacing: .02em; }
@@ -127,330 +126,127 @@ import NetworkDiagram from '../../components/NetworkDiagram.astro';
       flex-shrink: 0;
     }
   </style>
+<style>
+    .hero-card, .section-card, .note-card, .list-panel { background: #ffffff; border: 1px solid #dbeafe; border-radius: 24px; padding: 1.6rem; margin-bottom: 1.6rem; box-shadow: 0 22px 48px rgba(15,23,42,.09); }
+    .hero-card { background: linear-gradient(180deg, #eff6ff 0%, #f8fbff 100%); border-color: #c7d2fe; }
+    .hero-card h2 { margin: 0; color: #1e40af; font-size: 2rem; letter-spacing: .02em; }
+    .hero-card .meta-grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit,minmax(180px,1fr)); margin-top: 1.25rem; }
+    .hero-card .meta-item { background: #f8fbff; border: 1px solid #dbeafe; border-radius: 16px; padding: 1rem; }
+    .hero-card .meta-item strong { display: block; color: #2563eb; font-size: .78rem; text-transform: uppercase; letter-spacing: .08em; margin-bottom: .35rem; }
+    .hero-card .meta-item span { color: #0f172a; font-size: .96rem; line-height: 1.5; }
+    .section-card h3, .list-panel h3 { margin-top: 0; color: #1e3a8a; }
+    .section-card p, .section-card ul, .section-card ol { color: #334155; line-height: 1.75; margin: .85rem 0; }
+    .section-card ul, .section-card ol { padding-left: 1.25rem; }
+    .chapter-toolbar { display: flex; flex-wrap: wrap; gap: .9rem; margin-bottom: 1.5rem; }
+    .ct-btn { display: inline-flex; align-items: center; justify-content: center; padding: .85rem 1.2rem; border-radius: 999px; border: 1px solid rgba(15,23,42,.14); background: #fff; color: #1e3a8a; font-weight: 700; text-decoration: none; transition: transform .18s ease, background .18s ease, border-color .18s ease; box-shadow: 0 12px 28px rgba(15,23,42,.08); }
+    .ct-btn:hover { transform: translateY(-1px); background: #e0e7ff; border-color: #93c5fd; }
+    .ct-btn-primary { background: linear-gradient(135deg,#1d4ed8,#2563eb); color: #fff; border-color: transparent; }
 
-  <section class="sec" id="capitulo7">
+    /* ── SECTION HEADERS ── */
+    .sec-header { display: flex; align-items: center; gap: .75rem; margin: 2.2rem 0 1.2rem; }
+    .sec-header .sec-num { font-size: 2rem; font-weight: 800; color: #dbeafe; line-height: 1; }
+    .sec-header h2 { margin: 0; font-size: 1.4rem; color: #1e3a8a; }
 
-    <!-- HERO PRINCIPAL -->
-    <div class="hero-card" id="plan">
-      <h2>PLAN DE GESTIÓN DEL CRONOGRAMA</h2>
-      <div class="meta-grid">
-        <div class="meta-item"><strong>Proyecto</strong><span>Transformación Digital Roma Bag's</span></div>
-        <div class="meta-item"><strong>Versión</strong><span>1.0 (julio 2026)</span></div>
-        <div class="meta-item"><strong>Fecha</strong><span>Julio 2026</span></div>
-        <div class="meta-item"><strong>Elaborado por</strong><span>Equipo Consultor UNTELS</span></div>
-        <div class="meta-item"><strong>Aprobado por</strong><span>Líder del Proyecto</span></div>
-      </div>
-    </div>
+    /* ── CALENDARIO CARD ── */
+    .calendar-card { background: linear-gradient(135deg,#f0f9ff,#eff6ff); border: 1px solid #bae6fd; border-radius: 20px; padding: 1.4rem 1.5rem; margin-bottom: 1.1rem; }
+    .calendar-card h4 { margin: 0 0 1rem; color: #0369a1; font-size: 1.05rem; }
+    .holiday-list { display: grid; gap: .5rem; grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); margin-top: .75rem; }
+    .holiday-item { display: flex; gap: .65rem; align-items: flex-start; background: #fff; border: 1px solid #bae6fd; border-radius: 12px; padding: .6rem .9rem; }
+    .holiday-date { font-size: .82rem; font-weight: 700; color: #0369a1; white-space: nowrap; }
+    .holiday-name { font-size: .88rem; color: #334155; }
 
-    <!-- BARRA DE NAVEGACIÓN RÁPIDA -->
-    <div class="chapter-toolbar">
-      <a href="/capitulo7"             class="ct-btn">7.0 Plan</a>
-      <a href="/capitulo7/entradas"     class="ct-btn">7.1 Entradas</a>
-      <a href="/capitulo7/herramientas" class="ct-btn">7.2 Herramientas</a>
-      <a href="/capitulo7/salidas"      class="ct-btn ct-btn-primary">7.3 Salidas</a>
-      <a href="/capitulo7/control"      class="ct-btn">7.4 Control</a>
-      <a href="/capitulo7/lista"        class="ct-btn">Lista de Actividades</a>
-    </div>
+    /* ── RUTA CRÍTICA ── */
+    .critical-path { background: #fff; border: 2px solid #ef4444; border-radius: 20px; padding: 1.4rem 1.5rem; margin-bottom: 1.1rem; box-shadow: 0 8px 24px rgba(239,68,68,.12); }
+    .critical-path h4 { margin: 0 0 .75rem; color: #b91c1c; font-size: 1.05rem; display: flex; align-items: center; gap: .5rem; }
+    .critical-path p { margin: 0 0 .85rem; color: #334155; line-height: 1.7; }
+    .cp-flow { display: flex; flex-wrap: wrap; gap: .4rem; align-items: center; margin-top: .75rem; }
+    .cp-step { background: #fef2f2; border: 1px solid #fca5a5; border-radius: 8px; padding: .3rem .65rem; font-size: .82rem; color: #991b1b; font-weight: 600; }
+    .cp-arrow { color: #ef4444; font-weight: 700; font-size: 1rem; }
+    .cp-gate { background: #ef4444; color: #fff; border-radius: 8px; padding: .3rem .7rem; font-size: .82rem; font-weight: 700; }
 
-    <!-- 7.3 SALIDAS -->
-    <div class="sec-header" id="salidas">
-      <span class="sec-num">7.3</span>
-      <h2>Salidas</h2>
-    </div>
+    /* ── HOLGURA TABLE ── */
+    .holgura-table { width: 100%; border-collapse: collapse; margin-top: .75rem; font-size: .88rem; }
+    .holgura-table th { background: #eff6ff; color: #1e3a8a; padding: .5rem .75rem; text-align: left; font-size: .8rem; border-bottom: 2px solid #dbeafe; }
+    .holgura-table td { padding: .45rem .75rem; border-bottom: 1px solid #f1f5f9; color: #334155; }
+    .holgura-table tr:hover td { background: #f8fbff; }
+    .holgura-id { font-weight: 700; color: #2563eb; }
+    .holgura-days { font-weight: 700; color: #16a34a; }
 
-    <!-- Línea Base -->
-    <div class="hero-card">
-      <h2>Línea Base del Cronograma</h2>
-      <div class="meta-grid">
-        <div class="meta-item">
-          <strong>Inicio</strong>
-          <span>31 de Agosto 2026</span>
-        </div>
-        <div class="meta-item">
-          <strong>Fin</strong>
-          <span>9 de Abril 2027</span>
-        </div>
-        <div class="meta-item">
-          <strong>Duración Total</strong>
-          <span>220 días calendario (7.2 meses)</span>
-        </div>
-        <div class="meta-item">
-          <strong>Actividades</strong>
-          <span>99 actividades (74 tareas + 21 grupos + 1 raíz + 3 hitos gate)</span>
-        </div>
-        <div class="meta-item">
-          <strong>Hitos / Gates</strong>
-          <span>3 gates de aprobación formal</span>
-        </div>
-        <div class="meta-item">
-          <strong>Horas totales</strong>
-          <span>1,699 horas estimadas</span>
-        </div>
-        <div class="meta-item">
-          <strong>Programación</strong>
-          <span>GanttPRO (elaboración) + MS Project (CPM)</span>
-        </div>
-      </div>
-    </div>
+    /* ── GATE CARDS ── */
+    .gates-grid { display: grid; gap: 1.2rem; }
+    .gate-card { border-radius: 22px; padding: 1.5rem 1.6rem; box-shadow: 0 16px 40px rgba(15,23,42,.1); }
+    .gate-1 { background: linear-gradient(135deg,#f0f9ff,#e0f2fe); border: 2px solid #0ea5e9; }
+    .gate-2 { background: linear-gradient(135deg,#f0fdf4,#dcfce7); border: 2px solid #22c55e; }
+    .gate-3 { background: linear-gradient(135deg,#fdf4ff,#f3e8ff); border: 2px solid #a855f7; }
+    .gate-card .gate-title { display: flex; align-items: center; gap: .75rem; margin-bottom: 1rem; }
+    .gate-card .gate-diamond { font-size: 1.5rem; }
+    .gate-card h4 { margin: 0; font-size: 1.05rem; }
+    .gate-1 h4 { color: #0369a1; }
+    .gate-2 h4 { color: #15803d; }
+    .gate-3 h4 { color: #7e22ce; }
+    .gate-card .gate-criteria { list-style: none; margin: 0; padding: 0; display: grid; gap: .45rem; }
+    .gate-card .gate-criteria li { display: flex; gap: .6rem; align-items: flex-start; font-size: .9rem; color: #334155; line-height: 1.55; }
+    .gate-card .gate-criteria li .chk { flex-shrink: 0; font-size: 1rem; }
+    .gate-1 .chk { color: #0ea5e9; }
+    .gate-2 .chk { color: #22c55e; }
+    .gate-3 .chk { color: #a855f7; }
+    .gate-card .gate-firmantes { margin-top: 1rem; padding-top: .75rem; border-top: 1px solid rgba(0,0,0,.08); font-size: .82rem; font-weight: 600; }
+    .gate-1 .gate-firmantes { color: #0369a1; }
+    .gate-2 .gate-firmantes { color: #15803d; }
+    .gate-3 .gate-firmantes { color: #7e22ce; }
 
-    <div class="section-card">
-      <h3>Sobre la Línea Base</h3>
-      <p>La línea base del cronograma es la versión aprobada del modelo de programación aceptada por el Líder del Proyecto. Sirve como referencia para medir el desempeño real. Solo puede modificarse mediante el proceso formal de control de cambios documentado en el Registro de Control de Cambios (paquete 1.1.4 de la EDT).</p>
-      <p>Incluye fechas de inicio temprano, fin temprano, inicio tardío y fin tardío calculadas por CPM. La holgura total de cada actividad resulta de la diferencia entre las fechas tardías y tempranas.</p>
-    </div>
+    .gantt-section { margin-top: 1.5rem; }
+    .note-grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); }
 
-    <!-- Calendario -->
-    <div class="calendar-card">
-      <h4>📅 Calendario del Proyecto</h4>
-      <div class="note-grid">
-        <div class="note-card"><strong>Días laborables</strong> Lunes a viernes (5 días/semana, 8 horas/día).</div>
-        <div class="note-card"><strong>Días no laborables</strong> Sábados y domingos.</div>
-      </div>
-      <p style="margin: 1rem 0 .5rem; color: #334155; font-size: .93rem;"><strong>Feriados oficiales del Perú configurados en el calendario del proyecto</strong> para el período agosto 2026 – abril 2027:</p>
-      <div class="holiday-list">
-        <div class="holiday-item">
-          <span class="holiday-date">08 Oct 2026<br/>Jueves</span>
-          <span class="holiday-name">Combate de Angamos</span>
-        </div>
-        <div class="holiday-item">
-          <span class="holiday-date">30 Oct 2026<br/>Viernes</span>
-          <span class="holiday-name">Día de la Canción Criolla</span>
-        </div>
-        <div class="holiday-item">
-          <span class="holiday-date">02 Nov 2026<br/>Lunes</span>
-          <span class="holiday-name">Día de Todos los Santos</span>
-        </div>
-        <div class="holiday-item">
-          <span class="holiday-date">08 Dic 2026<br/>Martes</span>
-          <span class="holiday-name">Inmaculada Concepción</span>
-        </div>
-        <div class="holiday-item">
-          <span class="holiday-date">25 Dic 2026<br/>Viernes</span>
-          <span class="holiday-name">Navidad</span>
-        </div>
-        <div class="holiday-item">
-          <span class="holiday-date">31 Dic 2026<br/>Jueves</span>
-          <span class="holiday-name">Fin de año (no laborable)</span>
-        </div>
-        <div class="holiday-item">
-          <span class="holiday-date">01 Ene 2027<br/>Viernes</span>
-          <span class="holiday-name">Año Nuevo</span>
-        </div>
-        <div class="holiday-item">
-          <span class="holiday-date">25-26 Mar 2027<br/>Jue/Vie</span>
-          <span class="holiday-name">Semana Santa</span>
-        </div>
-      </div>
-      <p style="margin: .75rem 0 0; color: #475569; font-size: .88rem;"><em>No hay feriados adicionales en el período enero–abril 2027 que afecten el cronograma.</em></p>
-    </div>
-
-    <!-- Ruta Crítica -->
-    <div class="critical-path">
-      <h4>🔴 Ruta Crítica del Proyecto (31/08/2026 → 09/04/2027)</h4>
-      <p>La ruta crítica es la secuencia de actividades con holgura total = 0 que cubre las tres fases del proyecto. Cualquier retraso en una actividad crítica retrasa el proyecto en la misma proporción. Calculada en MS Project y resaltada en rojo en el diagrama de Gantt. Las actividades de fast-tracking (paralelismo) son las que tienen holgura positiva — pueden retrasarse dentro de su holgura sin afectar la fecha de cierre (09/04/2027).</p>
-      <div class="cp-flow">
-        <span class="cp-step">Acta de Constitución</span><span class="cp-arrow">→</span>
-        <span class="cp-step">Plan de Gestión</span><span class="cp-arrow">→</span>
-        <span class="cp-step">Observación AS-IS</span><span class="cp-arrow">→</span>
-        <span class="cp-step">Entrevistas</span><span class="cp-arrow">→</span>
-        <span class="cp-step">Flujo AS-IS</span><span class="cp-arrow">→</span>
-        <span class="cp-step">Fichas Requisitos</span><span class="cp-arrow">→</span>
-        <span class="cp-step">Matriz Trazabilidad</span><span class="cp-arrow">→</span>
-        <span class="cp-step">Diseño modelo datos</span><span class="cp-arrow">→</span>
-        <span class="cp-step">Validación Odoo</span><span class="cp-arrow">→</span>
-        <span class="cp-step">Base centralizada</span><span class="cp-arrow">→</span>
-        <span class="cp-step">Reglas validación</span><span class="cp-arrow">→</span>
-        <span class="cp-step">Consulta stock</span><span class="cp-arrow">→</span>
-        <span class="cp-step">Prueba cronometrada</span><span class="cp-arrow">→</span>
-        <span class="cp-step">SOPs firmados</span><span class="cp-arrow">→</span>
-        <span class="cp-step">Protocolo Excel</span><span class="cp-arrow">→</span>
-        <span class="cp-gate">◆ GATE 1</span><span class="cp-arrow">→</span>
-        <span class="cp-step">Servidor configurado</span><span class="cp-arrow">→</span>
-        <span class="cp-step">Odoo instalado</span><span class="cp-arrow">→</span>
-        <span class="cp-step">Config. inicial</span><span class="cp-arrow">→</span>
-        <span class="cp-step">Perfiles acceso</span><span class="cp-arrow">→</span>
-        <span class="cp-step">Catálogo cargado</span><span class="cp-arrow">→</span>
-        <span class="cp-step">Migración verificada</span><span class="cp-arrow">→</span>
-        <span class="cp-step">Rebaja stock</span><span class="cp-arrow">→</span>
-        <span class="cp-step">Formulario ventas</span><span class="cp-arrow">→</span>
-        <span class="cp-step">Flujo Venta-Stock</span><span class="cp-arrow">→</span>
-        <span class="cp-step">Bloqueo técnico</span><span class="cp-arrow">→</span>
-        <span class="cp-step">Prueba conectividad</span><span class="cp-arrow">→</span>
-        <span class="cp-step">UAT Ventas</span><span class="cp-arrow">→</span>
-        <span class="cp-step">UAT Producción</span><span class="cp-arrow">→</span>
-        <span class="cp-step">UAT Gerencia</span><span class="cp-arrow">→</span>
-        <span class="cp-step">Corrección incidencias</span><span class="cp-arrow">→</span>
-        <span class="cp-step">Certificado Cero Errores</span><span class="cp-arrow">→</span>
-        <span class="cp-gate">◆ GATE 2</span><span class="cp-arrow">→</span>
-        <span class="cp-step">Panel KPIs</span><span class="cp-arrow">→</span>
-        <span class="cp-step">Reporte ganancia neta</span><span class="cp-arrow">→</span>
-        <span class="cp-step">Verif. acceso por rol</span><span class="cp-arrow">→</span>
-        <span class="cp-step">Talleres capacitación</span><span class="cp-arrow">→</span>
-        <span class="cp-step">Despliegue dispositivos</span><span class="cp-arrow">→</span>
-        <span class="cp-step">Monitoreo</span><span class="cp-arrow">→</span>
-        <span class="cp-step">Verif. reportes</span><span class="cp-arrow">→</span>
-        <span class="cp-step">Lecciones aprendidas</span><span class="cp-arrow">→</span>
-        <span class="cp-step">Informe final</span><span class="cp-arrow">→</span>
-        <span class="cp-step">Criterios aceptación</span><span class="cp-arrow">→</span>
-        <span class="cp-gate">◆ GATE 3</span><span class="cp-arrow">→</span>
-        <span class="cp-step">Acta de Cierre Formal</span>
-      </div>
-    </div>
-
-    <!-- Holguras -->
-    <div class="section-card">
-      <h3>Actividades con Holgura Positiva (Fast-Tracking en Paralelo)</h3>
-      <p>Las siguientes actividades pueden retrasarse sin afectar la fecha de fin del proyecto (09/04/2027). Su holgura positiva fue calculada en MS Project mediante CPM:</p>
-      <table class="holgura-table">
-        <thead>
-          <tr>
-            <th>EDT</th>
-            <th>Actividad</th>
-            <th>Holgura estimada</th>
-            <th>Motivo del paralelismo</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="holgura-id">1.2.4</td>
-            <td>Auditoría de infraestructura tecnológica</td>
-            <td class="holgura-days">2 días</td>
-            <td>Inicia en paralelo (II) con la observación directa del flujo AS-IS (1.2.1)</td>
-          </tr>
-          <tr>
-            <td class="holgura-id">1.3.4.1</td>
-            <td>Redacción de SOPs del flujo venta-stock-despacho</td>
-            <td class="holgura-days">3 días</td>
-            <td>Inicia en paralelo (II) con el diseño del modelo de datos (1.3.1.1)</td>
-          </tr>
-          <tr>
-            <td class="holgura-id">1.3.4.3</td>
-            <td>Política de respaldo y seguridad</td>
-            <td class="holgura-days">2 días</td>
-            <td>Inicia en paralelo con la redacción de SOPs (1.3.4.1)</td>
-          </tr>
-          <tr>
-            <td class="holgura-id">1.4.3.1</td>
-            <td>Solicitud del catálogo de productos</td>
-            <td class="holgura-days">1 día</td>
-            <td>Inicia desde Gate 1 en paralelo (II) con la configuración del servidor (1.4.1)</td>
-          </tr>
-          <tr>
-            <td class="holgura-id">1.4.5.1</td>
-            <td>Redacción de casos de prueba UAT CP-01 a CP-06</td>
-            <td class="holgura-days">2 días</td>
-            <td>Inicia en paralelo (II) con la prueba interna rebaja automática (1.4.4.2)</td>
-          </tr>
-          <tr>
-            <td class="holgura-id">1.5.1.1</td>
-            <td>Guía de auto-recuperación de incidencias</td>
-            <td class="holgura-days">3 días</td>
-            <td>Inicia en paralelo (II) con la etapa final UAT Fase 2 (1.4.5.8) — paralelismo intencional 29/01/2027</td>
-          </tr>
-          <tr>
-            <td class="holgura-id">1.5.1.2</td>
-            <td>Manuales de usuario por rol</td>
-            <td class="holgura-days">3 días</td>
-            <td>Inicia en paralelo con la guía de auto-recuperación (1.5.1.1) — relación II</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <!-- Hitos/Gates -->
-    <div class="section-card">
-      <h3>Hitos con Criterios de Salida — Gates de Aprobación</h3>
-      <p>Los gates son hitos de duración cero que marcan puntos de control formales. <strong>Todos los criterios de salida deben cumplirse</strong> para firmar el acta y avanzar a la siguiente fase. Ningún gate puede aprobarse parcialmente.</p>
-
-      <div class="gates-grid">
-
-        <!-- GATE 1 -->
-        <div class="gate-card gate-1">
-          <div class="gate-title">
-            <span class="gate-diamond">◆</span>
-            <h4>GATE 1 — Aprobación Fase Cimentar · 06/11/2026</h4>
-          </div>
-          <ul class="gate-criteria">
-            <li><span class="chk">✓</span> Red Wi-Fi estable sin zonas muertas en todas las áreas del taller</li>
-            <li><span class="chk">✓</span> 100% de registros de inventario y ventas en la base de datos centralizada única</li>
-            <li><span class="chk">✓</span> SOPs del flujo venta-stock-despacho firmados por Gerencia y Socio de Producción</li>
-            <li><span class="chk">✓</span> Hábito digital confirmado en el equipo (uso autosuficiente de la base centralizada)</li>
-            <li><span class="chk">✓</span> Política de respaldo activa y verificada con primera copia de seguridad exitosa</li>
-          </ul>
-          <div class="gate-firmantes">👤 Firmante requerido: Natalie — Gerencia General</div>
-        </div>
-
-        <!-- GATE 2 -->
-        <div class="gate-card gate-2">
-          <div class="gate-title">
-            <span class="gate-diamond">◆</span>
-            <h4>GATE 2 — Aprobación Fase Integrar · 22/02/2027</h4>
-          </div>
-          <ul class="gate-criteria">
-            <li><span class="chk">✓</span> Odoo Community operativo en servidor, accesible desde dispositivos del taller</li>
-            <li><span class="chk">✓</span> Datos migrados íntegros verificados (inventario, clientes, proveedores, catálogo)</li>
-            <li><span class="chk">✓</span> Flujo mandatorio Venta-Stock-Despacho activo sin errores críticos</li>
-            <li><span class="chk">✓</span> UAT aprobado sin errores críticos por los 3 usuarios clave (Ventas, Producción, Gerencia)</li>
-            <li><span class="chk">✓</span> Certificado de Cero Errores Críticos emitido tras corrección de todas las incidencias UAT</li>
-          </ul>
-          <div class="gate-firmantes">👤 Firmantes requeridos: Natalie (Gerencia) y Socio de Producción</div>
-        </div>
-
-        <!-- GATE 3 -->
-        <div class="gate-card gate-3">
-          <div class="gate-title">
-            <span class="gate-diamond">◆</span>
-            <h4>GATE 3 — Acta de Conformidad y Cierre Formal · 31/03/2027</h4>
-          </div>
-          <ul class="gate-criteria">
-            <li><span class="chk">✓</span> Todos los criterios de aceptación del Enunciado del Alcance verificados y documentados</li>
-            <li><span class="chk">✓</span> Lecciones aprendidas documentadas (documento 1.5.5.4 firmado antes del Gate 3)</li>
-            <li><span class="chk">✓</span> Informe final del proyecto aprobado por la Gerencia Natalie</li>
-            <li><span class="chk">✓</span> Reportes de rentabilidad generados automáticamente en Odoo sin intervención manual</li>
-            <li><span class="chk">✓</span> Natalie resuelve incidencias básicas de Odoo de forma autónoma sin apoyo del consultor</li>
-          </ul>
-          <div class="gate-firmantes">👤 Firmante requerido: Natalie — Gerencia General. El Acta de Cierre Formal (1.5.5.5) se emite DESPUÉS del Gate 3: 31/03 → 09/04/2027</div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- Diagrama de Red del Cronograma -->
-    <div class="section-card" id="red" style="margin-bottom: 2rem; padding: 0; overflow: hidden;">
-      <div style="padding: 1.2rem 1.6rem 0.5rem;">
-        <h3 style="color: #1e3a8a; margin: 0 0 .5rem;">7.3.1 Diagrama de Red del Cronograma</h3>
-        <p style="color: #334155; font-size: 0.9rem; margin: 0 0 1rem; line-height: 1.65;">
-          Representación gráfica de las relaciones lógicas entre las actividades del proyecto,
-          construida mediante el Método de Diagramación por Precedencia (PDM) del PMBOK 8.
-          Las actividades de la ruta crítica (holgura total = 0) se resaltan en rojo.
-          Las relaciones Inicio-Inicio (CC) se muestran con flechas punteadas azules.
-        </p>
-      </div>
-      <NetworkDiagram />
-    </div>
-
-    <div class="gantt-external-card">
-      <div class="gec-text">
-        <strong>Ver cronograma completo en GanttPRO</strong>
-        <p>El diagrama a continuación es una vista resumida embebida en el blog. Para explorar el cronograma completo con todas las actividades, predecesores, holguras y ruta crítica en detalle, accede directamente a GanttPRO.</p>
-      </div>
-      
-      <a
-        href="https://app.ganttpro.com/shared/gantt/da8b790c58323611c52a37746e9e8af40596759e2b32d169d8b564dd182105ac/3001433"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="gantt-external-btn"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
-        </svg>
-        Abrir en GanttPRO
-      </a>
-    </div>
-
-    <div class="gantt-section">
-      <GanttChart />
-    </div>
-
-  </section>
+    .gantt-external-card {
+      background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+      border: 1.5px solid #93c5fd;
+      border-radius: 20px;
+      padding: 1.4rem 1.6rem;
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .gantt-external-card .gec-text strong {
+      display: block;
+      color: #1e3a8a;
+      font-size: 1rem;
+      margin-bottom: .3rem;
+    }
+    .gantt-external-card .gec-text p {
+      margin: 0;
+      color: #475569;
+      font-size: .88rem;
+      line-height: 1.6;
+    }
+    .gantt-external-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      background: linear-gradient(135deg, #1d4ed8, #2563eb);
+      color: #fff;
+      font-weight: 700;
+      font-size: .9rem;
+      padding: .75rem 1.4rem;
+      border-radius: 999px;
+      text-decoration: none;
+      white-space: nowrap;
+      box-shadow: 0 6px 20px rgba(29,78,216,.3);
+      transition: transform .18s ease, box-shadow .18s ease;
+      flex-shrink: 0;
+    }
+    .gantt-external-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 28px rgba(29,78,216,.4);
+    }
+    .gantt-external-btn svg {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+    }
+  </style>
+<section class="sec" id="capitulo7"><div class="hero-card"><h2>PLAN DE GESTIÓN DEL CRONOGRAMA</h2><p>7.3 Salidas · Línea base del cronograma</p></div><div class="chapter-toolbar"><a href="/capitulo7" class="ct-btn">7.0 Plan</a><a href="/capitulo7/entradas" class="ct-btn">7.1 Entradas</a><a href="/capitulo7/herramientas" class="ct-btn">7.2 Herramientas</a><a href="/capitulo7/salidas" class="ct-btn">7.3 Salidas</a><a href="/capitulo7/control" class="ct-btn">7.4 Control</a><a href="/capitulo7/lista" class="ct-btn">Lista de actividades</a></div><div class="new-box"><div class="new-meta"><span>Inicio: 21/09/2026</span><span>Fin: 26/04/2027</span><span>149 días hábiles</span><span>92 actividades e hitos + 5 fases</span></div><p>Gate 1: 17/11/2026 · Gate 2: 08/03/2027 · Gate 3: 21/04/2027.</p><p>El Gate 3 recoge la conformidad del patrocinador el 21/04/2027; la transferencia documental y el archivo final continúan hasta el 26/04/2027.</p></div><h3>Calendario de trabajo</h3><p>Se excluyen sábados, domingos y siete feriados nacionales laborables: 08/10, 08/12, 09/12 y 25/12 de 2026; 01/01, 25/03 y 26/03 de 2027. La duración de hitos es cero; las barras recurrentes representan ventanas de trabajo.</p><div class="new-grid"><div class="new-card"><h4>Gate 1 · Cimentar</h4><p>17/11/2026 · Red, responsables, diccionario y reglas de datos, SOP, respaldo, catálogo depurado y piloto aceptados.</p></div><div class="new-card"><h4>Gate 2 · Integrar</h4><p>08/03/2027 · Odoo probado, datos conciliados, UAT por rol, plan de corte y cero defectos críticos abiertos.</p></div><div class="new-card"><h4>Gate 3 · Conformidad</h4><p>21/04/2027 · Reportes en uso real, auditoría, aceptación, transferencia al Comité de Datos e informe final.</p></div></div><h3>7.3.1 Diagrama de precedencias</h3><NetworkDiagram /><h3>7.3.2 Diagrama de Gantt</h3><GanttChart /><div class="new-note">La representación de precedencias está resumida por entregables. La tabla de actividades contiene las dependencias por ID; este capítulo no declara holguras ni ruta crítica numérica sin un recálculo CPM de la red completa.</div></section>
 </Layout>

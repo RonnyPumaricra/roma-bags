@@ -3,7 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 ---
 
 <Layout title="Capítulo 07: Plan de Gestión del Cronograma - Entradas">
-  <style>
+<style>
     .hero-card, .section-card, .note-card, .list-panel { background: #ffffff; border: 1px solid #dbeafe; border-radius: 24px; padding: 1.6rem; margin-bottom: 1.6rem; box-shadow: 0 22px 48px rgba(15,23,42,.09); }
     .hero-card { background: linear-gradient(180deg, #eff6ff 0%, #f8fbff 100%); border-color: #c7d2fe; }
     .hero-card h2 { margin: 0; color: #1e40af; font-size: 2rem; letter-spacing: .02em; }
@@ -32,123 +32,19 @@ import Layout from '../../layouts/Layout.astro';
     .entrada-card p { margin: 0 0 .6rem; color: #475569; font-size: .93rem; line-height: 1.7; }
     .entrada-card ul { margin: .5rem 0 0; padding-left: 1.15rem; color: #475569; font-size: .9rem; line-height: 1.7; }
   </style>
-
-  <section class="sec" id="capitulo7">
-
-    <!-- HERO PRINCIPAL -->
-    <div class="hero-card" id="plan">
-      <h2>PLAN DE GESTIÓN DEL CRONOGRAMA</h2>
-      <div class="meta-grid">
-        <div class="meta-item"><strong>Proyecto</strong><span>Transformación Digital Roma Bag's</span></div>
-        <div class="meta-item"><strong>Versión</strong><span>1.0 (julio 2026)</span></div>
-        <div class="meta-item"><strong>Fecha</strong><span>Julio 2026</span></div>
-        <div class="meta-item"><strong>Elaborado por</strong><span>Equipo Consultor UNTELS</span></div>
-        <div class="meta-item"><strong>Aprobado por</strong><span>Líder del Proyecto</span></div>
-      </div>
-    </div>
-
-    <!-- BARRA DE NAVEGACIÓN RÁPIDA -->
-    <div class="chapter-toolbar">
-      <a href="/capitulo7"             class="ct-btn">7.0 Plan</a>
-      <a href="/capitulo7/entradas"     class="ct-btn ct-btn-primary">7.1 Entradas</a>
-      <a href="/capitulo7/herramientas" class="ct-btn">7.2 Herramientas</a>
-      <a href="/capitulo7/salidas"      class="ct-btn">7.3 Salidas</a>
-      <a href="/capitulo7/control"      class="ct-btn">7.4 Control</a>
-      <a href="/capitulo7/lista"        class="ct-btn">Lista de Actividades</a>
-    </div>
-
-    <!-- 7.1 ENTRADAS -->
-    <div class="sec-header" id="entradas">
-      <span class="sec-num">7.1</span>
-      <h2>Entradas</h2>
-    </div>
-
-    <div class="section-card">
-      <h3>Entradas del Proceso: Planificar la Gestión del Cronograma</h3>
-      <p>El proceso de planificación del cronograma requiere las siguientes entradas del PMBOK 8. Cada una aporta información crítica que delimita el margen de maniobra para la planificación temporal del proyecto.</p>
-
-      <div class="entrada-grid">
-
-        <!-- ENTRADA 1 -->
-        <div class="entrada-card">
-          <span class="en-tag">Entrada 1</span>
-          <h4>Plan de Gestión del Alcance</h4>
-          <p>Define los entregables y paquetes de trabajo de la EDT. Cada paquete de trabajo se traduce en una o más actividades con duración estimable. El alcance delimitado en el Capítulo 06 (EDT aprobada con 5 entregables de Nivel 1 y 99 actividades) es el insumo directo para construir el cronograma.</p>
-          <ul>
-            <li>EDT aprobada con 5 entregables de Nivel 1 descompuestos en 99 actividades (74 tareas hoja + 21 grupos + 3 hitos gate)</li>
-            <li>Enunciado del Alcance con criterios de aceptación verificables por gate</li>
-            <li>Diccionario EDT con descripción y criterios de cada paquete de trabajo</li>
-          </ul>
-        </div>
-
-        <!-- ENTRADA 2 -->
-        <div class="entrada-card">
-          <span class="en-tag">Entrada 2</span>
-          <h4>Acta de Constitución del Proyecto</h4>
-          <p>Proporciona las restricciones de tiempo de alto nivel: fecha de inicio, recursos disponibles y umbrales de riesgo aceptable. La restricción temporal del proyecto cubre 220 días calendario (7.2 meses) para las tres fases completas, con cierre en el 9 de abril de 2027.</p>
-          <ul>
-            <li>Fecha de inicio autorizada: lunes 31 de agosto de 2026</li>
-            <li>Duración total: 220 días calendario / 7.2 meses (fin: 9 de abril de 2027)</li>
-            <li>Equipo asignado: Consultor UNTELS (4 integrantes)</li>
-          </ul>
-        </div>
-
-        <!-- ENTRADA 3 -->
-        <div class="entrada-card">
-          <span class="en-tag">Entrada 3</span>
-          <h4>Registro de Interesados</h4>
-          <p>Define la disponibilidad y el rol de cada interesado en las validaciones y hitos gate del cronograma. La no-disponibilidad de un interesado clave puede bloquear un gate y retrasar el proyecto.</p>
-          <ul>
-            <li><strong>Natalie (Gerencia General):</strong> firma requerida en los 3 gates. Alta disponibilidad condicionada a agenda ejecutiva. Plazo máximo de respuesta: 48 h.</li>
-            <li><strong>Socio de Producción:</strong> aprobación en UAT Fase 2 y Gate 2. Baja tolerancia al error; requiere pre-prueba informal antes de la UAT formal.</li>
-            <li><strong>Personal de Ventas:</strong> disponibilidad para UAT y capacitación en horarios de no-pico del taller.</li>
-            <li><strong>Equipo Consultor UNTELS:</strong> responsable de la ejecución de todas las actividades técnicas durante las 3 fases.</li>
-          </ul>
-        </div>
-
-        <!-- ENTRADA 4 -->
-        <div class="entrada-card">
-          <span class="en-tag">Entrada 4</span>
-          <h4>Factores Ambientales de la Empresa</h4>
-          <p>Las condiciones del entorno de Roma Bag's impactan directamente las estimaciones y la secuenciación:</p>
-          <ul>
-            <li><strong>Ausencia de área de TI:</strong> obliga a incluir actividades de auto-recuperación y capacitación intensiva que no existirían en una empresa con soporte técnico interno.</li>
-            <li><strong>Conectividad Wi-Fi irregular:</strong> el taller tiene zonas muertas documentadas, lo que justifica las actividades de diagnóstico de red (actividades 1.3.2.1 a 1.3.2.4) como prerequisito técnico de la configuración del sistema.</li>
-            <li><strong>Resistencia al cambio documentada:</strong> agrega un buffer de gestión del cambio en las estimaciones de capacitación y explica la necesidad del protocolo de coexistencia con Excel (1.3.4.5) antes del Gate 1.</li>
-          </ul>
-        </div>
-
-        <!-- ENTRADA 5 -->
-        <div class="entrada-card">
-          <span class="en-tag">Entrada 5</span>
-          <h4>Registro de Riesgos</h4>
-          <p>Los riesgos con impacto directo sobre el cronograma son:</p>
-          <ul>
-            <li><strong>R1 — Disponibilidad de Natalie para los gates:</strong> Probabilidad alta · Impacto alto. Respuesta: plazo máximo de 48 h y suplente autorizado.</li>
-            <li><strong>R2 — Rechazo del Socio de Producción en UAT:</strong> Probabilidad media · Impacto muy alto. Respuesta: pre-prueba informal antes de la UAT formal para filtrar errores críticos.</li>
-            <li><strong>R3 — Complejidad de migración de datos Fase 1 a Odoo:</strong> Probabilidad media · Impacto alto. Respuesta: validar compatibilidad del modelo de datos al cierre del paquete 1.3.1.1 antes de cerrar la Fase 1.</li>
-            <li><strong>R4 — Feriados de nov 2026 – ene 2027 concentrados en período crítico:</strong> 8 feriados configurados en el calendario del proyecto incluyendo 31/12 y 01/01 (pendientes de verificar en GanttPRO). Respuesta: planificar actividades críticas antes del 24 de diciembre; verificar que 31/12 y 01/01 estén bloqueados en GanttPRO para evitar que la actividad 1.4.4.1 (rebaja automática de stock) cruce esos días sin bloqueo.</li>
-          </ul>
-        </div>
-
-        <!-- ENTRADA 6 -->
-        <div class="entrada-card">
-          <span class="en-tag">Entrada 6</span>
-          <h4>Documentos del Proyecto — Validación de la Red de Precedencias</h4>
-          <p>El cronograma se sometió a una revisión de integridad de la red de precedencias antes de establecer la línea base. Esta validación confirmó la secuencia lógica de las siguientes relaciones críticas:</p>
-          <ul>
-            <li><strong>C1:</strong> Los paquetes de trabajo 1.3.5.1 y 1.3.5.2 dependen directamente de 1.3.3.4, garantizando una secuencia lineal sin dependencias circulares.</li>
-            <li><strong>C2:</strong> Las actividades 1.3.4.1 (SOPs flujo) y 1.3.4.3 (política de respaldo) tienen como predecesor mandatorio a 1.2.8, asegurando que inicien con los insumos previos requeridos.</li>
-            <li><strong>C3:</strong> El paquete 1.4.5.1 (casos de prueba UAT) tiene como predecesor a 1.4.4.2, garantizando que el diseño de pruebas inicie solo tras contar con el sistema debidamente configurado.</li>
-            <li><strong>C4:</strong> El desarrollo de la guía de auto-recuperación (1.5.1.1) tiene como predecesor al paquete 1.4.5.8, vinculando el inicio de la documentación a la culminación de la fase previa.</li>
-            <li><strong>C5:</strong> La verificación de criterios de aceptación (1.5.5.1) tiene como predecesor al paquete 1.5.4.3, asegurando la finalización de las actividades de cierre operativo previas.</li>
-            <li><strong>C6:</strong> La documentación de lecciones aprendidas (1.5.5.4) se programa antes del Gate 3, mientras que la firma del Acta de Cierre (1.5.5.5) se realiza como el hito final del proyecto posterior al Gate 3.</li>
-            <li><strong>C7:</strong> El nodo 1.3.7 está estructurado y designado formalmente como "Monitoreo Post-Gate 1", manteniendo la coherencia en la red.</li>
-          </ul>
-        </div>
-
-      </div>
-    </div>
-
-  </section>
+<style>
+    .new-table {width:100%;border-collapse:collapse;font-size:.86rem;min-width:740px}
+    .new-table th,.new-table td{padding:.55rem .7rem;text-align:left;border-bottom:1px solid #e2e8f0;vertical-align:top}
+    .new-table th{background:#e0e7ff;color:#1e3a8a;position:sticky;top:0}
+    .new-scroll{overflow-x:auto;margin:1rem 0 1.5rem}
+    .new-box{background:#fff;border:1px solid #dbeafe;border-radius:18px;padding:1.25rem;margin:1.1rem 0;box-shadow:0 10px 22px rgba(15,23,42,.06)}
+    .new-note{background:#eff6ff;border-left:4px solid #2563eb;padding:1rem 1.2rem;border-radius:10px;margin:1.2rem 0}
+    .new-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1rem}
+    .new-card{background:#fff;border:1px solid #dbeafe;border-radius:16px;padding:1rem}
+    .new-card h4{margin:.2rem 0 .5rem;color:#1e40af}
+    .new-card p{margin:.4rem 0;line-height:1.6}
+    .new-pill{display:inline-block;background:#faf5ff;color:#7e22ce;border-radius:7px;padding:.1rem .4rem;font-size:.78rem;font-weight:700}
+    .new-meta{display:flex;flex-wrap:wrap;gap:1rem;color:#1e40af;font-weight:700}
+  </style>
+<section class="sec" id="capitulo7"><h2>PLAN DE GESTIÓN DEL CRONOGRAMA</h2><div class="chapter-toolbar"><a href="/capitulo7" class="ct-btn">7.0 Plan</a><a href="/capitulo7/entradas" class="ct-btn">7.1 Entradas</a><a href="/capitulo7/herramientas" class="ct-btn">7.2 Herramientas</a><a href="/capitulo7/salidas" class="ct-btn">7.3 Salidas</a><a href="/capitulo7/control" class="ct-btn">7.4 Control</a><a href="/capitulo7/lista" class="ct-btn">Lista de actividades</a></div><h3>7.1 Entradas</h3><div class="new-grid"><div class="new-card"><h4>Acta y alcance</h4><p>Inicio 21/09/2026, fin 26/04/2027 y tres gates. La EDT y el diccionario del capítulo 6 delimitan entregables verificables; la lista del 7.1 contiene 92 actividades e hitos.</p></div><div class="new-card"><h4>Requisitos y diagnóstico</h4><p>Fichas REQ-01–10, matriz de trazabilidad, flujo AS-IS/TO-BE, inventario de fuentes, calidad, infraestructura y necesidades de Gerencia, Ventas, Producción y Almacén.</p></div><div class="new-card"><h4>Recursos y responsables</h4><p>Patrocinio de Gerencia, equipo consultor, usuarios UAT, Data Owners y Data Stewards. Su disponibilidad condiciona firmas, validaciones y cortes.</p></div><div class="new-card"><h4>Calendario y riesgos</h4><p>Lunes a viernes. Feriados descontados: 08/10, 08/12, 09/12 y 25/12/2026; 01/01, 25/03 y 26/03/2027. Considerar conectividad, depuración, adopción, integridad y acceso.</p></div></div><div class="new-note">Las dependencias aprobadas se encuentran en la lista y deben actualizarse junto con la EDT cuando se acepte un cambio de alcance.</div></section>
 </Layout>

@@ -9,11 +9,7 @@
   .gantt-outer { overflow-x: auto; margin: 0; border-radius: 20px; box-shadow: 0 24px 52px rgba(15,23,42,.12); background: #fff; border: 1px solid #dbeafe; }
 
   /* ── META INFO CARD ── */
-  .gantt-meta {
-    position: sticky;
-    left: 0;
-    display: grid; gap: .85rem; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); padding: 1.4rem 1.6rem 1.2rem; background: linear-gradient(135deg, #eff6ff 0%, #f0f9ff 100%); border-bottom: 1px solid #dbeafe; border-radius: 20px 20px 0 0;
-  }
+  .gantt-meta { display: grid; gap: .85rem; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); padding: 1.4rem 1.6rem 1.2rem; background: linear-gradient(135deg, #eff6ff 0%, #f0f9ff 100%); border-bottom: 1px solid #dbeafe; border-radius: 20px 20px 0 0; }
   .gantt-meta-item { text-align: center; }
   .gantt-meta-item .gm-label { display: block; font-size: .7rem; font-weight: 700; color: #2563eb; text-transform: uppercase; letter-spacing: .1em; margin-bottom: .3rem; }
   .gantt-meta-item .gm-value { display: block; font-size: 1rem; font-weight: 700; color: #0f172a; }
@@ -85,14 +81,6 @@
 
   /* Phase separator */
   .phase-sep td { border-top: 2px solid #93c5fd; }
-
-  td:nth-child(3), 
-  td:nth-child(4), 
-  td:nth-child(5), 
-  td:nth-child(6) {
-    min-width: 5rem;
-    max-width: 5rem;
-  } 
 </style>
 
 <div class="gantt-outer">

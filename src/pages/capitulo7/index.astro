@@ -3,7 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 ---
 
 <Layout title="Capítulo 07: Plan de Gestión del Cronograma">
-  <style>
+<style>
     .hero-card, .section-card, .note-card, .list-panel { background: #ffffff; border: 1px solid #dbeafe; border-radius: 24px; padding: 1.6rem; margin-bottom: 1.6rem; box-shadow: 0 22px 48px rgba(15,23,42,.09); }
     .hero-card { background: linear-gradient(180deg, #eff6ff 0%, #f8fbff 100%); border-color: #c7d2fe; }
     .hero-card h2 { margin: 0; color: #1e40af; font-size: 2rem; letter-spacing: .02em; }
@@ -37,88 +37,19 @@ import Layout from '../../layouts/Layout.astro';
     .sec-header .sec-num { font-size: 2rem; font-weight: 800; color: #dbeafe; line-height: 1; }
     .sec-header h2 { margin: 0; font-size: 1.4rem; color: #1e3a8a; }
   </style>
-
-  <section class="sec" id="capitulo7">
-
-    <!-- HERO PRINCIPAL -->
-    <div class="hero-card" id="plan">
-      <h2>PLAN DE GESTIÓN DEL CRONOGRAMA</h2>
-      <div class="meta-grid">
-        <div class="meta-item"><strong>Proyecto</strong><span>Transformación Digital Roma Bag's</span></div>
-        <div class="meta-item"><strong>Versión</strong><span>1.0 (julio 2026)</span></div>
-        <div class="meta-item"><strong>Fecha</strong><span>Julio 2026</span></div>
-        <div class="meta-item"><strong>Elaborado por</strong><span>Equipo Consultor UNTELS</span></div>
-        <div class="meta-item"><strong>Aprobado por</strong><span>Líder del Proyecto</span></div>
-      </div>
-    </div>
-
-    <!-- BARRA DE NAVEGACIÓN RÁPIDA -->
-    <div class="chapter-toolbar">
-      <a href="/capitulo7"             class="ct-btn ct-btn-primary">7.0 Plan</a>
-      <a href="/capitulo7/entradas"     class="ct-btn">7.1 Entradas</a>
-      <a href="/capitulo7/herramientas" class="ct-btn">7.2 Herramientas</a>
-      <a href="/capitulo7/salidas"      class="ct-btn">7.3 Salidas</a>
-      <a href="/capitulo7/control"      class="ct-btn">7.4 Control</a>
-      <a href="/capitulo7/lista"        class="ct-btn">Lista de Actividades</a>
-    </div>
-
-    <!-- INTRO HERO -->
-    <div class="intro-hero">
-      <h2>Plan de Gestión del Cronograma</h2>
-      <p class="ih-sub">Transformación Digital Roma Bag's · Equipo Consultor UNTELS · PMBOK 8</p>
-      <div class="ih-grid">
-        <div class="ih-card">
-          <strong>Propósito del Plan</strong>
-          <p>Establece las políticas, procedimientos y documentación necesarios para planificar, desarrollar, gestionar, ejecutar y controlar el cronograma del proyecto. Define cómo se medirá y controlará el avance temporal y qué acciones se tomarán ante desviaciones. Todo lo establecido es vinculante para el equipo consultor UNTELS durante todo el ciclo de vida del proyecto.</p>
-        </div>
-        <div class="ih-card">
-          <strong>Enfoque de Desarrollo</strong>
-          <p>Híbrido predictivo por fases con gates de decisión formales. La planificación es en cascada dentro de cada fase y el paso entre fases depende de una decisión formal de la Gerencia basada en resultados medibles. Responde al Principio de Navegar la Complejidad del PMBOK 8: el director adapta el enfoque a las características específicas del entorno.</p>
-        </div>
-        <div class="ih-card">
-          <strong>Herramientas PMIS</strong>
-          <p><strong>GanttPRO</strong> (principal): herramienta de elaboración del cronograma real — Gantt visual, predecesores FI/II, calendario con feriados, colaboración en tiempo real entre el equipo UNTELS.<br/><strong>MS Project</strong> (análisis de red): cálculo formal del CPM, diagrama de red y ruta crítica. Ambas herramientas se usan de forma complementaria: GanttPRO para la gestión y seguimiento, y MS Project para el análisis del CPM formal.</p>
-        </div>
-        <div class="ih-card">
-          <strong>Enfoque de Implementación</strong>
-          <p>3 fases con Gates formales de decisión: CIMENTAR (Gate 1: 06/11/2026) → INTEGRAR (Gate 2: 22/02/2027) → OPTIMIZAR (Gate 3: 31/03/2027). La Gestión del Proyecto (1.1) es <strong>transversal a todo el proyecto</strong>, no solo al inicio. El paralelismo deliberado de 1.5.1 (documentación de soporte) inicia el 29/01/2027 en paralelo con la fase final de UAT de Fase 2, relación Inicio-Inicio documentada explícitamente.</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- METODOLOGÍA -->
-    <div class="section-card">
-      <h3>3. METODOLOGÍA DE ELABORACIÓN DEL CRONOGRAMA</h3>
-      <p>El cronograma se desarrolló siguiendo la secuencia de procesos del dominio de Planificación del PMBOK 8, aplicando el Método de la Ruta Crítica (CPM, Critical Path Method) como técnica principal de análisis de red del cronograma.</p>
-      <div class="note-grid">
-        <div class="note-card"><strong>Definición de actividades</strong> Cada paquete de trabajo de la EDT se tradujo en actividades ejecutables con verbo. La EDT incluye 5 entregables de Nivel 1 descompuestos en 99 actividades (74 tareas hoja + 21 grupos/paquetes + 1 raíz + 3 hitos gate).</div>
-        <div class="note-card"><strong>Secuenciación</strong> Se usó el Método de Diagramación de Precedencia (PDM) con predominio Fin-Inicio (FI) y dependencias Inicio-Inicio (II) cuando fue necesario ejecutar tareas en paralelo.</div>
-        <div class="note-card"><strong>Estimación</strong> Duraciones calculadas en días hábiles mediante juicio de expertos y estimación análoga, con jornada de 8 horas de lunes a viernes.</div>
-        <div class="note-card"><strong>Herramientas PMIS</strong> El cronograma se elaboró en GanttPRO (colaboración en tiempo real, Gantt visual con feriados). El análisis CPM formal y la ruta crítica se calcularon en MS Project para validar la integridad de la red del cronograma.</div>
-      </div>
-    </div>
-
-    <!-- HERRAMIENTA DE GESTIÓN -->
-    <div class="section-card">
-      <h3>4. HERRAMIENTAS DE GESTIÓN DEL CRONOGRAMA</h3>
-      <p><strong>Herramienta principal (PMIS del equipo):</strong> GanttPRO. Utilizada para elaborar el cronograma real del proyecto. Funciones: creación de tareas jerárquicas (EDT integrada), predecesores FI e II, calendario con feriados peruanos, cálculo automático de duración y exportación en .xlsx. Justificación: acceso web sin instalación, colaboración en tiempo real entre integrantes UNTELS, interfaz visual intuitiva. Limitación: no calcula CPM automáticamente.</p>
-      <p><strong>Herramienta de análisis de red (CPM):</strong> Microsoft Project. Utilizada para el cálculo automático del CPM, visualización de Gantt con barras y flechas, diagrama de red, asignación de recursos, seguimiento del Valor Ganado (EVM) y exportación .mpp. El PMBOK 8 reconoce el PMIS como herramienta habilitante del Dominio de Planificación. Nota: el cronograma maestro se mantiene en GanttPRO; MS Project se usa para el análisis CPM y la validación de la ruta crítica.</p>
-    </div>
-
-    <!-- PARÁMETROS GENERALES -->
-    <div class="section-card">
-      <h3>6. PARÁMETROS GENERALES DEL CRONOGRAMA</h3>
-      <div class="note-grid">
-        <div class="note-card"><strong>Inicio</strong> Lunes 31 de agosto de 2026.</div>
-        <div class="note-card"><strong>Fin</strong> Viernes 9 de abril de 2027.</div>
-        <div class="note-card"><strong>Duración</strong> 220 días calendario (7.2 meses).</div>
-        <div class="note-card"><strong>Actividades</strong> 99 actividades (74 tareas hoja + 21 grupos + 1 raíz + 3 hitos gate).</div>
-        <div class="note-card"><strong>Hitos</strong> 3 gates de aprobación formal.</div>
-        <div class="note-card"><strong>Horas estimadas</strong> 1,699 horas totales.</div>
-        <div class="note-card"><strong>Programación</strong> GanttPRO (elaboración) + MS Project (referencia CPM).</div>
-      </div>
-      <p>La programación es automática para evitar restricciones fijas que bloqueen el recálculo del cronograma.</p>
-    </div>
-
-  </section>
+<style>
+    .new-table {width:100%;border-collapse:collapse;font-size:.86rem;min-width:740px}
+    .new-table th,.new-table td{padding:.55rem .7rem;text-align:left;border-bottom:1px solid #e2e8f0;vertical-align:top}
+    .new-table th{background:#e0e7ff;color:#1e3a8a;position:sticky;top:0}
+    .new-scroll{overflow-x:auto;margin:1rem 0 1.5rem}
+    .new-box{background:#fff;border:1px solid #dbeafe;border-radius:18px;padding:1.25rem;margin:1.1rem 0;box-shadow:0 10px 22px rgba(15,23,42,.06)}
+    .new-note{background:#eff6ff;border-left:4px solid #2563eb;padding:1rem 1.2rem;border-radius:10px;margin:1.2rem 0}
+    .new-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1rem}
+    .new-card{background:#fff;border:1px solid #dbeafe;border-radius:16px;padding:1rem}
+    .new-card h4{margin:.2rem 0 .5rem;color:#1e40af}
+    .new-card p{margin:.4rem 0;line-height:1.6}
+    .new-pill{display:inline-block;background:#faf5ff;color:#7e22ce;border-radius:7px;padding:.1rem .4rem;font-size:.78rem;font-weight:700}
+    .new-meta{display:flex;flex-wrap:wrap;gap:1rem;color:#1e40af;font-weight:700}
+  </style>
+<section class="sec" id="capitulo7"><h2>PLAN DE GESTIÓN DEL CRONOGRAMA</h2><div class="chapter-toolbar"><a href="/capitulo7" class="ct-btn">7.0 Plan</a><a href="/capitulo7/entradas" class="ct-btn">7.1 Entradas</a><a href="/capitulo7/herramientas" class="ct-btn">7.2 Herramientas</a><a href="/capitulo7/salidas" class="ct-btn">7.3 Salidas</a><a href="/capitulo7/control" class="ct-btn">7.4 Control</a><a href="/capitulo7/lista" class="ct-btn">Lista de actividades</a></div><h3>7.0 Enfoque y parámetros</h3><div class="new-box"><div class="new-meta"><span>Inicio: 21/09/2026</span><span>Fin: 26/04/2027</span><span>149 días hábiles</span><span>92 actividades e hitos + 5 fases</span></div><p>Gate 1: 17/11/2026 · Gate 2: 08/03/2027 · Gate 3: 21/04/2027.</p><p>La EDT del capítulo 6 define entregables y la lista de actividades especifica las acciones, fechas y predecesoras. El calendario excluye fines de semana y siete feriados nacionales que caen en día laborable.</p></div><div class="new-grid"><div class="new-card"><h4>Planificación</h4><p>La secuencia usa dependencias fin a inicio explícitas de la lista. Se planifican trabajos paralelos de diagnóstico, conectividad, gobierno de datos y UAT por roles.</p></div><div class="new-card"><h4>Seguimiento</h4><p>Informe semanal, registro de cambios, incidencias y decisiones. La Gerencia autoriza variaciones que afecten alcance, presupuesto o gates.</p></div><div class="new-card"><h4>Corte controlado</h4><p>El piloto de Cimentar es temporal. Se depura, concilia y migra a Odoo; después de la salida en vivo se bloquea su captura y Odoo es fuente oficial.</p></div></div><p>Los gráficos del 7.3 representan la programación definida; una ruta crítica y holguras numéricas requieren un recálculo CPM completo antes de declararlas como línea base.</p></section>
 </Layout>

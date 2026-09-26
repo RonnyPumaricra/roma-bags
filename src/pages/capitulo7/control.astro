@@ -3,7 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 ---
 
 <Layout title="Capítulo 07: Plan de Gestión del Cronograma - Control del Cronograma">
-  <style>
+<style>
     .hero-card, .section-card, .note-card, .list-panel { background: #ffffff; border: 1px solid #dbeafe; border-radius: 24px; padding: 1.6rem; margin-bottom: 1.6rem; box-shadow: 0 22px 48px rgba(15,23,42,.09); }
     .hero-card { background: linear-gradient(180deg, #eff6ff 0%, #f8fbff 100%); border-color: #c7d2fe; }
     .hero-card h2 { margin: 0; color: #1e40af; font-size: 2rem; letter-spacing: .02em; }
@@ -53,116 +53,19 @@ import Layout from '../../layouts/Layout.astro';
     .reserva-max  .rv-val { color: #7e22ce; }
     .reserva-item .rv-note { font-size: .82rem; color: #64748b; }
   </style>
-
-  <section class="sec" id="capitulo7">
-
-    <!-- HERO PRINCIPAL -->
-    <div class="hero-card" id="plan">
-      <h2>PLAN DE GESTIÓN DEL CRONOGRAMA</h2>
-      <div class="meta-grid">
-        <div class="meta-item"><strong>Proyecto</strong><span>Transformación Digital Roma Bag's</span></div>
-        <div class="meta-item"><strong>Versión</strong><span>1.0 (julio 2026)</span></div>
-        <div class="meta-item"><strong>Fecha</strong><span>Julio 2026</span></div>
-        <div class="meta-item"><strong>Elaborado por</strong><span>Equipo Consultor UNTELS</span></div>
-        <div class="meta-item"><strong>Aprobado por</strong><span>Líder del Proyecto</span></div>
-      </div>
-    </div>
-
-    <!-- BARRA DE NAVEGACIÓN RÁPIDA -->
-    <div class="chapter-toolbar">
-      <a href="/capitulo7"             class="ct-btn">7.0 Plan</a>
-      <a href="/capitulo7/entradas"     class="ct-btn">7.1 Entradas</a>
-      <a href="/capitulo7/herramientas" class="ct-btn">7.2 Herramientas</a>
-      <a href="/capitulo7/salidas"      class="ct-btn">7.3 Salidas</a>
-      <a href="/capitulo7/control"      class="ct-btn ct-btn-primary">7.4 Control</a>
-      <a href="/capitulo7/lista"        class="ct-btn">Lista de Actividades</a>
-    </div>
-
-    <!-- 7.4 CONTROL -->
-    <div class="sec-header" id="control">
-      <span class="sec-num">7.4</span>
-      <h2>Control del Cronograma</h2>
-    </div>
-
-    <!-- SUB-BLOQUE CONTROL 1 — Proceso de Control -->
-    <div class="control-card">
-      <h4>Proceso de Control del Cronograma</h4>
-      <p style="color:#334155;margin:0 0 1rem;line-height:1.7;">
-        <strong>Frecuencia de revisión:</strong> Semanal — reunión de 30 minutos al inicio de cada semana con el equipo consultor. En esta reunión se compara el avance real vs. la línea base y se calculan los indicadores de Valor Ganado (EVM).
-      </p>
-
-      <div class="evm-grid">
-        <div class="evm-item">
-          <div class="evm-formula">SV = EV − PV</div>
-          <div class="evm-desc"><strong>Variación del Cronograma</strong><br/>Positivo = adelantado respecto al plan<br/>Negativo = atrasado respecto al plan</div>
-        </div>
-        <div class="evm-item">
-          <div class="evm-formula">SPI = EV / PV</div>
-          <div class="evm-desc"><strong>Índice de Desempeño del Cronograma</strong><br/>Mayor a 1.0 = avanza más rápido que lo planeado<br/>Menor a 1.0 = avanza más lento que lo planeado</div>
-        </div>
-      </div>
-
-      <div class="alert-box alert-warning">
-        <span class="alert-icon">⚠️</span>
-        <span><strong>Umbral de alerta:</strong> SPI &lt; 0.85 → activar plan de acción correctivo. El Líder del Proyecto evalúa opciones de compresión del cronograma en la reunión semanal siguiente.</span>
-      </div>
-      <div class="alert-box alert-danger">
-        <span class="alert-icon">🚨</span>
-        <span><strong>Umbral de escalamiento:</strong> SPI &lt; 0.70 o proyección de desvío en hito gate → el Líder del Proyecto escala a la Gerencia de Roma Bag's y propone:<br/>
-          <strong>Opción 1:</strong> Fast-tracking (más actividades en paralelo) |
-          <strong>Opción 2:</strong> Crashing (agregar recursos temporales) |
-          <strong>Opción 3:</strong> Ajuste formal de la línea base (control de cambios)
-        </span>
-      </div>
-    </div>
-
-    <!-- SUB-BLOQUE CONTROL 2 — Cambios y Reservas -->
-    <div class="control-card">
-      <h4>Proceso de Control de Cambios al Cronograma</h4>
-      <p style="color:#334155;margin:0 0 .75rem;line-height:1.7;">Ningún cambio a la línea base puede ejecutarse sin pasar por este proceso de 5 pasos:</p>
-
-      <ol class="proceso-steps">
-        <li>
-          <span class="step-num">1</span>
-          <span>Registrar el cambio solicitado en el <strong>Registro de Control de Cambios</strong> (paquete 1.1.4 de la EDT) con descripción del cambio, impacto estimado y solicitante.</span>
-        </li>
-        <li>
-          <span class="step-num">2</span>
-          <span>El <strong>Líder del Proyecto</strong> evalúa el impacto en alcance, cronograma y presupuesto dentro de las 24 h hábiles siguientes.</span>
-        </li>
-        <li>
-          <span class="step-num">3</span>
-          <span>Cambios con impacto <strong>≤ 2 días en ruta crítica y sin afectación de hito gate</strong> → aprueba directamente el Líder del Proyecto.</span>
-        </li>
-        <li>
-          <span class="step-num">4</span>
-          <span>Cambios con impacto <strong>&gt; 2 días en ruta crítica o que afectan un hito gate</strong> → requieren aprobación formal de la Gerencia de Roma Bag's con reunión presencial o virtual.</span>
-        </li>
-        <li>
-          <span class="step-num">5</span>
-          <span>Todo cambio aprobado se refleja en <strong>EDT y cronograma antes del inicio de la siguiente semana de trabajo</strong>, actualizando la línea base si corresponde.</span>
-        </li>
-      </ol>
-
-      <h4 style="margin-top:1.5rem;">Reservas de Tiempo</h4>
-      <div class="reservas-grid">
-        <div class="reserva-item reserva-cont">
-          <strong>Reserva de Contingencia</strong>
-          <span class="rv-val">5 días hábiles</span>
-          <span class="rv-note">Fase 2 (mayor riesgo técnico). Se activa sin control de cambios si SPI &lt; 0.85 en Fase 2.</span>
-        </div>
-        <div class="reserva-item reserva-gest">
-          <strong>Reserva de Gestión</strong>
-          <span class="rv-val">3 días hábiles</span>
-          <span class="rv-note">Para riesgos no identificados (unknown unknowns). Requiere documentación en Registro de Cambios.</span>
-        </div>
-        <div class="reserva-item reserva-max">
-          <strong>Duración Máxima con Reservas</strong>
-          <span class="rv-val">228 días calendario</span>
-          <span class="rv-note">Fecha de cierre máxima (220 + 8 días de reserva): aprox. sábado 17 de abril de 2027. Límite operativo del proyecto.</span>
-        </div>
-      </div>
-    </div>
-
-  </section>
+<style>
+    .new-table {width:100%;border-collapse:collapse;font-size:.86rem;min-width:740px}
+    .new-table th,.new-table td{padding:.55rem .7rem;text-align:left;border-bottom:1px solid #e2e8f0;vertical-align:top}
+    .new-table th{background:#e0e7ff;color:#1e3a8a;position:sticky;top:0}
+    .new-scroll{overflow-x:auto;margin:1rem 0 1.5rem}
+    .new-box{background:#fff;border:1px solid #dbeafe;border-radius:18px;padding:1.25rem;margin:1.1rem 0;box-shadow:0 10px 22px rgba(15,23,42,.06)}
+    .new-note{background:#eff6ff;border-left:4px solid #2563eb;padding:1rem 1.2rem;border-radius:10px;margin:1.2rem 0}
+    .new-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1rem}
+    .new-card{background:#fff;border:1px solid #dbeafe;border-radius:16px;padding:1rem}
+    .new-card h4{margin:.2rem 0 .5rem;color:#1e40af}
+    .new-card p{margin:.4rem 0;line-height:1.6}
+    .new-pill{display:inline-block;background:#faf5ff;color:#7e22ce;border-radius:7px;padding:.1rem .4rem;font-size:.78rem;font-weight:700}
+    .new-meta{display:flex;flex-wrap:wrap;gap:1rem;color:#1e40af;font-weight:700}
+  </style>
+<section class="sec" id="capitulo7"><h2>PLAN DE GESTIÓN DEL CRONOGRAMA</h2><div class="chapter-toolbar"><a href="/capitulo7" class="ct-btn">7.0 Plan</a><a href="/capitulo7/entradas" class="ct-btn">7.1 Entradas</a><a href="/capitulo7/herramientas" class="ct-btn">7.2 Herramientas</a><a href="/capitulo7/salidas" class="ct-btn">7.3 Salidas</a><a href="/capitulo7/control" class="ct-btn">7.4 Control</a><a href="/capitulo7/lista" class="ct-btn">Lista de actividades</a></div><h3>7.4 Control del cronograma</h3><div class="new-box"><h4>Revisión semanal</h4><p>El Líder registra avance y evidencia por ID de actividad, incidencias, decisiones y pronóstico de los tres gates. Verifica con responsables el impacto de cambios de datos, infraestructura, Odoo y disponibilidad de usuarios.</p><ol><li>Comparar inicio, fin y entregable real contra la lista aprobada.</li><li>Registrar cambios y evaluar impacto en alcance, costo, riesgo, calidad y gates.</li><li>Enviar a la Gerencia los cambios que alteren un gate, el presupuesto o los criterios de aceptación.</li><li>Una vez aprobados, actualizar EDT, requisitos, lista, diagramas y presupuesto en la misma versión.</li></ol></div><div class="new-grid"><div class="new-card"><h4>Gate 1 · 17/11/2026</h4><p>Verificar respaldo, red, calidad del catálogo, SOP y piloto. Si faltan evidencias, registrar observaciones y nueva decisión de Gerencia.</p></div><div class="new-card"><h4>Gate 2 · 08/03/2027</h4><p>Validar integridad, UAT, permisos, cero defectos críticos abiertos y plan de corte con responsables de datos.</p></div><div class="new-card"><h4>Gate 3 · 21/04/2027</h4><p>Conformidad sobre operación real, KPIs, auditoría, transferencia y expediente final; archivar el 26/04/2027.</p></div></div><p>Las ventanas recurrentes de informes y control se valoran por frecuencia y esfuerzo real, no por todos los días contenidos entre sus fechas. Cualquier reserva temporal requiere aprobación documentada y reprogramación explícita.</p></section>
 </Layout>
