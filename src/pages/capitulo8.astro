@@ -89,5 +89,143 @@ import Layout from '../layouts/Layout.astro';
     .new-pill{display:inline-block;background:#faf5ff;color:#7e22ce;border-radius:7px;padding:.1rem .4rem;font-size:.78rem;font-weight:700}
     .new-meta{display:flex;flex-wrap:wrap;gap:1rem;color:#1e40af;font-weight:700}
   </style>
-<h2>CAPÍTULO 08: Gestión Económica del Proyecto</h2><section class="sec"><div class="new-note"><strong>Estado de la estimación:</strong> el presupuesto calculado sobre 74 actividades de la versión anterior ha quedado retirado de la línea base. Este capítulo describe la nueva base de costeo; los importes requieren estimar esfuerzo y aprobar tarifas para las 92 actividades e hitos vigentes. No se asigna valor monetario ficticio a las nuevas actividades de gobernanza.</div><h3>8.1 Base de estimación por paquete EDT</h3><div class="new-scroll"><table class="new-table"><thead><tr><th>Fase</th><th>Actividades</th><th>Conceptos que deben costearse</th><th>Evidencia de estimación</th></tr></thead><tbody><tr><td>1.1 Dirección y planificación</td><td>7</td><td>Acta, planes, informes y control recurrente</td><td>Horas por reunión y entregable, no duración de ventana</td></tr><tr><td>1.2 Diagnóstico AS-IS/TO-BE</td><td>9</td><td>Entrevistas, auditoría, fuentes, requisitos y trazabilidad</td><td>Horas del equipo y disponibilidad de interesados</td></tr><tr><td>1.3 Cimentar</td><td>24</td><td>Red, piloto, comité y dueños, diccionario, depuración, SOP y respaldo</td><td>Horas por rol, materiales y validaciones</td></tr><tr><td>1.4 Integrar</td><td>29</td><td>Servidor, Odoo, permisos, catálogo, migración, UAT y plan de corte</td><td>Horas por rol, hosting, dominio y pruebas</td></tr><tr><td>1.5 Optimizar y cerrar</td><td>23</td><td>Paneles, capacitación, migración final, soporte, auditoría y transferencia</td><td>Horas de ejecución y monitoreo realmente asignadas</td></tr></tbody></table></div><p><a href="/matriz_costos.csv" download class="dl-btn">Descargar matriz de costos pendiente de estimación (92 actividades e hitos)</a></p><h3>8.2 Método de recálculo</h3><p>Para cada actividad ejecutable se registra el código, paquete EDT, responsable, esfuerzo en horas, tarifa, materiales/servicios y costo. Costo directo = horas × tarifa + materiales. Las fases resumen y los hitos de duración cero no generan horas por el solo hecho de aparecer como filas del cronograma. Para informes, control y soporte recurrentes se estima frecuencia y horas por sesión.</p><div class="new-grid"><div class="new-card"><h4>Costos directos</h4><p>Reestimar recursos humanos y materiales para las 92 filas, identificando aparte las que son hitos o tareas recurrentes. Mantener cotizaciones del servidor, red y materiales.</p></div><div class="new-card"><h4>Reservas</h4><p>Recalcular contingencia contra riesgos identificados: calidad de datos, caída de conectividad, retrabajo UAT y transición. La reserva de gestión debe expresarse sobre la nueva línea base aprobada.</p></div><div class="new-card"><h4>Desembolsos</h4><p>Vincular cualquier pago a las aprobaciones del 17/11/2026, 08/03/2027 y 21/04/2027, distinguiendo archivo administrativo al 26/04/2027. Montos y porcentajes requieren acuerdo presupuestal.</p></div></div><p>El valor presente, retorno o payback anteriores no deben citarse como resultados de la nueva programación hasta actualizar inversión y beneficios con fuentes verificadas. El ahorro por pedidos incompletos y tiempo de conciliación sigue siendo una hipótesis a contrastar con la línea base.</p></section>
+<section class="sec" id="cap8">
+  <div class="hero-card">
+    <h2>GESTIÓN ECONÓMICA DEL PROYECTO</h2>
+    <div class="meta-grid">
+      <div class="meta-item"><strong>Base vigente</strong><span>92 actividades e hitos · 5 fases resumen</span></div>
+      <div class="meta-item"><strong>Horizonte</strong><span>21/09/2026 al 26/04/2027</span></div>
+      <div class="meta-item"><strong>Tipo de estimación</strong><span>Aproximación académica por analogía</span></div>
+      <div class="meta-item"><strong>Moneda</strong><span>Soles (S/)</span></div>
+    </div>
+  </div>
+
+  <div class="chapter-toolbar">
+    <a href="#presupuesto" class="ct-btn ct-btn-primary">8.1 Presupuesto</a>
+    <a href="#estimacion" class="ct-btn">8.2 Estimación de Costos</a>
+    <a href="#lineabase" class="ct-btn">8.3 Línea Base de Costos</a>
+    <a href="#viabilidad" class="ct-btn">8.4 Viabilidad Financiera</a>
+  </div>
+
+  <div class="new-note">
+    <strong>Carácter de la estimación:</strong> los importes son aproximados y se elaboran para fines académicos. Se conserva la lógica de la matriz anterior, ajustada a las 92 actividades e hitos vigentes. El esfuerzo representa horas efectivas de trabajo y no la duración completa de cada ventana del cronograma.
+  </div>
+
+  <div class="sec-header" id="presupuesto">
+    <span class="sec-num">8.1</span>
+    <h2>Presupuesto del Proyecto</h2>
+  </div>
+  <div class="section-card">
+    <h3>Estructura aproximada de costos por fase</h3>
+    <p>La estimación asciende desde cada actividad de la lista vigente y agrega el esfuerzo por fase. Los hitos incluyen únicamente el tiempo puntual de reunión, validación o despliegue cuando corresponde.</p>
+    <div class="tr">
+      <table>
+        <thead>
+          <tr><th>Fase</th><th class="num">Actividades e hitos</th><th class="num">Horas</th><th class="num">Costo RRHH (S/)</th><th class="num">Materiales (S/)</th><th class="num">Costo directo (S/)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>1.1 Dirección y planificación</td><td class="num">7</td><td class="num">314</td><td class="num">9.420,00</td><td class="num">0,00</td><td class="num">9.420,00</td></tr>
+          <tr><td>1.2 Diagnóstico AS-IS / TO-BE</td><td class="num">9</td><td class="num">168</td><td class="num">4.272,00</td><td class="num">60,00</td><td class="num">4.332,00</td></tr>
+          <tr><td>1.3 Cimentar</td><td class="num">24</td><td class="num">346</td><td class="num">8.920,00</td><td class="num">195,00</td><td class="num">9.115,00</td></tr>
+          <tr><td>1.4 Integrar</td><td class="num">29</td><td class="num">350</td><td class="num">8.896,00</td><td class="num">260,00</td><td class="num">9.156,00</td></tr>
+          <tr><td>1.5 Optimizar y cerrar</td><td class="num">23</td><td class="num">300</td><td class="num">8.172,00</td><td class="num">170,00</td><td class="num">8.342,00</td></tr>
+          <tr class="grandtotal"><td>Total costos directos</td><td class="num">92</td><td class="num">1.478</td><td class="num">39.680,00</td><td class="num">685,00</td><td class="num">40.365,00</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><a href="/matriz_costos.csv" download class="dl-btn">Descargar matriz aproximada de costos (92 actividades e hitos)</a></p>
+  </div>
+
+  <div class="sec-header" id="estimacion">
+    <span class="sec-num">8.2</span>
+    <h2>Estimación de Costos</h2>
+  </div>
+  <div class="section-card">
+    <h3>Método de estimación</h3>
+    <ol>
+      <li>Se toma la lista vigente de 92 actividades e hitos como unidad de costeo.</li>
+      <li>Se asigna un rol principal y un esfuerzo efectivo según la actividad equivalente de la matriz anterior y su complejidad relativa.</li>
+      <li>Las tareas recurrentes se valoran por frecuencia estimada; no por todos los días comprendidos entre su inicio y fin.</li>
+      <li>El costo de recursos humanos se calcula como horas × tarifa del rol.</li>
+      <li>Los materiales y servicios conservan referencias académicas de la matriz anterior y deben validarse mediante cotización antes de aprobar el presupuesto real.</li>
+    </ol>
+
+    <h3>Tarifas académicas por rol</h3>
+    <div class="tr">
+      <table>
+        <thead><tr><th>Rol</th><th class="num">Tarifa (S/ por hora)</th><th>Aplicación principal</th></tr></thead>
+        <tbody>
+          <tr><td>Líder del Proyecto</td><td class="num">30,00</td><td>Planificación, seguimiento, aprobaciones, capacitación y cierre.</td></tr>
+          <tr><td>Analista de Sistemas</td><td class="num">25,00</td><td>Datos, piloto, configuración de Odoo, migración y reportes.</td></tr>
+          <tr><td>Analista de Calidad</td><td class="num">25,00</td><td>Reglas de calidad, SOP, conciliación, UAT y auditoría.</td></tr>
+          <tr><td>Analista de Infraestructura</td><td class="num">27,00</td><td>Conectividad, servidor, instalación y despliegue.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="note-grid">
+      <div class="note-card"><strong>Actividades recurrentes</strong>Los informes se estiman en 0,5 jornada semanal; el registro de cambios y el control transversal en 0,25 jornada semanal cada uno, durante aproximadamente 30 semanas.</div>
+      <div class="note-card"><strong>Hitos</strong>La duración del cronograma se mantiene en cero. Solo se costea el esfuerzo puntual de la reunión, certificación o evento de salida en vivo.</div>
+      <div class="note-card"><strong>Materiales y servicios</strong>Se mantienen S/ 685,00 como referencia: visitas, red, impresiones, hosting, dominio, capacitación y despliegue.</div>
+    </div>
+  </div>
+
+  <div class="sec-header" id="lineabase">
+    <span class="sec-num">8.3</span>
+    <h2>Línea Base de Costos</h2>
+  </div>
+  <div class="section-card">
+    <h3>Jerarquía del presupuesto aproximado</h3>
+    <div class="budget-hierarchy">
+      <div class="bh-row"><span class="bh-label">Subtotal Recursos Humanos</span><span class="bh-amount">S/ 39.680,00</span></div>
+      <div class="bh-row"><span class="bh-label">Subtotal Materiales, Servicios y Logística</span><span class="bh-amount">S/ 685,00</span></div>
+      <div class="bh-row bh-subtotal"><span class="bh-label">= Subtotal Costos Directos</span><span class="bh-amount">S/ 40.365,00</span></div>
+      <div class="bh-row bh-indent"><span class="bh-label">+ Reserva de Contingencia (8 %)</span><span class="bh-amount">S/ 3.229,20</span></div>
+      <div class="bh-row bh-bac"><span class="bh-label">= Línea Base de Costos (BAC)</span><span class="bh-amount">S/ 43.594,20</span></div>
+      <div class="bh-row bh-indent"><span class="bh-label">+ Gastos de representación</span><span class="bh-amount">S/ 450,00</span></div>
+      <div class="bh-row bh-indent"><span class="bh-label">+ Reserva de Gestión (5 % del BAC)</span><span class="bh-amount">S/ 2.179,71</span></div>
+      <div class="bh-row bh-total"><span class="bh-label">= Presupuesto Total Aproximado</span><span class="bh-amount">S/ 46.223,91</span></div>
+    </div>
+
+    <h3>Justificación de reservas</h3>
+    <div class="risk-grid">
+      <div class="risk-item"><div class="ri-id">Disponibilidad y aprobaciones</div><div class="ri-desc">Posibles reprogramaciones de entrevistas, validaciones y gates por disponibilidad de los responsables.</div></div>
+      <div class="risk-item"><div class="ri-id">Calidad e integridad de datos</div><div class="ri-desc">Horas adicionales de limpieza, conciliación o corrección si los archivos presentan más inconsistencias que la muestra revisada.</div></div>
+      <div class="risk-item"><div class="ri-id">Conectividad y continuidad</div><div class="ri-desc">Ajustes no previstos en la red, respaldo o dispositivos durante el piloto y la salida en vivo.</div></div>
+      <div class="risk-item"><div class="ri-id">UAT y transición</div><div class="ri-desc">Retrabajo por defectos críticos, repetición de pruebas o incidencias durante la migración y el corte.</div></div>
+    </div>
+    <div class="new-note">Esta línea base es válida como aproximación para el curso. Antes de una aprobación contractual deben verificarse horas por responsable, tarifas reales y cotizaciones.</div>
+  </div>
+
+  <div class="sec-header" id="viabilidad">
+    <span class="sec-num">8.4</span>
+    <h2>Viabilidad Financiera</h2>
+  </div>
+  <div class="section-card">
+    <h3>Análisis costo-beneficio aproximado</h3>
+    <div class="tr">
+      <table>
+        <thead><tr><th>Beneficio</th><th>Base utilizada</th><th>Escenario esperado</th><th class="num">Beneficio mensual</th></tr></thead>
+        <tbody>
+          <tr><td>Reducción de pedidos incompletos</td><td>9 pedidos/mes y S/ 19–24 por reenvío</td><td>Máximo 1 pedido incompleto/mes durante la operación</td><td class="num">S/ 152–192</td></tr>
+          <tr><td>Reducción del tiempo de conciliación</td><td>1 día semanal de 7 horas</td><td>Menos de 1 hora con información conciliada</td><td class="num">S/ 840 *</td></tr>
+          <tr><td>Información de rentabilidad y calidad</td><td>Sin reporte consolidado confiable</td><td>Reportes operativos validados por Gerencia</td><td class="num">Beneficio cualitativo</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:.82rem;color:#64748b;">* Aproximación académica: 4 semanas × 7 horas × S/ 30 por hora. El beneficio comienza en la operación posterior a la salida en vivo y debe comprobarse con datos reales.</p>
+    <p><strong>Beneficio mensual conservador:</strong> S/ 992,00. Con esta referencia, el período simple de recuperación es:</p>
+    <p style="text-align:center;font-size:1.15rem;font-weight:700;color:#1e3a8a;padding:1rem;background:#eff6ff;border-radius:14px;">
+      Payback = S/ 46.223,91 ÷ S/ 992,00/mes ≈ <strong>47 meses</strong>
+    </p>
+    <p>El cálculo no monetiza el valor de contar con inventario, trazabilidad y rentabilidad confiables. Tampoco constituye una proyección contractual; permite comparar de forma académica el costo estimado con beneficios observables definidos en el acta.</p>
+
+    <h3>Esquema referencial de pago por gates</h3>
+    <div class="pago-grid">
+      <div class="pago-card pago-1"><strong>Pago 1 · Inicio y Gate 1</strong><span class="pago-val">S/ 18.489,56</span><span class="pago-note">40 % del presupuesto. Vinculado a la preparación inicial y aprobación de Cimentar el 17/11/2026.</span></div>
+      <div class="pago-card pago-2"><strong>Pago 2 · Gate 2</strong><span class="pago-val">S/ 16.178,37</span><span class="pago-note">35 % del presupuesto. Vinculado a Integrar y a la aprobación del 08/03/2027.</span></div>
+      <div class="pago-card pago-3"><strong>Pago 3 · Gate 3 y cierre</strong><span class="pago-val">S/ 11.555,98</span><span class="pago-note">25 % del presupuesto. Vinculado a la conformidad del 21/04/2027 y cierre documental al 26/04/2027.</span></div>
+    </div>
+  </div>
+</section>
 </Layout>
