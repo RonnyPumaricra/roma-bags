@@ -1,6 +1,7 @@
 ---
-// GanttChart.astro — Diagrama de Gantt del Proyecto Transformación Digital Roma Bag's
-// Inicio: Lun 31/08/26 | Duración: 75 días hábiles | Fin: Mar 15/12/26
+// GanttChart.astro — Roma Bag's · línea base de actividades y gobernanza
+// 21/09/2026–26/04/2027 · 149 días hábiles, con feriados nacionales indicados abajo.
+// Las barras representan intervalos programados; no implican cálculo de ruta crítica.
 ---
 
 <style>
@@ -8,19 +9,23 @@
   .gantt-outer { overflow-x: auto; margin: 0; border-radius: 20px; box-shadow: 0 24px 52px rgba(15,23,42,.12); background: #fff; border: 1px solid #dbeafe; }
 
   /* ── META INFO CARD ── */
-  .gantt-meta { display: grid; gap: .85rem; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); padding: 1.4rem 1.6rem 1.2rem; background: linear-gradient(135deg, #eff6ff 0%, #f0f9ff 100%); border-bottom: 1px solid #dbeafe; border-radius: 20px 20px 0 0; }
+  .gantt-meta {
+    position: sticky;
+    left: 0;
+    display: grid; gap: .85rem; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); padding: 1.4rem 1.6rem 1.2rem; background: linear-gradient(135deg, #eff6ff 0%, #f0f9ff 100%); border-bottom: 1px solid #dbeafe; border-radius: 20px 20px 0 0;
+  }
   .gantt-meta-item { text-align: center; }
   .gantt-meta-item .gm-label { display: block; font-size: .7rem; font-weight: 700; color: #2563eb; text-transform: uppercase; letter-spacing: .1em; margin-bottom: .3rem; }
   .gantt-meta-item .gm-value { display: block; font-size: 1rem; font-weight: 700; color: #0f172a; }
   .gantt-meta-item .gm-value.accent { color: #1d4ed8; font-size: 1.15rem; }
 
   /* ── GANTT TABLE ── */
-  .gantt-table { width: 100%; min-width: 900px; border-collapse: collapse; font-size: .84rem; }
+  .gantt-table { width: 100%; min-width: 1710px; border-collapse: collapse; font-size: .84rem; }
   .gantt-table thead th { background: #1e3a8a; color: #fff; font-weight: 700; padding: .55rem .7rem; text-align: left; white-space: nowrap; position: sticky; top: 0; z-index: 2; }
   .gantt-table thead th:nth-child(1) { width: 36px; }
   .gantt-table thead th:nth-child(2) { min-width: 280px; }
   .gantt-table thead th:nth-child(3), .gantt-table thead th:nth-child(4), .gantt-table thead th:nth-child(5), .gantt-table thead th:nth-child(6) { width: 92px; }
-  .gantt-table thead th:last-child { min-width: 340px; }
+  .gantt-table thead th:last-child { min-width: 1120px; }
 
   .gantt-table tbody tr { border-bottom: 1px solid #f1f5f9; transition: background .12s; }
   .gantt-table tbody tr:hover { background: #f8fbff; }
@@ -32,6 +37,8 @@
   .row-milestone { background: #fefce8 !important; color: #854d0e !important; font-weight: 700; }
   .row-parallel  { background: #f0fdf4 !important; color: #166534 !important; }
   .row-task      { color: #334155; }
+  .row-governance { color: #6b21a8; }
+  .row-continuous { color: #475569; }
 
   .gantt-table td { padding: .42rem .7rem; white-space: nowrap; vertical-align: middle; }
   .gantt-table td:nth-child(1) { text-align: center; font-weight: 700; color: #64748b; font-size: .8rem; }
@@ -58,6 +65,16 @@
   .bar-parallel  { background: linear-gradient(90deg, #10b981, #34d399); }
   .bar-milestone { background: #eab308; width: 12px !important; transform: rotate(45deg); border-radius: 2px; top: 3px; height: 12px; }
 
+  .bar-governance { background: linear-gradient(90deg,#9333ea,#c084fc); }
+  .bar-continuous { background: repeating-linear-gradient(90deg,#64748b 0 10px,#cbd5e1 10px 15px); }
+  .gantt-bar-row { min-width: 1120px; background: repeating-linear-gradient(90deg,#f8fafc 0,#f8fafc calc(100% / 149 * 5 - 1px),#dbeafe calc(100% / 149 * 5 - 1px),#dbeafe calc(100% / 149 * 5)); }
+  .gantt-bar { z-index: 1; }
+  .gantt-bar-row .bar-milestone { margin-left: -6px; }
+  .gantt-notes { padding: .7rem 1.4rem; background: #fff; color: #475569; font-size: .78rem; line-height: 1.5; }
+  .gantt-notes p { margin: .25rem 0; }
+  .week-header td { position: sticky; top: 36px; z-index: 2; }
+  .week-track { display: flex; min-width: 1120px; }
+  .week-track span { box-sizing: border-box; overflow: hidden; border-right: 1px solid #c7d2fe; text-align: center; white-space: nowrap; }
   /* Timeline legend */
   .gantt-legend { display: flex; flex-wrap: wrap; gap: .75rem; padding: .9rem 1.4rem; border-top: 1px solid #e2e8f0; background: #f8fbff; border-radius: 0 0 20px 20px; font-size: .78rem; }
   .gantt-legend-item { display: flex; align-items: center; gap: .35rem; }
@@ -68,835 +85,725 @@
 
   /* Phase separator */
   .phase-sep td { border-top: 2px solid #93c5fd; }
+
+  td:nth-child(3), 
+  td:nth-child(4), 
+  td:nth-child(5), 
+  td:nth-child(6) {
+    min-width: 5rem;
+    max-width: 5rem;
+  } 
 </style>
 
-<!-- Meta Info -->
 <div class="gantt-outer">
   <div class="gantt-meta">
-    <div class="gantt-meta-item">
-      <span class="gm-label">Proyecto</span>
-      <span class="gm-value">Transformación Digital Roma Bag's</span>
-    </div>
-    <div class="gantt-meta-item">
-      <span class="gm-label">Inicio</span>
-      <span class="gm-value accent">Lun 31/08/26</span>
-    </div>
-    <div class="gantt-meta-item">
-      <span class="gm-label">Duración Total</span>
-      <span class="gm-value accent">158 días hábiles</span>
-    </div>
-    <div class="gantt-meta-item">
-      <span class="gm-label">Fin de Proyecto</span>
-      <span class="gm-value accent">Jue 08/04/27</span>
-    </div>
-    <div class="gantt-meta-item">
-      <span class="gm-label">Metodología</span>
-      <span class="gm-value">CPM · MS Project</span>
-    </div>
-    <div class="gantt-meta-item">
-      <span class="gm-label">Herramienta PMIS</span>
-      <span class="gm-value">Microsoft Project</span>
-    </div>
+    <div class="gantt-meta-item"><span class="gm-label">Proyecto</span><span class="gm-value">Transformación Digital Roma Bag's</span></div>
+    <div class="gantt-meta-item"><span class="gm-label">Inicio</span><span class="gm-value accent">Lun 21/09/26</span></div>
+    <div class="gantt-meta-item"><span class="gm-label">Duración total</span><span class="gm-value accent">149 días hábiles</span></div>
+    <div class="gantt-meta-item"><span class="gm-label">Fin del proyecto</span><span class="gm-value accent">Lun 26/04/27</span></div>
+    <div class="gantt-meta-item"><span class="gm-label">Gate 1 · Cimentar</span><span class="gm-value">17/11/26</span></div>
+    <div class="gantt-meta-item"><span class="gm-label">Gate 2 · Integrar</span><span class="gm-value">08/03/27</span></div>
+    <div class="gantt-meta-item"><span class="gm-label">Gate 3 · Conformidad</span><span class="gm-value">21/04/27</span></div>
   </div>
-
-  <!-- Gantt Table -->
   <table class="gantt-table">
     <thead>
-      <tr>
-        <th>ID</th>
-        <th>Actividad / Nombre</th>
-        <th>Inicio</th>
-        <th>Fin</th>
-        <th>Duración</th>
-        <th>Pred.</th>
-        <th>Diagrama de Gantt — Sep 2026 → Abr 2027 (semanas 1–32)</th>
-      </tr>
+      <tr><th>ID</th><th>Actividad / Nombre</th><th>Inicio</th><th>Fin</th><th>Duración</th><th>Pred.</th><th>Diagrama de Gantt — Sep 2026 → Abr 2027 (días hábiles)</th></tr>
     </thead>
     <tbody>
-      <tr class="row-project">
-        <td>1</td>
-        <td class="t-name"><strong>TRANSFORMACIÓN DIGITAL ROMA BAG'S</strong></td>
-        <td>31/08/26</td>
-        <td>08/04/27</td>
-        <td>158d</td>
-        <td>—</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-project" style="left:0.0%;width:100.0%;"></div></div></td>
-      </tr>
+      <tr class="week-header"><td colspan="6">Semanas laborables · el ancho de cada columna corresponde a sus días hábiles</td><td><div class="week-track"><span style="width:3.3557%" title="Semana del 21/09/26">21/09</span><span style="width:3.3557%" title="Semana del 28/09/26">28/09</span><span style="width:2.6846%" title="Semana del 05/10/26">05/10</span><span style="width:3.3557%" title="Semana del 12/10/26">12/10</span><span style="width:3.3557%" title="Semana del 19/10/26">19/10</span><span style="width:3.3557%" title="Semana del 26/10/26">26/10</span><span style="width:3.3557%" title="Semana del 02/11/26">02/11</span><span style="width:3.3557%" title="Semana del 09/11/26">09/11</span><span style="width:3.3557%" title="Semana del 16/11/26">16/11</span><span style="width:3.3557%" title="Semana del 23/11/26">23/11</span><span style="width:3.3557%" title="Semana del 30/11/26">30/11</span><span style="width:2.0134%" title="Semana del 07/12/26">07/12</span><span style="width:3.3557%" title="Semana del 14/12/26">14/12</span><span style="width:2.6846%" title="Semana del 21/12/26">21/12</span><span style="width:2.6846%" title="Semana del 28/12/26">28/12</span><span style="width:3.3557%" title="Semana del 04/01/27">04/01</span><span style="width:3.3557%" title="Semana del 11/01/27">11/01</span><span style="width:3.3557%" title="Semana del 18/01/27">18/01</span><span style="width:3.3557%" title="Semana del 25/01/27">25/01</span><span style="width:3.3557%" title="Semana del 01/02/27">01/02</span><span style="width:3.3557%" title="Semana del 08/02/27">08/02</span><span style="width:3.3557%" title="Semana del 15/02/27">15/02</span><span style="width:3.3557%" title="Semana del 22/02/27">22/02</span><span style="width:3.3557%" title="Semana del 01/03/27">01/03</span><span style="width:3.3557%" title="Semana del 08/03/27">08/03</span><span style="width:3.3557%" title="Semana del 15/03/27">15/03</span><span style="width:2.0134%" title="Semana del 22/03/27">22/03</span><span style="width:3.3557%" title="Semana del 29/03/27">29/03</span><span style="width:3.3557%" title="Semana del 05/04/27">05/04</span><span style="width:3.3557%" title="Semana del 12/04/27">12/04</span><span style="width:3.3557%" title="Semana del 19/04/27">19/04</span><span style="width:0.6711%" title="Semana del 26/04/27">26/04</span></div></td></tr>
+      <tr class="row-project"><td>1</td><td class="t-name"><strong>TRANSFORMACIÓN DIGITAL ROMA BAG'S</strong></td><td>21/09/26</td><td>26/04/27</td><td>149d</td><td>—</td><td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-project" style="left:0%;width:100%;"></div></div></td></tr>
       <tr class="row-phase phase-sep">
         <td>1.1</td>
-        <td class="t-name"><strong>Gestión del Proyecto</strong></td>
-        <td>31/08/26</td>
-        <td>09/09/26</td>
-        <td>7d</td>
-        <td>—</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-phase" style="left:0.0%;width:4.1%;"></div></div></td>
+        <td class="t-name" title=""><strong>Dirección y planificación</strong></td>
+        <td>21/09/26</td><td>26/04/27</td>
+        <td>—</td><td title="—">—</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-phase" style="left:0.0000%;width:100.0000%;" title=""></div></div></td>
       </tr>
       <tr class="row-task">
         <td>1.1.1</td>
-        <td class="t-name indent-2">Redactar y firmar el Acta de Constitución</td>
-        <td>31/08/26</td>
-        <td>04/09/26</td>
-        <td>4d</td>
-        <td>—</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:0.0%;width:1.8%;"></div></div></td>
+        <td class="t-name indent-1" title="Acta con alcance Odoo, gobernanza y línea base de indicadores">Redactar el acta de constitución y objetivos medibles</td>
+        <td>21/09/26</td><td>24/09/26</td>
+        <td>4d</td><td title="—">—</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:0.0000%;width:2.6846%;" title="Acta con alcance Odoo, gobernanza y línea base de indicadores"></div></div></td>
       </tr>
-      <tr class="row-task">
+      <tr class="row-milestone">
         <td>1.1.2</td>
-        <td class="t-name indent-2">Elaborar Plan de Gestión del Alcance y Cronograma</td>
-        <td>04/09/26</td>
-        <td>09/09/26</td>
-        <td>3d</td>
-        <td>1.1.1</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:1.8%;width:2.3%;"></div></div></td>
+        <td class="t-name indent-1" title="Patrocinio formal antes del diagnóstico detallado"><span class="t-milestone-icon">◆</span><strong>Aprobar y firmar el acta de constitución</strong></td>
+        <td>25/09/26</td><td>25/09/26</td>
+        <td>0d</td><td title="1.1.1">1.1.1</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-milestone" style="left:2.6846%;" title="Patrocinio formal antes del diagnóstico detallado"></div></div></td>
       </tr>
       <tr class="row-task">
         <td>1.1.3</td>
-        <td class="t-name indent-2">Emitir informes de avance semanales</td>
-        <td>04/09/26</td>
-        <td>07/09/26</td>
-        <td>1d</td>
-        <td>1.1.1</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:1.8%;width:1.4%;"></div></div></td>
+        <td class="t-name indent-1" title="Gerencia, Ventas, Producción, Almacén, despachos y TI">Identificar interesados y responsables del proyecto</td>
+        <td>21/09/26</td><td>25/09/26</td>
+        <td>5d</td><td title="—">—</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:0.0000%;width:3.3557%;" title="Gerencia, Ventas, Producción, Almacén, despachos y TI"></div></div></td>
       </tr>
       <tr class="row-task">
         <td>1.1.4</td>
-        <td class="t-name indent-2">Mantener el Registro de Control de Cambios</td>
-        <td>07/09/26</td>
-        <td>08/09/26</td>
-        <td>1d</td>
-        <td>1.1.3</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:3.2%;width:0.5%;"></div></div></td>
+        <td class="t-name indent-1" title="Línea base y estrategia de integración del piloto a Odoo">Plan de alcance, cronograma, presupuesto y riesgos</td>
+        <td>28/09/26</td><td>02/10/26</td>
+        <td>5d</td><td title="1.1.2">1.1.2</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:3.3557%;width:3.3557%;" title="Línea base y estrategia de integración del piloto a Odoo"></div></div></td>
       </tr>
-      <tr class="row-summary phase-sep">
+      <tr class="row-continuous">
+        <td>1.1.5</td>
+        <td class="t-name indent-1" title="Actividad recurrente, no trabajo exclusivo de todos los días del intervalo">Informes de avance y comité de seguimiento semanal</td>
+        <td>28/09/26</td><td>20/04/27</td>
+        <td>140d</td><td title="1.1.2">1.1.2</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-continuous" style="left:3.3557%;width:93.9597%;" title="Actividad recurrente, no trabajo exclusivo de todos los días del intervalo"></div></div></td>
+      </tr>
+      <tr class="row-continuous">
+        <td>1.1.6</td>
+        <td class="t-name indent-1" title="Control continuo de desviaciones y decisiones autorizadas">Registro de cambios, incidentes y decisiones</td>
+        <td>28/09/26</td><td>20/04/27</td>
+        <td>140d</td><td title="1.1.2">1.1.2</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-continuous" style="left:3.3557%;width:93.9597%;" title="Control continuo de desviaciones y decisiones autorizadas"></div></div></td>
+      </tr>
+      <tr class="row-continuous">
+        <td>1.1.7</td>
+        <td class="t-name indent-1" title="Seguimiento transversal en paralelo con fases de ejecución">Control de alcance, riesgos, costo y calidad</td>
+        <td>05/10/26</td><td>20/04/27</td>
+        <td>135d</td><td title="1.1.4">1.1.4</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-continuous" style="left:6.7114%;width:90.6040%;" title="Seguimiento transversal en paralelo con fases de ejecución"></div></div></td>
+      </tr>
+      <tr class="row-phase phase-sep">
         <td>1.2</td>
-        <td class="t-name"><em>Diagnóstico y Requisitos AS-IS</em></td>
-        <td>11/09/26</td>
-        <td>08/10/26</td>
-        <td>19d</td>
-        <td>—</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:5.0%;width:12.3%;"></div></div></td>
+        <td class="t-name" title=""><strong>Diagnóstico y diseño AS-IS / TO-BE</strong></td>
+        <td>28/09/26</td><td>20/10/26</td>
+        <td>—</td><td title="—">—</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-phase" style="left:3.3557%;width:10.7383%;" title=""></div></div></td>
       </tr>
       <tr class="row-task">
         <td>1.2.1</td>
-        <td class="t-name indent-2">Realizar observación directa del flujo actual</td>
-        <td>11/09/26</td>
-        <td>16/09/26</td>
-        <td>3d</td>
-        <td>1.1.4, 1.2.4</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:5.0%;width:2.3%;"></div></div></td>
+        <td class="t-name indent-1" title="Registrar canales, responsables, documentos y problemas">Observación directa del flujo venta–stock–despacho</td>
+        <td>28/09/26</td><td>01/10/26</td>
+        <td>4d</td><td title="1.1.2">1.1.2</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:3.3557%;width:2.6846%;" title="Registrar canales, responsables, documentos y problemas"></div></div></td>
       </tr>
       <tr class="row-task">
         <td>1.2.2</td>
-        <td class="t-name indent-2">Ejecutar entrevistas con interesados clave</td>
-        <td>16/09/26</td>
-        <td>21/09/26</td>
-        <td>3d</td>
-        <td>1.2.1</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:7.3%;width:2.3%;"></div></div></td>
+        <td class="t-name indent-1" title="Validar necesidades por rol y talleres principal y alterno">Entrevistas a Gerencia, Ventas, Producción y Almacén</td>
+        <td>29/09/26</td><td>02/10/26</td>
+        <td>4d</td><td title="1.1.2">1.1.2</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:4.0268%;width:2.6846%;" title="Validar necesidades por rol y talleres principal y alterno"></div></div></td>
       </tr>
       <tr class="row-task">
         <td>1.2.3</td>
-        <td class="t-name indent-2">Documentar el flujo AS-IS y validar con Gerencia</td>
-        <td>21/09/26</td>
-        <td>23/09/26</td>
-        <td>2d</td>
-        <td>1.2.2</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:9.5%;width:0.9%;"></div></div></td>
+        <td class="t-name indent-1" title="Cobertura Wi-Fi, datos móviles, dispositivos y seguridad">Auditoría de infraestructura, conectividad y dispositivos</td>
+        <td>28/09/26</td><td>02/10/26</td>
+        <td>5d</td><td title="1.1.2">1.1.2</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:3.3557%;width:3.3557%;" title="Cobertura Wi-Fi, datos móviles, dispositivos y seguridad"></div></div></td>
       </tr>
-      <tr class="row-task">
+      <tr class="row-governance">
         <td>1.2.4</td>
-        <td class="t-name indent-2">Ejecutar auditoría de infraestructura</td>
-        <td>11/09/26</td>
-        <td>15/09/26</td>
-        <td>2d</td>
-        <td>—</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:5.0%;width:1.8%;"></div></div></td>
+        <td class="t-name indent-1" title="Campos, duplicados, responsables, volúmenes y datos sensibles"><span aria-label="Gobernanza" title="Gobernanza de datos">● </span>Inventario de fuentes Excel, catálogos y calidad de datos</td>
+        <td>29/09/26</td><td>05/10/26</td>
+        <td>5d</td><td title="1.1.2">1.1.2</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-governance" style="left:4.0268%;width:3.3557%;" title="Campos, duplicados, responsables, volúmenes y datos sensibles"></div></div></td>
       </tr>
       <tr class="row-task">
         <td>1.2.5</td>
-        <td class="t-name indent-2">Redactar fichas de requisitos REQ-01 a REQ-10</td>
-        <td>23/09/26</td>
-        <td>30/09/26</td>
-        <td>5d</td>
-        <td>1.2.3</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:10.5%;width:3.2%;"></div></div></td>
+        <td class="t-name indent-1" title="Flujo actual validado, incluido despacho y stock">Documentar proceso AS-IS y validarlo con Gerencia</td>
+        <td>05/10/26</td><td>07/10/26</td>
+        <td>3d</td><td title="1.2.1, 1.2.2">1.2.1, 1.2.2</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:6.7114%;width:2.0134%;" title="Flujo actual validado, incluido despacho y stock"></div></div></td>
       </tr>
       <tr class="row-task">
         <td>1.2.6</td>
-        <td class="t-name indent-2">Validar y obtener firma de fichas de requisitos</td>
-        <td>30/09/26</td>
-        <td>02/10/26</td>
-        <td>2d</td>
-        <td>1.2.5</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:13.6%;width:0.9%;"></div></div></td>
+        <td class="t-name indent-1" title="Delimitar piloto temporal y fecha de retiro de doble registro">Diseñar flujo TO-BE y criterios del piloto frente a Odoo</td>
+        <td>06/10/26</td><td>12/10/26</td>
+        <td>4d</td><td title="1.2.1, 1.2.2">1.2.1, 1.2.2</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:7.3826%;width:2.6846%;" title="Delimitar piloto temporal y fecha de retiro de doble registro"></div></div></td>
       </tr>
       <tr class="row-task">
         <td>1.2.7</td>
-        <td class="t-name indent-2">Elaborar la Matriz de Trazabilidad de Requisitos</td>
-        <td>02/10/26</td>
-        <td>07/10/26</td>
-        <td>3d</td>
-        <td>1.2.6</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:14.5%;width:2.3%;"></div></div></td>
+        <td class="t-name indent-1" title="Separar requisitos funcionales, controles y aceptación">Fichas de requisitos REQ-01 a REQ-10 y reglas de datos</td>
+        <td>09/10/26</td><td>14/10/26</td>
+        <td>4d</td><td title="1.2.5">1.2.5</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:8.7248%;width:2.6846%;" title="Separar requisitos funcionales, controles y aceptación"></div></div></td>
       </tr>
       <tr class="row-task">
         <td>1.2.8</td>
-        <td class="t-name indent-2">Aprobar la Matriz de Trazabilidad con la Gerencia</td>
-        <td>07/10/26</td>
-        <td>08/10/26</td>
-        <td>1d</td>
-        <td>1.2.7</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:16.8%;width:0.5%;"></div></div></td>
+        <td class="t-name indent-1" title="Aprobación del alcance funcional y reglas mínimas">Validación y firma de requisitos por responsables</td>
+        <td>15/10/26</td><td>16/10/26</td>
+        <td>2d</td><td title="1.2.7">1.2.7</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:11.4094%;width:1.3423%;" title="Aprobación del alcance funcional y reglas mínimas"></div></div></td>
+      </tr>
+      <tr class="row-task">
+        <td>1.2.9</td>
+        <td class="t-name indent-1" title="Vincular requisito, dueño, configuración, prueba y aceptación">Matriz de trazabilidad y prioridades de implementación</td>
+        <td>19/10/26</td><td>20/10/26</td>
+        <td>2d</td><td title="1.2.8">1.2.8</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:12.7517%;width:1.3423%;" title="Vincular requisito, dueño, configuración, prueba y aceptación"></div></div></td>
       </tr>
       <tr class="row-phase phase-sep">
         <td>1.3</td>
-        <td class="t-name"><strong>FASE 1 - CIMENTAR</strong></td>
-        <td>15/09/26</td>
-        <td>20/11/26</td>
-        <td>48d</td>
-        <td>—</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-phase2" style="left:6.8%;width:30.0%;"></div></div></td>
+        <td class="t-name" title=""><strong>FASE 1 · CIMENTAR: conectividad, piloto y gobierno base</strong></td>
+        <td>05/10/26</td><td>17/11/26</td>
+        <td>—</td><td title="—">—</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-phase" style="left:6.7114%;width:20.8054%;" title=""></div></div></td>
       </tr>
       <tr class="row-task">
         <td>1.3.1</td>
-        <td class="t-name indent-2">Diseñar el modelo de datos</td>
-        <td>08/10/26</td>
-        <td>13/10/26</td>
-        <td>3d</td>
-        <td>1.2.8, 1.3.13</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:17.3%;width:2.3%;"></div></div></td>
+        <td class="t-name indent-1" title="Medir cobertura por ubicación y dispositivo">Mapear zonas muertas de Wi-Fi del taller</td>
+        <td>05/10/26</td><td>07/10/26</td>
+        <td>3d</td><td title="1.2.3">1.2.3</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:6.7114%;width:2.0134%;" title="Medir cobertura por ubicación y dispositivo"></div></div></td>
       </tr>
       <tr class="row-task">
         <td>1.3.2</td>
-        <td class="t-name indent-2">Validar compatibilidad del modelo con Odoo</td>
-        <td>13/10/26</td>
-        <td>16/10/26</td>
-        <td>3d</td>
-        <td>1.3.1</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:19.5%;width:1.4%;"></div></div></td>
+        <td class="t-name indent-1" title="Comparar repetidor, punto de acceso y costo">Evaluar y seleccionar solución de red</td>
+        <td>09/10/26</td><td>13/10/26</td>
+        <td>3d</td><td title="1.3.1">1.3.1</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:8.7248%;width:2.0134%;" title="Comparar repetidor, punto de acceso y costo"></div></div></td>
       </tr>
       <tr class="row-task">
         <td>1.3.3</td>
-        <td class="t-name indent-2">Mapear zonas muertas de Wi-Fi en el taller</td>
-        <td>15/09/26</td>
-        <td>18/09/26</td>
-        <td>3d</td>
-        <td>1.2.4</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:6.8%;width:1.4%;"></div></div></td>
+        <td class="t-name indent-1" title="Instalación, configuración y seguridad">Implementar solución de red seleccionada</td>
+        <td>14/10/26</td><td>19/10/26</td>
+        <td>4d</td><td title="1.3.2">1.3.2</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:10.7383%;width:2.6846%;" title="Instalación, configuración y seguridad"></div></div></td>
       </tr>
       <tr class="row-task">
         <td>1.3.4</td>
-        <td class="t-name indent-2">Evaluar y seleccionar solución de red</td>
-        <td>18/09/26</td>
-        <td>23/09/26</td>
-        <td>3d</td>
-        <td>1.3.3</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:8.2%;width:2.3%;"></div></div></td>
+        <td class="t-name indent-1" title="Prueba en taller principal, alterno y móvil">Verificar conectividad y respaldo 4G/5G</td>
+        <td>20/10/26</td><td>22/10/26</td>
+        <td>3d</td><td title="1.3.3">1.3.3</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:13.4228%;width:2.0134%;" title="Prueba en taller principal, alterno y móvil"></div></div></td>
       </tr>
-      <tr class="row-task">
+      <tr class="row-governance">
         <td>1.3.5</td>
-        <td class="t-name indent-2">Implementar la solución de red seleccionada</td>
-        <td>23/09/26</td>
-        <td>28/09/26</td>
-        <td>3d</td>
-        <td>1.3.4</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:10.5%;width:2.3%;"></div></div></td>
+        <td class="t-name indent-1" title="Responsable de catálogo, stock, ventas y despacho"><span aria-label="Gobernanza" title="Gobernanza de datos">● </span>Constituir comité y nombrar Data Owners / Stewards</td>
+        <td>05/10/26</td><td>07/10/26</td>
+        <td>3d</td><td title="1.1.2">1.1.2</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-governance" style="left:6.7114%;width:2.0134%;" title="Responsable de catálogo, stock, ventas y despacho"></div></div></td>
       </tr>
-      <tr class="row-task">
+      <tr class="row-governance">
         <td>1.3.6</td>
-        <td class="t-name indent-2">Verificar acceso por datos móviles 4G/5G</td>
-        <td>28/09/26</td>
-        <td>01/10/26</td>
-        <td>3d</td>
-        <td>1.3.5</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:12.7%;width:1.4%;"></div></div></td>
+        <td class="t-name indent-1" title="Matriz de responsables y permisos por rol"><span aria-label="Gobernanza" title="Gobernanza de datos">● </span>Definir inventario, clasificación y acceso a datos</td>
+        <td>09/10/26</td><td>14/10/26</td>
+        <td>4d</td><td title="1.3.5, 1.2.4">1.3.5, 1.2.4</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-governance" style="left:8.7248%;width:2.6846%;" title="Matriz de responsables y permisos por rol"></div></div></td>
       </tr>
-      <tr class="row-task">
+      <tr class="row-governance">
         <td>1.3.7</td>
-        <td class="t-name indent-2">Configurar y desplegar base de datos centralizada</td>
-        <td>16/10/26</td>
-        <td>21/10/26</td>
-        <td>3d</td>
-        <td>1.3.2</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:20.9%;width:2.3%;"></div></div></td>
+        <td class="t-name indent-1" title="Códigos, unidades, obligatoriedad, unicidad y trazabilidad"><span aria-label="Gobernanza" title="Gobernanza de datos">● </span>Diccionario de datos y reglas de calidad por campo</td>
+        <td>15/10/26</td><td>21/10/26</td>
+        <td>5d</td><td title="1.3.6">1.3.6</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-governance" style="left:11.4094%;width:3.3557%;" title="Códigos, unidades, obligatoriedad, unicidad y trazabilidad"></div></div></td>
       </tr>
       <tr class="row-task">
         <td>1.3.8</td>
-        <td class="t-name indent-2">Configurar reglas de validación de ingreso</td>
-        <td>21/10/26</td>
-        <td>26/10/26</td>
-        <td>3d</td>
-        <td>1.3.7</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:23.2%;width:2.3%;"></div></div></td>
+        <td class="t-name indent-1" title="Correspondencia de identificadores y campos para migración">Diseñar modelo de datos del piloto y mapeo a Odoo</td>
+        <td>21/10/26</td><td>26/10/26</td>
+        <td>4d</td><td title="1.2.8, 1.3.6">1.2.8, 1.3.6</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:14.0940%;width:2.6846%;" title="Correspondencia de identificadores y campos para migración"></div></div></td>
       </tr>
       <tr class="row-task">
         <td>1.3.9</td>
-        <td class="t-name indent-2">Configurar consulta de stock desde celular</td>
-        <td>26/10/26</td>
-        <td>29/10/26</td>
-        <td>3d</td>
-        <td>1.3.8</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:25.5%;width:1.4%;"></div></div></td>
+        <td class="t-name indent-1" title="Identificar ajustes de catálogo, variantes y movimientos">Validar compatibilidad del modelo con Odoo</td>
+        <td>27/10/26</td><td>29/10/26</td>
+        <td>3d</td><td title="1.3.8">1.3.8</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:16.7785%;width:2.0134%;" title="Identificar ajustes de catálogo, variantes y movimientos"></div></div></td>
       </tr>
-      <tr class="row-task">
+      <tr class="row-governance">
         <td>1.3.10</td>
-        <td class="t-name indent-2">Prueba cronometrada de consulta de stock</td>
-        <td>29/10/26</td>
-        <td>03/11/26</td>
-        <td>3d</td>
-        <td>1.3.9</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:26.8%;width:2.3%;"></div></div></td>
+        <td class="t-name indent-1" title="Responsables, puntos de control y excepciones"><span aria-label="Gobernanza" title="Gobernanza de datos">● </span>Redactar SOP del flujo venta–stock–despacho</td>
+        <td>19/10/26</td><td>22/10/26</td>
+        <td>4d</td><td title="1.2.8">1.2.8</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-governance" style="left:12.7517%;width:2.6846%;" title="Responsables, puntos de control y excepciones"></div></div></td>
       </tr>
-      <tr class="row-task">
+      <tr class="row-governance">
         <td>1.3.11</td>
-        <td class="t-name indent-2">Periodo adopción: uso real base centralizada</td>
-        <td>03/11/26</td>
-        <td>06/11/26</td>
-        <td>3d</td>
-        <td>1.3.10, 1.3.12</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:29.1%;width:1.4%;"></div></div></td>
+        <td class="t-name indent-1" title="Acta de validación de proceso objetivo"><span aria-label="Gobernanza" title="Gobernanza de datos">● </span>Revisar y aprobar SOP con Gerencia y Producción</td>
+        <td>23/10/26</td><td>27/10/26</td>
+        <td>3d</td><td title="1.3.10">1.3.10</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-governance" style="left:15.4362%;width:2.0134%;" title="Acta de validación de proceso objetivo"></div></div></td>
       </tr>
-      <tr class="row-task">
+      <tr class="row-governance">
         <td>1.3.12</td>
-        <td class="t-name indent-2">Verificar consistencia de registros (sem 1-2)</td>
-        <td>03/11/26</td>
-        <td>06/11/26</td>
-        <td>3d</td>
-        <td>—</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:29.1%;width:1.4%;"></div></div></td>
+        <td class="t-name indent-1" title="Frecuencia, responsable, restauración y accesos"><span aria-label="Gobernanza" title="Gobernanza de datos">● </span>Definir política de respaldo, retención y seguridad</td>
+        <td>15/10/26</td><td>22/10/26</td>
+        <td>6d</td><td title="1.3.6">1.3.6</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-governance" style="left:11.4094%;width:4.0268%;" title="Frecuencia, responsable, restauración y accesos"></div></div></td>
       </tr>
-      <tr class="row-task">
+      <tr class="row-governance">
         <td>1.3.13</td>
-        <td class="t-name indent-2">Redactar SOPs del flujo venta-stock-despacho</td>
-        <td>06/10/26</td>
-        <td>09/10/26</td>
-        <td>3d</td>
-        <td>—</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:16.4%;width:1.4%;"></div></div></td>
+        <td class="t-name indent-1" title="Aprobación de Gerencia"><span aria-label="Gobernanza" title="Gobernanza de datos">● </span>Aprobar política de respaldo y seguridad</td>
+        <td>23/10/26</td><td>27/10/26</td>
+        <td>3d</td><td title="1.3.12">1.3.12</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-governance" style="left:15.4362%;width:2.0134%;" title="Aprobación de Gerencia"></div></div></td>
       </tr>
-      <tr class="row-task">
+      <tr class="row-governance">
         <td>1.3.14</td>
-        <td class="t-name indent-2">Obtener firma de SOPs Gerencia y Producción</td>
-        <td>09/10/26</td>
-        <td>14/10/26</td>
-        <td>3d</td>
-        <td>1.3.13, 1.3.15</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:17.7%;width:2.3%;"></div></div></td>
+        <td class="t-name indent-1" title="Conservar original y bitácora de cambios, sin purga irreversible"><span aria-label="Gobernanza" title="Gobernanza de datos">● </span>Limpiar, deduplicar y estandarizar Excel históricos</td>
+        <td>22/10/26</td><td>05/11/26</td>
+        <td>11d</td><td title="1.3.7">1.3.7</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-governance" style="left:14.7651%;width:7.3826%;" title="Conservar original y bitácora de cambios, sin purga irreversible"></div></div></td>
       </tr>
-      <tr class="row-task">
+      <tr class="row-governance">
         <td>1.3.15</td>
-        <td class="t-name indent-2">Redactar política de respaldo y seguridad</td>
-        <td>06/10/26</td>
-        <td>09/10/26</td>
-        <td>3d</td>
-        <td>—</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:16.4%;width:1.4%;"></div></div></td>
+        <td class="t-name indent-1" title="Aprobación para piloto y posterior carga en Odoo"><span aria-label="Gobernanza" title="Gobernanza de datos">● </span>Validar catálogo depurado con Data Owners</td>
+        <td>06/11/26</td><td>10/11/26</td>
+        <td>3d</td><td title="1.3.14">1.3.14</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-governance" style="left:22.1477%;width:2.0134%;" title="Aprobación para piloto y posterior carga en Odoo"></div></div></td>
       </tr>
       <tr class="row-task">
         <td>1.3.16</td>
-        <td class="t-name indent-2">Obtener firma política de respaldo con Gerencia</td>
-        <td>09/10/26</td>
-        <td>14/10/26</td>
-        <td>3d</td>
-        <td>1.3.15</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:17.7%;width:2.3%;"></div></div></td>
+        <td class="t-name indent-1" title="Entorno temporal controlado; sin sustituir el ERP futuro">Desplegar base central del piloto con respaldo</td>
+        <td>30/10/26</td><td>04/11/26</td>
+        <td>4d</td><td title="1.3.9, 1.3.13">1.3.9, 1.3.13</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:18.7919%;width:2.6846%;" title="Entorno temporal controlado; sin sustituir el ERP futuro"></div></div></td>
       </tr>
-      <tr class="row-task">
+      <tr class="row-governance">
         <td>1.3.17</td>
-        <td class="t-name indent-2">Definir protocolo de coexistencia con Excel</td>
-        <td>14/10/26</td>
-        <td>19/10/26</td>
-        <td>3d</td>
-        <td>1.3.14</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:20.0%;width:2.3%;"></div></div></td>
+        <td class="t-name indent-1" title="Obligatoriedad, códigos válidos y bitácora de modificaciones"><span aria-label="Gobernanza" title="Gobernanza de datos">● </span>Configurar reglas de validación de captura del piloto</td>
+        <td>05/11/26</td><td>09/11/26</td>
+        <td>3d</td><td title="1.3.16, 1.3.7">1.3.16, 1.3.7</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-governance" style="left:21.4765%;width:2.0134%;" title="Obligatoriedad, códigos válidos y bitácora de modificaciones"></div></div></td>
       </tr>
-      <tr class="row-milestone phase-sep">
+      <tr class="row-task">
         <td>1.3.18</td>
-        <td class="t-name"><span class="t-milestone-icon">◆</span><strong>GATE 1 - Aprobación Fase Cimentar</strong></td>
-        <td>06/11/26</td>
-        <td>06/11/26</td>
-        <td>0d</td>
-        <td>1.3.6, 1.3.10, 1.3.12, 1.3.14, 1.3.16, 1.3.17</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-milestone" style="left:30.5%;"></div></div></td>
+        <td class="t-name indent-1" title="Vista móvil del piloto para validar el requisito">Configurar consulta de stock desde celular</td>
+        <td>10/11/26</td><td>11/11/26</td>
+        <td>2d</td><td title="1.3.17, 1.3.4">1.3.17, 1.3.4</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:23.4899%;width:1.3423%;" title="Vista móvil del piloto para validar el requisito"></div></div></td>
       </tr>
-      <tr class="row-phase phase-sep">
+      <tr class="row-task">
         <td>1.3.19</td>
-        <td class="t-name"><strong>Monitoreo Post-Gate 1</strong></td>
-        <td>06/11/26</td>
-        <td>20/11/26</td>
-        <td>10d</td>
-        <td>—</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-phase3" style="left:30.5%;width:6.4%;"></div></div></td>
+        <td class="t-name indent-1" title="Línea base y prueba comparable tras Odoo">Prueba cronometrada de consulta de stock</td>
+        <td>12/11/26</td><td>12/11/26</td>
+        <td>1d</td><td title="1.3.18">1.3.18</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:24.8322%;width:0.6711%;" title="Línea base y prueba comparable tras Odoo"></div></div></td>
+      </tr>
+      <tr class="row-governance">
+        <td>1.3.20</td>
+        <td class="t-name indent-1" title="Fuente oficial, conciliación, responsables y fecha de baja"><span aria-label="Gobernanza" title="Gobernanza de datos">● </span>Protocolo de coexistencia con Excel y corte a Odoo</td>
+        <td>06/11/26</td><td>11/11/26</td>
+        <td>4d</td><td title="1.3.11, 1.3.13">1.3.11, 1.3.13</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-governance" style="left:22.1477%;width:2.6846%;" title="Fuente oficial, conciliación, responsables y fecha de baja"></div></div></td>
       </tr>
       <tr class="row-task">
-        <td>1.3.19.1</td>
-        <td class="t-name indent-3">Monitoreo operaciones reales en base Fase 1</td>
-        <td>06/11/26</td>
-        <td>11/11/26</td>
-        <td>3d</td>
-        <td>1.3.18</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:30.5%;width:2.3%;"></div></div></td>
+        <td>1.3.21</td>
+        <td class="t-name indent-1" title="Sólo usuarios designados, con respaldo y sin doble verdad de stock">Piloto de captura real limitada en base central</td>
+        <td>11/11/26</td><td>13/11/26</td>
+        <td>3d</td><td title="1.3.17, 1.3.15">1.3.17, 1.3.15</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:24.1611%;width:2.0134%;" title="Sólo usuarios designados, con respaldo y sin doble verdad de stock"></div></div></td>
+      </tr>
+      <tr class="row-governance">
+        <td>1.3.22</td>
+        <td class="t-name indent-1" title="Conciliación de muestra y corrección antes de migrar"><span aria-label="Gobernanza" title="Gobernanza de datos">● </span>Verificar consistencia de registros del piloto</td>
+        <td>12/11/26</td><td>16/11/26</td>
+        <td>3d</td><td title="1.3.17, 1.3.15">1.3.17, 1.3.15</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-governance" style="left:24.8322%;width:2.0134%;" title="Conciliación de muestra y corrección antes de migrar"></div></div></td>
       </tr>
       <tr class="row-task">
-        <td>1.3.19.2</td>
-        <td class="t-name indent-3">Confirmar hábito digital establecido en equipo</td>
-        <td>11/11/26</td>
-        <td>16/11/26</td>
-        <td>3d</td>
-        <td>1.3.19.1</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:32.7%;width:2.3%;"></div></div></td>
+        <td>1.3.23</td>
+        <td class="t-name indent-1" title="Criterio observable de uso digital, no adopción definitiva">Evaluar adopción y documentar incidencias del piloto</td>
+        <td>16/11/26</td><td>16/11/26</td>
+        <td>1d</td><td title="1.3.18, 1.3.21">1.3.18, 1.3.21</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:26.1745%;width:0.6711%;" title="Criterio observable de uso digital, no adopción definitiva"></div></div></td>
       </tr>
-      <tr class="row-task">
-        <td>1.3.19.3</td>
-        <td class="t-name indent-3">Aprobación Gerencia para inicio Fase 2</td>
-        <td>17/11/26</td>
-        <td>20/11/26</td>
-        <td>3d</td>
-        <td>1.3.19.2, 1.4.7</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:35.5%;width:1.4%;"></div></div></td>
+      <tr class="row-milestone">
+        <td>1.3.24</td>
+        <td class="t-name indent-1" title="Infraestructura, datos validados, SOP y piloto aceptados"><span class="t-milestone-icon">◆</span><strong>GATE 1 · Aprobación Cimentar</strong></td>
+        <td>17/11/26</td><td>17/11/26</td>
+        <td>0d</td><td title="1.3.4, 1.3.19, 1.3.20, 1.3.22, 1.3.23">1.3.4, 1.3.19, 1.3.20, 1.3.22, 1.3.23</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-milestone" style="left:26.8456%;" title="Infraestructura, datos validados, SOP y piloto aceptados"></div></div></td>
       </tr>
       <tr class="row-phase phase-sep">
         <td>1.4</td>
-        <td class="t-name"><strong>FASE 2 - INTEGRAR</strong></td>
-        <td>17/11/26</td>
-        <td>22/02/27</td>
-        <td>69d</td>
-        <td>—</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-phase" style="left:35.5%;width:44.1%;"></div></div></td>
+        <td class="t-name" title=""><strong>FASE 2 · INTEGRAR: Odoo, migración y aceptación</strong></td>
+        <td>18/11/26</td><td>08/03/27</td>
+        <td>—</td><td title="—">—</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-phase2" style="left:27.5168%;width:50.3356%;" title=""></div></div></td>
       </tr>
       <tr class="row-task">
         <td>1.4.1</td>
-        <td class="t-name indent-2">Seleccionar y contratar servidor de despliegue</td>
-        <td>20/11/26</td>
-        <td>25/11/26</td>
-        <td>3d</td>
-        <td>1.3.19.3</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:36.8%;width:2.3%;"></div></div></td>
+        <td class="t-name indent-1" title="Capacidad, respaldo, seguridad y continuidad">Seleccionar y contratar servidor de despliegue</td>
+        <td>18/11/26</td><td>24/11/26</td>
+        <td>5d</td><td title="1.3.24">1.3.24</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:27.5168%;width:3.3557%;" title="Capacidad, respaldo, seguridad y continuidad"></div></div></td>
       </tr>
       <tr class="row-task">
         <td>1.4.2</td>
-        <td class="t-name indent-2">Instalar SO y dependencias en el servidor</td>
-        <td>25/11/26</td>
-        <td>30/11/26</td>
-        <td>3d</td>
-        <td>1.4.1</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:39.1%;width:2.3%;"></div></div></td>
+        <td class="t-name indent-1" title="Entorno técnico preparado">Instalar SO y dependencias en servidor</td>
+        <td>25/11/26</td><td>30/11/26</td>
+        <td>4d</td><td title="1.4.1">1.4.1</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:30.8725%;width:2.6846%;" title="Entorno técnico preparado"></div></div></td>
       </tr>
       <tr class="row-task">
         <td>1.4.3</td>
-        <td class="t-name indent-2">Instalar y verificar Odoo Community</td>
-        <td>30/11/26</td>
-        <td>03/12/26</td>
-        <td>3d</td>
-        <td>1.4.2</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:41.4%;width:1.4%;"></div></div></td>
+        <td class="t-name indent-1" title="Instancia de pruebas y versión documentada">Instalar y verificar Odoo Community</td>
+        <td>01/12/26</td><td>04/12/26</td>
+        <td>4d</td><td title="1.4.2">1.4.2</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:33.5570%;width:2.6846%;" title="Instancia de pruebas y versión documentada"></div></div></td>
       </tr>
       <tr class="row-task">
         <td>1.4.4</td>
-        <td class="t-name indent-2">Realizar configuración inicial de Odoo</td>
-        <td>03/12/26</td>
-        <td>08/12/26</td>
-        <td>3d</td>
-        <td>1.4.3</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:42.7%;width:2.3%;"></div></div></td>
+        <td class="t-name indent-1" title="Parámetros de empresa y estructura logística">Configuración inicial de Odoo, compañía y almacenes</td>
+        <td>07/12/26</td><td>14/12/26</td>
+        <td>4d</td><td title="1.4.3">1.4.3</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:36.2416%;width:2.6846%;" title="Parámetros de empresa y estructura logística"></div></div></td>
       </tr>
-      <tr class="row-task">
+      <tr class="row-governance">
         <td>1.4.5</td>
-        <td class="t-name indent-2">Crear usuarios y perfiles de acceso por rol</td>
-        <td>08/12/26</td>
-        <td>11/12/26</td>
-        <td>3d</td>
-        <td>1.4.4</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:45.0%;width:1.4%;"></div></div></td>
+        <td class="t-name indent-1" title="Permisos según matriz de acceso aprobada"><span aria-label="Gobernanza" title="Gobernanza de datos">● </span>Crear usuarios y perfiles de acceso por rol</td>
+        <td>15/12/26</td><td>18/12/26</td>
+        <td>4d</td><td title="1.4.4, 1.3.6">1.4.4, 1.3.6</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-governance" style="left:38.9262%;width:2.6846%;" title="Permisos según matriz de acceso aprobada"></div></div></td>
       </tr>
-      <tr class="row-task">
+      <tr class="row-governance">
         <td>1.4.6</td>
-        <td class="t-name indent-2">Verificar restricciones de acceso cruzado</td>
-        <td>11/12/26</td>
-        <td>16/12/26</td>
-        <td>3d</td>
-        <td>1.4.5</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:46.4%;width:2.3%;"></div></div></td>
+        <td class="t-name indent-1" title="Pruebas negativas y segregación de funciones"><span aria-label="Gobernanza" title="Gobernanza de datos">● </span>Verificar restricciones y acceso cruzado</td>
+        <td>21/12/26</td><td>23/12/26</td>
+        <td>3d</td><td title="1.4.5">1.4.5</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-governance" style="left:41.6107%;width:2.0134%;" title="Pruebas negativas y segregación de funciones"></div></div></td>
       </tr>
       <tr class="row-task">
         <td>1.4.7</td>
-        <td class="t-name indent-2">Solicitar y recibir catálogo de productos</td>
-        <td>17/11/26</td>
-        <td>20/11/26</td>
-        <td>3d</td>
-        <td>—</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:35.5%;width:1.4%;"></div></div></td>
+        <td class="t-name indent-1" title="Variantes, insumos, unidades y códigos">Solicitar y recibir catálogo completo de productos</td>
+        <td>18/11/26</td><td>24/11/26</td>
+        <td>5d</td><td title="1.3.24">1.3.24</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:27.5168%;width:3.3557%;" title="Variantes, insumos, unidades y códigos"></div></div></td>
       </tr>
-      <tr class="row-task">
+      <tr class="row-governance">
         <td>1.4.8</td>
-        <td class="t-name indent-2">Cargar catálogo de productos y variantes en Odoo</td>
-        <td>16/12/26</td>
-        <td>21/12/26</td>
-        <td>3d</td>
-        <td>1.4.6, 1.4.7</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:48.6%;width:2.3%;"></div></div></td>
+        <td class="t-name indent-1" title="Resolver altas, bajas y códigos equivalentes"><span aria-label="Gobernanza" title="Gobernanza de datos">● </span>Conciliar catálogo nuevo con los datos limpios</td>
+        <td>25/11/26</td><td>04/12/26</td>
+        <td>8d</td><td title="1.4.7, 1.3.15">1.4.7, 1.3.15</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-governance" style="left:30.8725%;width:5.3691%;" title="Resolver altas, bajas y códigos equivalentes"></div></div></td>
       </tr>
       <tr class="row-task">
         <td>1.4.9</td>
-        <td class="t-name indent-2">Migración de datos desde base Fase 1 a Odoo</td>
-        <td>21/12/26</td>
-        <td>24/12/26</td>
-        <td>3d</td>
-        <td>1.4.8</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:50.9%;width:1.4%;"></div></div></td>
+        <td class="t-name indent-1" title="Importación trazable y prueba de muestra">Cargar catálogo y variantes en entorno de pruebas</td>
+        <td>28/12/26</td><td>05/01/27</td>
+        <td>6d</td><td title="1.4.6, 1.4.8">1.4.6, 1.4.8</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:44.2953%;width:4.0268%;" title="Importación trazable y prueba de muestra"></div></div></td>
       </tr>
       <tr class="row-task">
         <td>1.4.10</td>
-        <td class="t-name indent-2">Verificar integridad datos post-migración</td>
-        <td>24/12/26</td>
-        <td>29/12/26</td>
-        <td>3d</td>
-        <td>1.4.9</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:52.3%;width:2.3%;"></div></div></td>
+        <td class="t-name indent-1" title="ETL documentado, sin sobrescribir originales">Migrar registros del piloto a Odoo de pruebas</td>
+        <td>06/01/27</td><td>11/01/27</td>
+        <td>4d</td><td title="1.4.9, 1.3.22">1.4.9, 1.3.22</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:48.3221%;width:2.6846%;" title="ETL documentado, sin sobrescribir originales"></div></div></td>
       </tr>
-      <tr class="row-task">
+      <tr class="row-governance">
         <td>1.4.11</td>
-        <td class="t-name indent-2">Configurar rebaja automática de stock</td>
-        <td>29/12/26</td>
-        <td>01/01/27</td>
-        <td>3d</td>
-        <td>1.4.10</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:54.5%;width:1.4%;"></div></div></td>
+        <td class="t-name indent-1" title="Conteos, saldos y discrepancias aprobadas por dueños"><span aria-label="Gobernanza" title="Gobernanza de datos">● </span>Verificar integridad y conciliación posmigración</td>
+        <td>12/01/27</td><td>15/01/27</td>
+        <td>4d</td><td title="1.4.10">1.4.10</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-governance" style="left:51.0067%;width:2.6846%;" title="Conteos, saldos y discrepancias aprobadas por dueños"></div></div></td>
       </tr>
       <tr class="row-task">
         <td>1.4.12</td>
-        <td class="t-name indent-2">Prueba interna rebaja automática de stock</td>
-        <td>01/01/27</td>
-        <td>06/01/27</td>
-        <td>3d</td>
-        <td>1.4.11</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:55.9%;width:2.3%;"></div></div></td>
+        <td class="t-name indent-1" title="Modelo de movimiento según operación real">Configurar rebaja automática de stock</td>
+        <td>18/01/27</td><td>21/01/27</td>
+        <td>4d</td><td title="1.4.11">1.4.11</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:53.6913%;width:2.6846%;" title="Modelo de movimiento según operación real"></div></div></td>
       </tr>
       <tr class="row-task">
         <td>1.4.13</td>
-        <td class="t-name indent-2">Configurar talleres duales (principal y alterno)</td>
-        <td>06/01/27</td>
-        <td>11/01/27</td>
-        <td>3d</td>
-        <td>1.4.12</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:58.2%;width:2.3%;"></div></div></td>
+        <td class="t-name indent-1" title="Incluye casos de venta anulada y corrección">Prueba interna de rebaja y casos de devolución</td>
+        <td>22/01/27</td><td>26/01/27</td>
+        <td>3d</td><td title="1.4.12">1.4.12</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:56.3758%;width:2.0134%;" title="Incluye casos de venta anulada y corrección"></div></div></td>
       </tr>
       <tr class="row-task">
         <td>1.4.14</td>
-        <td class="t-name indent-2">Verificar consolidación registros talleres</td>
-        <td>11/01/27</td>
-        <td>14/01/27</td>
-        <td>3d</td>
-        <td>1.4.13</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:60.5%;width:1.4%;"></div></div></td>
+        <td class="t-name indent-1" title="Ubicaciones y movimientos entre talleres">Configurar talleres principal y alterno</td>
+        <td>18/01/27</td><td>22/01/27</td>
+        <td>5d</td><td title="1.4.11">1.4.11</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:53.6913%;width:3.3557%;" title="Ubicaciones y movimientos entre talleres"></div></div></td>
       </tr>
       <tr class="row-task">
         <td>1.4.15</td>
-        <td class="t-name indent-2">Configurar formulario ventas con validaciones</td>
-        <td>14/01/27</td>
-        <td>19/01/27</td>
-        <td>3d</td>
-        <td>1.4.14, 1.4.19</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:61.8%;width:2.3%;"></div></div></td>
+        <td class="t-name indent-1" title="Evitar doble conteo y pérdida de trazabilidad">Verificar consolidación de registros de talleres</td>
+        <td>25/01/27</td><td>27/01/27</td>
+        <td>3d</td><td title="1.4.14">1.4.14</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:57.0470%;width:2.0134%;" title="Evitar doble conteo y pérdida de trazabilidad"></div></div></td>
       </tr>
       <tr class="row-task">
         <td>1.4.16</td>
-        <td class="t-name indent-2">Configurar flujo mandatorio Venta-Stock-Despacho</td>
-        <td>19/01/27</td>
-        <td>22/01/27</td>
-        <td>3d</td>
-        <td>1.4.15</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:64.1%;width:1.4%;"></div></div></td>
+        <td class="t-name indent-1" title="Obligatoriedad, identificadores y permisos">Configurar formulario de ventas y validaciones</td>
+        <td>28/01/27</td><td>03/02/27</td>
+        <td>5d</td><td title="1.4.13, 1.4.15">1.4.13, 1.4.15</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:59.0604%;width:3.3557%;" title="Obligatoriedad, identificadores y permisos"></div></div></td>
       </tr>
       <tr class="row-task">
         <td>1.4.17</td>
-        <td class="t-name indent-2">Verificar bloqueo técnico despacho sin venta</td>
-        <td>22/01/27</td>
-        <td>27/01/27</td>
-        <td>3d</td>
-        <td>1.4.16</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:65.5%;width:2.3%;"></div></div></td>
+        <td class="t-name indent-1" title="Transiciones y responsables conforme al SOP">Configurar flujo obligatorio Venta–Stock–Despacho</td>
+        <td>04/02/27</td><td>09/02/27</td>
+        <td>4d</td><td title="1.4.16, 1.3.11">1.4.16, 1.3.11</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:62.4161%;width:2.6846%;" title="Transiciones y responsables conforme al SOP"></div></div></td>
       </tr>
       <tr class="row-task">
         <td>1.4.18</td>
-        <td class="t-name indent-2">Configurar vista despacho para motorizado</td>
-        <td>27/01/27</td>
-        <td>01/02/27</td>
-        <td>3d</td>
-        <td>1.4.17</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:67.7%;width:2.3%;"></div></div></td>
+        <td class="t-name indent-1" title="Prueba positiva y negativa">Verificar bloqueo de despacho sin venta válida</td>
+        <td>10/02/27</td><td>12/02/27</td>
+        <td>3d</td><td title="1.4.17">1.4.17</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:65.1007%;width:2.0134%;" title="Prueba positiva y negativa"></div></div></td>
       </tr>
       <tr class="row-task">
         <td>1.4.19</td>
-        <td class="t-name indent-2">Redactar casos de prueba UAT CP-01 a CP-06</td>
-        <td>04/01/27</td>
-        <td>07/01/27</td>
-        <td>3d</td>
-        <td>—</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:57.3%;width:1.4%;"></div></div></td>
+        <td class="t-name indent-1" title="Sólo datos necesarios para su función">Configurar vista de despacho para motorizado</td>
+        <td>10/02/27</td><td>15/02/27</td>
+        <td>4d</td><td title="1.4.17">1.4.17</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:65.1007%;width:2.6846%;" title="Sólo datos necesarios para su función"></div></div></td>
       </tr>
       <tr class="row-task">
         <td>1.4.20</td>
-        <td class="t-name indent-2">Ejecutar prueba técnica de conectividad</td>
-        <td>01/02/27</td>
-        <td>04/02/27</td>
-        <td>3d</td>
-        <td>1.4.18</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:70.0%;width:1.4%;"></div></div></td>
+        <td class="t-name indent-1" title="Cobertura requisitos, accesos, calidad y continuidad">Redactar casos UAT CP-01 a CP-06 y pruebas de datos</td>
+        <td>28/01/27</td><td>05/02/27</td>
+        <td>7d</td><td title="1.4.13, 1.4.15">1.4.13, 1.4.15</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:59.0604%;width:4.6980%;" title="Cobertura requisitos, accesos, calidad y continuidad"></div></div></td>
       </tr>
       <tr class="row-task">
         <td>1.4.21</td>
-        <td class="t-name indent-2">Pre-prueba informal con Socio de Producción</td>
-        <td>04/02/27</td>
-        <td>09/02/27</td>
-        <td>3d</td>
-        <td>1.4.19, 1.4.20</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:71.4%;width:2.3%;"></div></div></td>
+        <td class="t-name indent-1" title="Talleres, celulares y respaldo de red">Prueba técnica de conectividad y dispositivos</td>
+        <td>16/02/27</td><td>18/02/27</td>
+        <td>3d</td><td title="1.4.18, 1.4.19">1.4.18, 1.4.19</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:67.7852%;width:2.0134%;" title="Talleres, celulares y respaldo de red"></div></div></td>
       </tr>
       <tr class="row-task">
         <td>1.4.22</td>
-        <td class="t-name indent-2">Ejecutar UAT con Personal de Ventas</td>
-        <td>09/02/27</td>
-        <td>12/02/27</td>
-        <td>3d</td>
-        <td>1.4.21</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:73.6%;width:1.4%;"></div></div></td>
+        <td class="t-name indent-1" title="Ajuste de guiones sin reemplazar UAT formal">Preprueba con socio de Producción</td>
+        <td>19/02/27</td><td>22/02/27</td>
+        <td>2d</td><td title="1.4.20, 1.4.21">1.4.20, 1.4.21</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:69.7987%;width:1.3423%;" title="Ajuste de guiones sin reemplazar UAT formal"></div></div></td>
       </tr>
       <tr class="row-task">
         <td>1.4.23</td>
-        <td class="t-name indent-2">Ejecutar UAT con Socio de Producción</td>
-        <td>09/02/27</td>
-        <td>12/02/27</td>
-        <td>3d</td>
-        <td>1.4.21</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:73.6%;width:1.4%;"></div></div></td>
+        <td class="t-name indent-1" title="Evidencia firmada por rol">UAT con personal de Ventas</td>
+        <td>23/02/27</td><td>25/02/27</td>
+        <td>3d</td><td title="1.4.22">1.4.22</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:71.1409%;width:2.0134%;" title="Evidencia firmada por rol"></div></div></td>
       </tr>
       <tr class="row-task">
         <td>1.4.24</td>
-        <td class="t-name indent-2">Ejecutar UAT con Gerencia Natalie</td>
-        <td>09/02/27</td>
-        <td>12/02/27</td>
-        <td>3d</td>
-        <td>1.4.21</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:73.6%;width:1.4%;"></div></div></td>
+        <td class="t-name indent-1" title="Movimientos, talleres y controles">UAT con socio de Producción y operarios</td>
+        <td>23/02/27</td><td>25/02/27</td>
+        <td>3d</td><td title="1.4.22">1.4.22</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:71.1409%;width:2.0134%;" title="Movimientos, talleres y controles"></div></div></td>
       </tr>
       <tr class="row-task">
         <td>1.4.25</td>
-        <td class="t-name indent-2">Registrar y corregir incidencias críticas UAT</td>
-        <td>12/02/27</td>
-        <td>17/02/27</td>
-        <td>3d</td>
-        <td>1.4.22, 1.4.23, 1.4.24</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:75.0%;width:2.3%;"></div></div></td>
+        <td class="t-name indent-1" title="Aceptación de flujo y visibilidad">UAT con Gerencia Natalie</td>
+        <td>23/02/27</td><td>25/02/27</td>
+        <td>3d</td><td title="1.4.22">1.4.22</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:71.1409%;width:2.0134%;" title="Aceptación de flujo y visibilidad"></div></div></td>
       </tr>
       <tr class="row-task">
         <td>1.4.26</td>
-        <td class="t-name indent-2">Emitir Certificado de Cero Errores Críticos</td>
-        <td>17/02/27</td>
-        <td>22/02/27</td>
-        <td>3d</td>
-        <td>1.4.25</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:77.3%;width:2.3%;"></div></div></td>
+        <td class="t-name indent-1" title="Trazabilidad de defectos y retest">Registrar, corregir y repetir pruebas críticas UAT</td>
+        <td>26/02/27</td><td>04/03/27</td>
+        <td>5d</td><td title="1.4.23, 1.4.24, 1.4.25">1.4.23, 1.4.24, 1.4.25</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:73.1544%;width:3.3557%;" title="Trazabilidad de defectos y retest"></div></div></td>
       </tr>
-      <tr class="row-milestone phase-sep">
+      <tr class="row-governance">
         <td>1.4.27</td>
-        <td class="t-name"><span class="t-milestone-icon">◆</span><strong>GATE 2 - Aprobación Fase Integrar</strong></td>
-        <td>22/02/27</td>
-        <td>22/02/27</td>
-        <td>0d</td>
-        <td>1.4.26, 1.5.4</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-milestone" style="left:79.5%;"></div></div></td>
+        <td class="t-name indent-1" title="Corte, respaldo, reversión y validación de saldos"><span aria-label="Gobernanza" title="Gobernanza de datos">● </span>Conciliar lote final y plan de migración a producción</td>
+        <td>26/02/27</td><td>04/03/27</td>
+        <td>5d</td><td title="1.4.11, 1.4.23">1.4.11, 1.4.23</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-governance" style="left:73.1544%;width:3.3557%;" title="Corte, respaldo, reversión y validación de saldos"></div></div></td>
+      </tr>
+      <tr class="row-milestone">
+        <td>1.4.28</td>
+        <td class="t-name indent-1" title="Se aceptan defectos menores documentados"><span class="t-milestone-icon">◆</span><strong>Certificado de cero defectos críticos abiertos</strong></td>
+        <td>05/03/27</td><td>05/03/27</td>
+        <td>0d</td><td title="1.4.26">1.4.26</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-milestone" style="left:76.5101%;" title="Se aceptan defectos menores documentados"></div></div></td>
+      </tr>
+      <tr class="row-milestone">
+        <td>1.4.29</td>
+        <td class="t-name indent-1" title="Odoo probado y plan de salida autorizado"><span class="t-milestone-icon">◆</span><strong>GATE 2 · Aprobación Integrar</strong></td>
+        <td>08/03/27</td><td>08/03/27</td>
+        <td>0d</td><td title="1.4.27, 1.4.28, 1.4.6">1.4.27, 1.4.28, 1.4.6</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-milestone" style="left:77.1812%;" title="Odoo probado y plan de salida autorizado"></div></div></td>
       </tr>
       <tr class="row-phase phase-sep">
         <td>1.5</td>
-        <td class="t-name"><strong>FASE 3 - OPTIMIZAR</strong></td>
-        <td>29/01/27</td>
-        <td>08/04/27</td>
-        <td>49d</td>
-        <td>—</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-phase2" style="left:68.6%;width:31.4%;"></div></div></td>
+        <td class="t-name" title=""><strong>FASE 3 · OPTIMIZAR, salida y cierre</strong></td>
+        <td>09/03/27</td><td>26/04/27</td>
+        <td>—</td><td title="—">—</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-phase3" style="left:77.8523%;width:22.1477%;" title=""></div></div></td>
       </tr>
       <tr class="row-task">
         <td>1.5.1</td>
-        <td class="t-name indent-2">Configurar panel reportes rentabilidad y KPIs</td>
-        <td>22/02/27</td>
-        <td>25/02/27</td>
-        <td>3d</td>
-        <td>1.4.27</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:79.5%;width:1.4%;"></div></div></td>
+        <td class="t-name indent-1" title="Definición de métricas y fuentes">Configurar panel de rentabilidad y KPIs operativos</td>
+        <td>09/03/27</td><td>15/03/27</td>
+        <td>5d</td><td title="1.4.29">1.4.29</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:77.8523%;width:3.3557%;" title="Definición de métricas y fuentes"></div></div></td>
       </tr>
       <tr class="row-task">
         <td>1.5.2</td>
-        <td class="t-name indent-2">Configurar reporte ganancia neta automatizado</td>
-        <td>25/02/27</td>
-        <td>02/03/27</td>
-        <td>3d</td>
-        <td>1.5.1</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:80.9%;width:2.3%;"></div></div></td>
+        <td class="t-name indent-1" title="Validación con Gerencia/Contabilidad de costos incluidos">Configurar reporte automatizado de ganancia neta</td>
+        <td>16/03/27</td><td>19/03/27</td>
+        <td>4d</td><td title="1.5.1">1.5.1</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:81.2081%;width:2.6846%;" title="Validación con Gerencia/Contabilidad de costos incluidos"></div></div></td>
       </tr>
-      <tr class="row-task">
+      <tr class="row-governance">
         <td>1.5.3</td>
-        <td class="t-name indent-2">Verificar restricción acceso panel por rol</td>
-        <td>02/03/27</td>
-        <td>05/03/27</td>
-        <td>3d</td>
-        <td>1.5.2</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:83.2%;width:1.4%;"></div></div></td>
+        <td class="t-name indent-1" title="Completitud, duplicados y conciliación"><span aria-label="Gobernanza" title="Gobernanza de datos">● </span>Panel de calidad de datos y alertas de excepción</td>
+        <td>09/03/27</td><td>16/03/27</td>
+        <td>6d</td><td title="1.4.29">1.4.29</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-governance" style="left:77.8523%;width:4.0268%;" title="Completitud, duplicados y conciliación"></div></div></td>
       </tr>
-      <tr class="row-task">
+      <tr class="row-governance">
         <td>1.5.4</td>
-        <td class="t-name indent-2">Elaborar manuales de usuario por rol</td>
-        <td>29/01/27</td>
-        <td>03/02/27</td>
-        <td>3d</td>
-        <td>1.5.5</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:68.6%;width:2.3%;"></div></div></td>
+        <td class="t-name indent-1" title="Acceso Gerencia y mínimo privilegio"><span aria-label="Gobernanza" title="Gobernanza de datos">● </span>Verificar restricción de reportes por rol</td>
+        <td>22/03/27</td><td>23/03/27</td>
+        <td>2d</td><td title="1.5.2, 1.5.3">1.5.2, 1.5.3</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-governance" style="left:83.8926%;width:1.3423%;" title="Acceso Gerencia y mínimo privilegio"></div></div></td>
       </tr>
       <tr class="row-task">
         <td>1.5.5</td>
-        <td class="t-name indent-2">Elaborar guía auto-recuperación ante incidencias</td>
-        <td>29/01/27</td>
-        <td>03/02/27</td>
-        <td>3d</td>
-        <td>—</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:68.6%;width:2.3%;"></div></div></td>
+        <td class="t-name indent-1" title="Actualización final tras correcciones UAT">Manuales de usuario de Odoo por rol</td>
+        <td>26/02/27</td><td>16/03/27</td>
+        <td>13d</td><td title="1.4.23">1.4.23</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:73.1544%;width:8.7248%;" title="Actualización final tras correcciones UAT"></div></div></td>
       </tr>
       <tr class="row-task">
         <td>1.5.6</td>
-        <td class="t-name indent-2">Taller de capacitación Personal de Ventas</td>
-        <td>05/03/27</td>
-        <td>10/03/27</td>
-        <td>3d</td>
-        <td>1.5.3, 1.5.4</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:84.5%;width:2.3%;"></div></div></td>
+        <td class="t-name indent-1" title="Restauración, escalamiento y modo sin conexión">Guía de auto recuperación y contingencia</td>
+        <td>09/03/27</td><td>16/03/27</td>
+        <td>6d</td><td title="1.4.29">1.4.29</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:77.8523%;width:4.0268%;" title="Restauración, escalamiento y modo sin conexión"></div></div></td>
       </tr>
       <tr class="row-task">
         <td>1.5.7</td>
-        <td class="t-name indent-2">Taller de capacitación Socio Producción y operarios</td>
-        <td>05/03/27</td>
-        <td>10/03/27</td>
-        <td>3d</td>
-        <td>1.5.3, 1.5.4</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:84.5%;width:2.3%;"></div></div></td>
+        <td class="t-name indent-1" title="Ejercicios y registro de asistencia">Capacitación a personal de Ventas y datos</td>
+        <td>17/03/27</td><td>22/03/27</td>
+        <td>4d</td><td title="1.5.5">1.5.5</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:81.8792%;width:2.6846%;" title="Ejercicios y registro de asistencia"></div></div></td>
       </tr>
       <tr class="row-task">
         <td>1.5.8</td>
-        <td class="t-name indent-2">Sesión de capacitación Gerencia Natalie</td>
-        <td>05/03/27</td>
-        <td>10/03/27</td>
-        <td>3d</td>
-        <td>1.5.3, 1.5.5</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:84.5%;width:2.3%;"></div></div></td>
+        <td class="t-name indent-1" title="Taller principal y alterno">Capacitación a Producción y operarios</td>
+        <td>17/03/27</td><td>22/03/27</td>
+        <td>4d</td><td title="1.5.5">1.5.5</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:81.8792%;width:2.6846%;" title="Taller principal y alterno"></div></div></td>
       </tr>
       <tr class="row-task">
         <td>1.5.9</td>
-        <td class="t-name indent-2">Despliegue final en 100% de dispositivos</td>
-        <td>10/03/27</td>
-        <td>15/03/27</td>
-        <td>3d</td>
-        <td>1.5.6, 1.5.7, 1.5.8</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:86.8%;width:2.3%;"></div></div></td>
+        <td class="t-name indent-1" title="Reportes, control y decisiones">Capacitación a Gerencia Natalie</td>
+        <td>24/03/27</td><td>24/03/27</td>
+        <td>1d</td><td title="1.5.4, 1.5.5">1.5.4, 1.5.5</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:85.2349%;width:0.6711%;" title="Reportes, control y decisiones"></div></div></td>
       </tr>
       <tr class="row-task">
         <td>1.5.10</td>
-        <td class="t-name indent-2">Monitoreo operaciones reales primera semana</td>
-        <td>15/03/27</td>
-        <td>18/03/27</td>
-        <td>3d</td>
-        <td>1.5.9</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:89.1%;width:1.4%;"></div></div></td>
+        <td class="t-name indent-1" title="Procedimiento de reversión comprobado">Ensayo de corte y respaldo de producción</td>
+        <td>24/03/27</td><td>24/03/27</td>
+        <td>1d</td><td title="1.4.27, 1.5.6">1.4.27, 1.5.6</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:85.2349%;width:0.6711%;" title="Procedimiento de reversión comprobado"></div></div></td>
       </tr>
-      <tr class="row-task">
+      <tr class="row-governance">
         <td>1.5.11</td>
-        <td class="t-name indent-2">Verificar reportes gerenciales en uso real</td>
-        <td>18/03/27</td>
-        <td>23/03/27</td>
-        <td>3d</td>
-        <td>1.5.10</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:90.5%;width:2.3%;"></div></div></td>
+        <td class="t-name indent-1" title="Evitar registros simultáneos; dueños autorizan saldos"><span aria-label="Gobernanza" title="Gobernanza de datos">● </span>Migración final conciliada y aprobación de saldos</td>
+        <td>29/03/27</td><td>30/03/27</td>
+        <td>2d</td><td title="1.5.10">1.5.10</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-governance" style="left:85.9060%;width:1.3423%;" title="Evitar registros simultáneos; dueños autorizan saldos"></div></div></td>
       </tr>
-      <tr class="row-task">
+      <tr class="row-milestone">
         <td>1.5.12</td>
-        <td class="t-name indent-2">Recopilar y documentar lecciones aprendidas</td>
-        <td>23/03/27</td>
-        <td>26/03/27</td>
-        <td>3d</td>
-        <td>1.5.11, 1.5.14</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:92.7%;width:1.4%;"></div></div></td>
+        <td class="t-name indent-1" title="Habilitar 100% de dispositivos en alcance"><span class="t-milestone-icon">◆</span><strong>Despliegue final y salida en vivo Odoo</strong></td>
+        <td>31/03/27</td><td>31/03/27</td>
+        <td>0d</td><td title="1.5.7, 1.5.8, 1.5.9, 1.5.11">1.5.7, 1.5.8, 1.5.9, 1.5.11</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-milestone" style="left:87.2483%;" title="Habilitar 100% de dispositivos en alcance"></div></div></td>
       </tr>
-      <tr class="row-task">
+      <tr class="row-governance">
         <td>1.5.13</td>
-        <td class="t-name indent-2">Elaborar informe final del proyecto</td>
-        <td>26/03/27</td>
-        <td>31/03/27</td>
-        <td>3d</td>
-        <td>1.5.12</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:94.1%;width:2.3%;"></div></div></td>
+        <td class="t-name indent-1" title="Resguardar copia histórica y bloquear altas del piloto"><span aria-label="Gobernanza" title="Gobernanza de datos">● </span>Retirar captura de piloto y fijar Odoo como fuente oficial</td>
+        <td>01/04/27</td><td>01/04/27</td>
+        <td>1d</td><td title="1.5.12">1.5.12</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-governance" style="left:87.9195%;width:0.6711%;" title="Resguardar copia histórica y bloquear altas del piloto"></div></div></td>
       </tr>
-      <tr class="row-task">
+      <tr class="row-continuous">
         <td>1.5.14</td>
-        <td class="t-name indent-2">Verificar cumplimiento criterios de aceptación</td>
-        <td>26/02/27</td>
-        <td>03/03/27</td>
-        <td>3d</td>
-        <td>—</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:81.4%;width:2.3%;"></div></div></td>
+        <td class="t-name indent-1" title="Primera semana operativa y resolución de incidencias">Monitoreo de operaciones reales y soporte intensivo</td>
+        <td>01/04/27</td><td>09/04/27</td>
+        <td>7d</td><td title="1.5.12">1.5.12</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-continuous" style="left:87.9195%;width:4.6980%;" title="Primera semana operativa y resolución de incidencias"></div></div></td>
       </tr>
-      <tr class="row-milestone phase-sep">
+      <tr class="row-governance">
         <td>1.5.15</td>
-        <td class="t-name"><span class="t-milestone-icon">◆</span><strong>GATE 3 - Acta de Conformidad y Cierre</strong></td>
-        <td>31/03/27</td>
-        <td>31/03/27</td>
-        <td>0d</td>
-        <td>1.5.13, 1.5.14</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-milestone" style="left:96.4%;"></div></div></td>
+        <td class="t-name indent-1" title="Muestras de ventas, stock y despacho"><span aria-label="Gobernanza" title="Gobernanza de datos">● </span>Auditoría de calidad de datos por Data Stewards</td>
+        <td>01/04/27</td><td>12/04/27</td>
+        <td>8d</td><td title="1.5.12">1.5.12</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-governance" style="left:87.9195%;width:5.3691%;" title="Muestras de ventas, stock y despacho"></div></div></td>
       </tr>
       <tr class="row-task">
         <td>1.5.16</td>
-        <td class="t-name indent-2">Elaborar documento lecciones aprendidas final</td>
-        <td>31/03/27</td>
-        <td>05/04/27</td>
-        <td>3d</td>
-        <td>1.5.15</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:96.4%;width:2.3%;"></div></div></td>
+        <td class="t-name indent-1" title="Cotejar cifras con operaciones y rentabilidad">Verificar reportes gerenciales en uso real</td>
+        <td>12/04/27</td><td>14/04/27</td>
+        <td>3d</td><td title="1.5.14, 1.5.4">1.5.14, 1.5.4</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:92.6174%;width:2.0134%;" title="Cotejar cifras con operaciones y rentabilidad"></div></div></td>
       </tr>
       <tr class="row-task">
         <td>1.5.17</td>
-        <td class="t-name indent-2">Emitir y firmar el Acta de Cierre Formal</td>
-        <td>05/04/27</td>
-        <td>08/04/27</td>
-        <td>3d</td>
-        <td>1.5.16</td>
-        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:98.6%;width:1.4%;"></div></div></td>
+        <td class="t-name indent-1" title="Evidencias frente a línea base y requisitos">Verificar criterios de aceptación y KPIs</td>
+        <td>15/04/27</td><td>16/04/27</td>
+        <td>2d</td><td title="1.5.15, 1.5.16">1.5.15, 1.5.16</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:94.6309%;width:1.3423%;" title="Evidencias frente a línea base y requisitos"></div></div></td>
+      </tr>
+      <tr class="row-governance">
+        <td>1.5.18</td>
+        <td class="t-name indent-1" title="Responsables de mantenimiento y revisiones periódicas"><span aria-label="Gobernanza" title="Gobernanza de datos">● </span>Transferir SOP, diccionario y control a Comité de Datos</td>
+        <td>15/04/27</td><td>19/04/27</td>
+        <td>3d</td><td title="1.5.15">1.5.15</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-governance" style="left:94.6309%;width:2.0134%;" title="Responsables de mantenimiento y revisiones periódicas"></div></div></td>
+      </tr>
+      <tr class="row-task">
+        <td>1.5.19</td>
+        <td class="t-name indent-1" title="Documento para futuras mejoras">Lecciones aprendidas de TI y adopción</td>
+        <td>15/04/27</td><td>19/04/27</td>
+        <td>3d</td><td title="1.5.14">1.5.14</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:94.6309%;width:2.0134%;" title="Documento para futuras mejoras"></div></div></td>
+      </tr>
+      <tr class="row-task">
+        <td>1.5.20</td>
+        <td class="t-name indent-1" title="Evidencias técnicas, operativas y de gobernanza">Informe final y expediente de aceptación</td>
+        <td>20/04/27</td><td>20/04/27</td>
+        <td>1d</td><td title="1.5.17, 1.5.18, 1.5.19">1.5.17, 1.5.18, 1.5.19</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:96.6443%;width:0.6711%;" title="Evidencias técnicas, operativas y de gobernanza"></div></div></td>
+      </tr>
+      <tr class="row-milestone">
+        <td>1.5.21</td>
+        <td class="t-name indent-1" title="Firma de conformidad del patrocinador"><span class="t-milestone-icon">◆</span><strong>GATE 3 · Acta de conformidad y cierre</strong></td>
+        <td>21/04/27</td><td>21/04/27</td>
+        <td>0d</td><td title="1.5.20">1.5.20</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-milestone" style="left:97.3154%;" title="Firma de conformidad del patrocinador"></div></div></td>
+      </tr>
+      <tr class="row-task">
+        <td>1.5.22</td>
+        <td class="t-name indent-1" title="Repositorios, responsables y canales de soporte">Entrega final documental y transferencia de soporte</td>
+        <td>22/04/27</td><td>23/04/27</td>
+        <td>2d</td><td title="1.5.21">1.5.21</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-task" style="left:97.9866%;width:1.3423%;" title="Repositorios, responsables y canales de soporte"></div></div></td>
+      </tr>
+      <tr class="row-milestone">
+        <td>1.5.23</td>
+        <td class="t-name indent-1" title="Cierre administrativo posterior al Gate 3"><span class="t-milestone-icon">◆</span><strong>Archivo administrativo y fin del proyecto</strong></td>
+        <td>26/04/27</td><td>26/04/27</td>
+        <td>0d</td><td title="1.5.22">1.5.22</td>
+        <td class="bar-cell"><div class="gantt-bar-row"><div class="gantt-bar bar-milestone" style="left:99.3289%;" title="Cierre administrativo posterior al Gate 3"></div></div></td>
       </tr>
     </tbody>
   </table>
-
-  <!-- Legend -->
   <div class="gantt-legend">
-    <div class="gantt-legend-item">
-      <div class="gantt-legend-swatch" style="background:linear-gradient(90deg,#1d4ed8,#2563eb)"></div>
-      <span>Proyecto / Ruta Crítica</span>
-    </div>
-    <div class="gantt-legend-item">
-      <div class="gantt-legend-swatch" style="background:linear-gradient(90deg,#60a5fa,#93c5fd)"></div>
-      <span>Fase 1 – Cimentar</span>
-    </div>
-    <div class="gantt-legend-item">
-      <div class="gantt-legend-swatch" style="background:linear-gradient(90deg,#34d399,#6ee7b7)"></div>
-      <span>Fase 2 – Integrar</span>
-    </div>
-    <div class="gantt-legend-item">
-      <div class="gantt-legend-swatch" style="background:linear-gradient(90deg,#a78bfa,#c4b5fd)"></div>
-      <span>Fase 3 – Optimizar/Cierre</span>
-    </div>
-    <div class="gantt-legend-item">
-      <div class="gantt-legend-swatch" style="background:linear-gradient(90deg,#10b981,#34d399)"></div>
-      <span>Actividades en Paralelo (holgura +)</span>
-    </div>
-    <div class="gantt-legend-item">
-      <div class="gantt-legend-swatch" style="background:#eab308;width:14px;height:14px;transform:rotate(45deg);border-radius:2px"></div>
-      <span>Hito / Gate</span>
-    </div>
+    <div class="gantt-legend-item"><div class="gantt-legend-swatch" style="background:linear-gradient(90deg,#1d4ed8,#2563eb)"></div><span>Proyecto</span></div>
+    <div class="gantt-legend-item"><div class="gantt-legend-swatch" style="background:linear-gradient(90deg,#60a5fa,#93c5fd)"></div><span>Dirección, diagnóstico y Cimentar</span></div>
+    <div class="gantt-legend-item"><div class="gantt-legend-swatch" style="background:linear-gradient(90deg,#34d399,#6ee7b7)"></div><span>Integrar</span></div>
+    <div class="gantt-legend-item"><div class="gantt-legend-swatch" style="background:linear-gradient(90deg,#a78bfa,#c4b5fd)"></div><span>Optimizar y cierre</span></div>
+    <div class="gantt-legend-item"><div class="gantt-legend-swatch" style="background:linear-gradient(90deg,#9333ea,#c084fc)"></div><span>Gobernanza de datos</span></div>
+    <div class="gantt-legend-item"><div class="gantt-legend-swatch" style="background:repeating-linear-gradient(90deg,#64748b 0 10px,#cbd5e1 10px 15px)"></div><span>Seguimiento recurrente</span></div>
+    <div class="gantt-legend-item"><div class="gantt-legend-swatch" style="background:#eab308;width:14px;height:14px;transform:rotate(45deg);border-radius:2px"></div><span>Hito / Gate</span></div>
+  </div>
+  <div class="gantt-notes">
+    <p>Calendario: lunes a viernes; se excluyen 08/10, 08/12, 09/12 y 25/12/2026, y 01/01, 25/03 y 26/03/2027. La duración de un hito es 0 días.</p>
+    <p>Las barras grises de seguimiento representan el período de atención, no una jornada completa todos los días. La documentación de Optimizar empieza en paralelo con las pruebas finales de Integrar.</p>
   </div>
 </div>
