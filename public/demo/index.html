@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Roma Bag's — Demo de tareas del sistema</title>
+  <meta name="description" content="Maqueta no funcional de la solución Odoo Community para Roma Bag's: muestra las 10 tareas (REQ-01 a REQ-10) que el sistema debe cumplir.">
+  <style>
+    :root {
+      --purple: #714B67; --purple-d: #5b3c53; --purple-bg: #EDE3E9;
+      --teal: #017E84; --teal-bg: #e0f2f2;
+      --amber: #b45309; --amber-bg: #fef3c7;
+      --red: #b91c1c; --red-bg: #fde2e2;
+      --bg: #F0EEEE; --card: #fff; --border: #E4E4E4;
+      --text: #212529; --muted: #6C757D;
+      --radius: 8px;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.45; }
+    button { font: inherit; }
+
+    /* ─── Barra superior estilo Odoo ─── */
+    .topbar { background: var(--purple); color: #fff; display: flex; align-items: center; gap: 16px; padding: 10px 16px; flex-wrap: wrap; }
+    .topbar .brand { font-weight: 700; display: flex; align-items: center; gap: 8px; }
+    .topbar .mods { display: flex; gap: 14px; font-size: 13px; opacity: .85; flex-wrap: wrap; }
+    .topbar .user { margin-left: auto; font-size: 12px; background: rgba(255,255,255,.15); padding: 4px 10px; border-radius: 999px; }
+    .ribbon { background: var(--amber-bg); color: var(--amber); border-bottom: 1px solid #f5d38a; padding: 8px 16px; font-size: 12.5px; }
+    .ribbon strong { text-transform: uppercase; letter-spacing: .04em; }
+
+    /* ─── Layout ─── */
+    .wrap { display: grid; grid-template-columns: 290px 1fr; min-height: calc(100vh - 90px); }
+    .tasks { background: #fff; border-right: 1px solid var(--border); padding: 14px 10px; }
+    .tasks h2 { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); padding: 0 8px 10px; }
+    .task-btn { display: flex; width: 100%; gap: 10px; align-items: flex-start; text-align: left; background: none; border: 1px solid transparent; border-radius: var(--radius); padding: 9px 8px; cursor: pointer; color: var(--text); }
+    .task-btn:hover { background: #f7f4f6; }
+    .task-btn.active { background: var(--purple-bg); border-color: #d9c6d3; }
+    .task-btn .id { flex: 0 0 auto; font-size: 11px; font-weight: 700; color: var(--purple); background: #fff; border: 1px solid #d9c6d3; border-radius: 4px; padding: 1px 5px; margin-top: 1px; }
+    .task-btn .t { font-size: 13px; font-weight: 600; }
+    .task-btn .m { font-size: 11.5px; color: var(--muted); display: block; font-weight: 400; }
+
+    .stage { padding: 20px; display: grid; grid-template-columns: minmax(0,1fr) 300px; gap: 20px; align-items: start; }
+    .screen { display: none; }
+    .screen.active { display: block; }
+    .crumb { font-size: 12px; color: var(--muted); margin-bottom: 4px; }
+    .screen h1 { font-size: 20px; margin-bottom: 14px; }
+
+    /* ─── Panel de la tarea ─── */
+    .spec { background: #fff; border: 1px solid var(--border); border-top: 4px solid var(--purple); border-radius: var(--radius); padding: 16px; position: sticky; top: 16px; }
+    .spec h3 { font-size: 15px; margin-bottom: 4px; }
+    .spec .req { font-size: 11px; font-weight: 700; color: var(--purple); letter-spacing: .05em; }
+    .spec h4 { font-size: 11.5px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin: 14px 0 6px; }
+    .spec ul { padding-left: 18px; font-size: 13px; }
+    .spec li { margin: 4px 0; }
+    .spec .accept { background: var(--teal-bg); border-left: 3px solid var(--teal); padding: 8px 10px; border-radius: 4px; font-size: 13px; }
+    .spec .meta { display: grid; gap: 4px; font-size: 12px; color: var(--muted); }
+    .spec .meta b { color: var(--text); font-weight: 600; }
+
+    /* ─── Componentes de la maqueta ─── */
+    .card { background: #fff; border: 1px solid var(--border); border-radius: var(--radius); padding: 14px; margin-bottom: 14px; }
+    .toolbar { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 12px; }
+    .btn { border: 1px solid var(--border); background: #fff; color: var(--text); padding: 6px 12px; border-radius: 4px; font-size: 13px; cursor: not-allowed; }
+    .btn.primary { background: var(--purple); border-color: var(--purple); color: #fff; }
+    .search { flex: 1; min-width: 160px; border: 1px solid var(--border); border-radius: 4px; padding: 6px 10px; color: var(--muted); background: #fff; }
+    .tbl-scroll { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th, td { padding: 8px 10px; border-bottom: 1px solid var(--border); text-align: left; white-space: nowrap; }
+    th { background: #f8f6f7; font-size: 12px; color: var(--muted); font-weight: 600; }
+    td.num, th.num { text-align: right; }
+    .tag { display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 999px; }
+    .tag.ok { background: var(--teal-bg); color: var(--teal); }
+    .tag.warn { background: var(--amber-bg); color: var(--amber); }
+    .tag.bad { background: var(--red-bg); color: var(--red); }
+    .tag.info { background: var(--purple-bg); color: var(--purple); }
+    .note { font-size: 12.5px; color: var(--muted); }
+    .grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
+    .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 14px; }
+    .kpi { background: #fff; border: 1px solid var(--border); border-radius: var(--radius); padding: 12px; }
+    .kpi .v { font-size: 22px; font-weight: 700; }
+    .kpi .l { font-size: 12px; color: var(--muted); }
+    .field { display: grid; grid-template-columns: 140px 1fr; gap: 8px; padding: 6px 0; border-bottom: 1px dashed var(--border); font-size: 13px; }
+    .field .k { color: var(--muted); }
+    .field .req-mark::after { content: " *"; color: var(--red); }
+
+    .steps { display: flex; gap: 0; margin-bottom: 14px; flex-wrap: wrap; }
+    .step { flex: 1; min-width: 110px; text-align: center; padding: 8px; font-size: 12.5px; font-weight: 600; background: #fff; border: 1px solid var(--border); color: var(--muted); }
+    .step:first-child { border-radius: var(--radius) 0 0 var(--radius); }
+    .step:last-child { border-radius: 0 var(--radius) var(--radius) 0; }
+    .step.done { background: var(--teal-bg); color: var(--teal); border-color: #b7dfe0; }
+    .step.now { background: var(--purple); color: #fff; border-color: var(--purple); }
+
+    .bar { display: flex; align-items: center; gap: 8px; margin: 6px 0; font-size: 12.5px; }
+    .bar .lbl { width: 150px; flex: 0 0 auto; }
+    .bar .track { flex: 1; height: 10px; background: #f1ecef; border-radius: 999px; overflow: hidden; }
+    .bar .fill { height: 100%; background: var(--purple); }
+    .bar .val { width: 44px; text-align: right; font-weight: 600; }
+
+    .phone { width: 250px; margin: 0 auto; border: 8px solid #222; border-radius: 28px; background: var(--bg); overflow: hidden; }
+    .phone .ph-top { background: var(--purple); color: #fff; padding: 10px 12px; font-size: 13px; font-weight: 600; }
+    .phone .ph-body { padding: 12px; }
+
+    .check { display: flex; gap: 8px; align-items: center; padding: 6px 0; font-size: 13px; border-bottom: 1px dashed var(--border); }
+    .box { width: 16px; height: 16px; border-radius: 3px; border: 1.5px solid var(--border); flex: 0 0 auto; display: grid; place-items: center; font-size: 11px; color: #fff; }
+    .box.on { background: var(--teal); border-color: var(--teal); }
+    .alert { border-radius: var(--radius); padding: 10px 12px; font-size: 13px; margin-bottom: 14px; }
+    .alert.warn { background: var(--amber-bg); color: var(--amber); border: 1px solid #f5d38a; }
+    .alert.bad { background: var(--red-bg); color: var(--red); border: 1px solid #f3b4b4; }
+    .alert.ok { background: var(--teal-bg); color: var(--teal); border: 1px solid #b7dfe0; }
+
+    footer { text-align: center; font-size: 12px; color: var(--muted); padding: 16px; }
+
+    @media (max-width: 1080px) {
+      .stage { grid-template-columns: 1fr; }
+      .spec { position: static; }
+    }
+    @media (max-width: 760px) {
+      .wrap { grid-template-columns: 1fr; }
+      .tasks { border-right: 0; border-bottom: 1px solid var(--border); display: flex; overflow-x: auto; gap: 6px; padding: 10px 16px; }
+      .tasks h2 { display: none; }
+      .task-btn { flex: 0 0 auto; width: auto; align-items: center; }
+      .task-btn .m { display: none; }
+      .stage { padding: 16px; }
+      .topbar .mods { display: none; }
+      .field { grid-template-columns: 1fr; gap: 2px; }
+      .bar .lbl { width: 100px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="topbar">
+    <span class="brand">👜 Roma Bag's · Odoo Community</span>
+    <nav class="mods"><span>Ventas</span><span>Inventario</span><span>Despachos</span><span>Reportes</span><span>Ajustes</span></nav>
+    <span class="user">Natalie · Gerencia</span>
+  </header>
+  <div class="ribbon"><strong>Demo no funcional</strong> — maqueta estática para mostrar las tareas que debe cumplir el sistema. Los botones y datos son ilustrativos; no se guarda ni se calcula nada.</div>
+
+  <div class="wrap">
+    <!-- ─── Lista de tareas (REQ-01 a REQ-10, Cap. 06) ─── -->
+    <aside class="tasks" id="tasks">
+      <h2>Tareas del sistema</h2>
+      <button class="task-btn active" data-target="req01"><span class="id">REQ-01</span><span class="t">Fuente única de inventario y ventas<span class="m">Inventario</span></span></button>
+      <button class="task-btn" data-target="req02"><span class="id">REQ-02</span><span class="t">Consulta móvil de stock<span class="m">Inventario · celular</span></span></button>
+      <button class="task-btn" data-target="req03"><span class="id">REQ-03</span><span class="t">Conciliación semanal ágil<span class="m">Inventario · ajustes</span></span></button>
+      <button class="task-btn" data-target="req04"><span class="id">REQ-04</span><span class="t">Despacho completo y trazable<span class="m">Ventas → Despachos</span></span></button>
+      <button class="task-btn" data-target="req05"><span class="id">REQ-05</span><span class="t">Reportes gerenciales<span class="m">Reportes</span></span></button>
+      <button class="task-btn" data-target="req06"><span class="id">REQ-06</span><span class="t">Operación en dos talleres<span class="m">Almacenes</span></span></button>
+      <button class="task-btn" data-target="req07"><span class="id">REQ-07</span><span class="t">Coexistencia y corte del piloto<span class="m">Migración</span></span></button>
+      <button class="task-btn" data-target="req08"><span class="id">REQ-08</span><span class="t">Respaldo, seguridad y permisos<span class="m">Ajustes</span></span></button>
+      <button class="task-btn" data-target="req09"><span class="id">REQ-09</span><span class="t">Datos depurados y conciliados<span class="m">Calidad de datos</span></span></button>
+      <button class="task-btn" data-target="req10"><span class="id">REQ-10</span><span class="t">Adopción y transferencia<span class="m">Capacitación</span></span></button>
+    </aside>
+
+    <main class="stage">
+      <div>
+        <!-- REQ-01 -->
+        <section class="screen active" id="req01">
+          <div class="crumb">Inventario › Productos</div>
+          <h1>Existencias de productos</h1>
+          <div class="alert ok">✔ Fuente oficial: <strong>Odoo</strong>. Ventas, producción y despachos actualizan este mismo registro.</div>
+          <div class="toolbar"><span class="search">🔍 Buscar modelo o código…</span><button class="btn primary">Nuevo producto</button><button class="btn">Exportar</button></div>
+          <div class="card tbl-scroll">
+            <table>
+              <thead><tr><th>Código</th><th>Modelo</th><th class="num">Stock</th><th class="num">Precio (S/)</th><th>Último movimiento</th></tr></thead>
+              <tbody>
+                <tr><td>RB-CNA-001</td><td>Cartera Negra Mod. A</td><td class="num">12</td><td class="num">45.00</td><td>Venta · Mayorista Lima Norte</td></tr>
+                <tr><td>RB-CMB-002</td><td>Cartera Marrón Mod. B</td><td class="num">8</td><td class="num">55.00</td><td>Venta · Mayorista Gamarra</td></tr>
+                <tr><td>RB-BCC-003</td><td>Bolso Crema Mod. C</td><td class="num"><span class="tag warn">3</span></td><td class="num">65.00</td><td>Ingreso de producción</td></tr>
+                <tr><td>RB-MND-004</td><td>Mochila Negra Mod. D</td><td class="num">15</td><td class="num">40.00</td><td>Ingreso de producción</td></tr>
+                <tr><td>RB-CRE-005</td><td>Cartera Roja Mod. E</td><td class="num"><span class="tag bad">1</span></td><td class="num">50.00</td><td>Venta · Cliente minorista</td></tr>
+                <tr><td>RB-BBF-006</td><td>Bolso Beige Mod. F</td><td class="num">20</td><td class="num">48.00</td><td>Ingreso de producción</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- REQ-02 -->
+        <section class="screen" id="req02">
+          <div class="crumb">Inventario › Consulta rápida (celular)</div>
+          <h1>Consulta de stock desde el celular</h1>
+          <div class="grid2">
+            <div class="phone">
+              <div class="ph-top">🔍 Consultar stock</div>
+              <div class="ph-body">
+                <div class="search" style="margin-bottom:10px">cartera roja</div>
+                <div class="card" style="margin-bottom:8px">
+                  <strong>Cartera Roja Mod. E</strong>
+                  <div class="note">RB-CRE-005</div>
+                  <div style="margin-top:8px;display:flex;justify-content:space-between"><span>Taller 1</span><strong>1</strong></div>
+                  <div style="display:flex;justify-content:space-between"><span>Taller 2</span><strong>0</strong></div>
+                  <div style="margin-top:8px"><span class="tag bad">Stock crítico</span></div>
+                </div>
+                <button class="btn primary" style="width:100%">Reservar para cliente</button>
+              </div>
+            </div>
+            <div class="card">
+              <strong>Qué debe resolver esta pantalla</strong>
+              <p class="note" style="margin-top:6px">Hoy la gerencia responde por WhatsApp revisando el Excel o llamando al taller. Con esta consulta, cualquier vendedora responde al cliente desde el celular sin instalar nada.</p>
+              <div class="field" style="margin-top:10px"><span class="k">Tiempo meta</span><span>&lt; 2 minutos por consulta</span></div>
+              <div class="field"><span class="k">Acceso</span><span>Navegador del celular</span></div>
+              <div class="field"><span class="k">Muestra</span><span>Stock por taller y alerta de stock crítico</span></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- REQ-03 -->
+        <section class="screen" id="req03">
+          <div class="crumb">Inventario › Ajustes › Conteo semanal</div>
+          <h1>Conciliación semanal · Semana 42</h1>
+          <div class="toolbar"><button class="btn primary">Aplicar ajustes</button><button class="btn">Imprimir hoja de conteo</button><span class="note">Tiempo estimado: 45 min (antes: 1 día)</span></div>
+          <div class="card tbl-scroll">
+            <table>
+              <thead><tr><th>Modelo</th><th class="num">Sistema</th><th class="num">Conteo físico</th><th class="num">Diferencia</th><th>Estado</th></tr></thead>
+              <tbody>
+                <tr><td>Cartera Negra Mod. A</td><td class="num">12</td><td class="num">12</td><td class="num">0</td><td><span class="tag ok">Cuadra</span></td></tr>
+                <tr><td>Cartera Marrón Mod. B</td><td class="num">8</td><td class="num">7</td><td class="num">−1</td><td><span class="tag warn">Revisar</span></td></tr>
+                <tr><td>Bolso Crema Mod. C</td><td class="num">3</td><td class="num">3</td><td class="num">0</td><td><span class="tag ok">Cuadra</span></td></tr>
+                <tr><td>Mochila Negra Mod. D</td><td class="num">15</td><td class="num">15</td><td class="num">0</td><td><span class="tag ok">Cuadra</span></td></tr>
+                <tr><td>Bolso Beige Mod. F</td><td class="num">20</td><td class="num">22</td><td class="num">+2</td><td><span class="tag warn">Revisar</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="note">Cada diferencia exige un motivo (merma, venta no registrada, error de conteo) antes de aplicarse.</p>
+        </section>
+
+        <!-- REQ-04 -->
+        <section class="screen" id="req04">
+          <div class="crumb">Ventas › Pedidos › S00128</div>
+          <h1>Pedido S00128 · Mayorista Gamarra</h1>
+          <div class="steps"><div class="step done">1. Venta</div><div class="step done">2. Stock reservado</div><div class="step now">3. Despacho</div><div class="step">4. Entregado</div></div>
+          <div class="alert bad">⛔ No se puede confirmar el despacho: faltan <strong>agencia de transporte</strong> y <strong>monto cobrado</strong>.</div>
+          <div class="card">
+            <div class="field"><span class="k req-mark">Cliente</span><span>Mayorista Gamarra</span></div>
+            <div class="field"><span class="k req-mark">Productos</span><span>3 × Cartera Marrón Mod. B · 2 × Bolso Beige Mod. F</span></div>
+            <div class="field"><span class="k req-mark">Total</span><span>S/ 261.00</span></div>
+            <div class="field"><span class="k req-mark">Monto cobrado</span><span style="color:var(--red)">— pendiente —</span></div>
+            <div class="field"><span class="k req-mark">Agencia</span><span style="color:var(--red)">— pendiente —</span></div>
+            <div class="field"><span class="k req-mark">Destino</span><span>Huancayo</span></div>
+            <div class="field"><span class="k">Guía / clave</span><span>—</span></div>
+          </div>
+          <div class="toolbar"><button class="btn primary">Confirmar despacho</button><button class="btn">Adjuntar foto de guía</button></div>
+        </section>
+
+        <!-- REQ-05 -->
+        <section class="screen" id="req05">
+          <div class="crumb">Reportes › Panel gerencial</div>
+          <h1>Panel de indicadores</h1>
+          <div class="kpis">
+            <div class="kpi"><div class="v">S/ 1,284</div><div class="l">Ventas de hoy</div></div>
+            <div class="kpi"><div class="v" style="color:var(--red)">2</div><div class="l">Modelos en stock crítico</div></div>
+            <div class="kpi"><div class="v" style="color:var(--amber)">4 %</div><div class="l">Despachos incompletos (meta ≤ 5 %)</div></div>
+            <div class="kpi"><div class="v" style="color:var(--teal)">48 %</div><div class="l">Margen operativo del mes</div></div>
+          </div>
+          <div class="card">
+            <strong>Margen por modelo</strong>
+            <div class="bar"><span class="lbl">Bolso Crema C</span><span class="track"><span class="fill" style="width:54%;display:block"></span></span><span class="val">54 %</span></div>
+            <div class="bar"><span class="lbl">Mochila Negra D</span><span class="track"><span class="fill" style="width:55%;display:block"></span></span><span class="val">55 %</span></div>
+            <div class="bar"><span class="lbl">Bolso Beige F</span><span class="track"><span class="fill" style="width:52%;display:block"></span></span><span class="val">52 %</span></div>
+            <div class="bar"><span class="lbl">Cartera Negra A</span><span class="track"><span class="fill" style="width:51%;display:block"></span></span><span class="val">51 %</span></div>
+            <div class="bar"><span class="lbl">Cartera Marrón B</span><span class="track"><span class="fill" style="width:49%;display:block"></span></span><span class="val">49 %</span></div>
+          </div>
+          <p class="note">Visible solo para el perfil Gerencia. Cada cifra indica su fuente y fecha de corte.</p>
+        </section>
+
+        <!-- REQ-06 -->
+        <section class="screen" id="req06">
+          <div class="crumb">Inventario › Almacenes</div>
+          <h1>Stock por ubicación</h1>
+          <div class="grid2">
+            <div class="card"><strong>🏭 Taller 1 · Producción</strong><div class="note">Conexión: fibra + datos móviles de respaldo</div>
+              <div class="field"><span class="k">Unidades</span><span>41</span></div>
+              <div class="field"><span class="k">Usuarios</span><span>Producción (2), Gerencia</span></div>
+              <div class="field"><span class="k">Estado</span><span><span class="tag ok">En línea</span></span></div>
+            </div>
+            <div class="card"><strong>🏬 Taller 2 · Acabado y despacho</strong><div class="note">Conexión: router + datos móviles de respaldo</div>
+              <div class="field"><span class="k">Unidades</span><span>18</span></div>
+              <div class="field"><span class="k">Usuarios</span><span>Ventas (2), Gerencia</span></div>
+              <div class="field"><span class="k">Estado</span><span><span class="tag ok">En línea</span></span></div>
+            </div>
+          </div>
+          <div class="card tbl-scroll">
+            <strong>Transferencias entre talleres</strong>
+            <table style="margin-top:8px">
+              <thead><tr><th>Referencia</th><th>Modelo</th><th class="num">Cant.</th><th>Origen → Destino</th><th>Estado</th></tr></thead>
+              <tbody>
+                <tr><td>INT/0045</td><td>Bolso Beige Mod. F</td><td class="num">6</td><td>Taller 1 → Taller 2</td><td><span class="tag ok">Recibido</span></td></tr>
+                <tr><td>INT/0046</td><td>Cartera Negra Mod. A</td><td class="num">4</td><td>Taller 1 → Taller 2</td><td><span class="tag info">En tránsito</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- REQ-07 -->
+        <section class="screen" id="req07">
+          <div class="crumb">Ajustes › Migración › Corte</div>
+          <h1>Coexistencia con Excel y corte del piloto</h1>
+          <div class="alert warn">🔒 Desde el corte, la hoja «DESPACHOS ROMA BAG'S – 2026» y la base piloto quedan en <strong>solo lectura</strong>. Odoo es la única fuente oficial.</div>
+          <div class="card">
+            <div class="steps"><div class="step done">Piloto + Excel</div><div class="step done">Conciliación final</div><div class="step now">Corte</div><div class="step">Solo Odoo</div></div>
+            <div class="field"><span class="k">Responsable</span><span>Dueña de datos de Ventas</span></div>
+            <div class="field"><span class="k">Saldo Excel</span><span>59 unidades</span></div>
+            <div class="field"><span class="k">Saldo Odoo</span><span>59 unidades <span class="tag ok">Cuadra</span></span></div>
+            <div class="field"><span class="k">Piloto</span><span><span class="tag bad">Bloqueado para edición</span></span></div>
+          </div>
+          <div class="toolbar"><button class="btn primary">Firmar acta de corte</button><button class="btn">Descargar respaldo del Excel</button></div>
+        </section>
+
+        <!-- REQ-08 -->
+        <section class="screen" id="req08">
+          <div class="crumb">Ajustes › Usuarios y respaldos</div>
+          <h1>Permisos por rol</h1>
+          <div class="card tbl-scroll">
+            <table>
+              <thead><tr><th>Acción</th><th>Gerencia</th><th>Ventas</th><th>Producción</th></tr></thead>
+              <tbody>
+                <tr><td>Consultar stock</td><td>✅</td><td>✅</td><td>✅</td></tr>
+                <tr><td>Registrar venta</td><td>✅</td><td>✅</td><td>—</td></tr>
+                <tr><td>Registrar ingreso de producción</td><td>✅</td><td>—</td><td>✅</td></tr>
+                <tr><td>Confirmar despacho</td><td>✅</td><td>✅</td><td>—</td></tr>
+                <tr><td>Ver costos y márgenes</td><td>✅</td><td>—</td><td>—</td></tr>
+                <tr><td>Ajustar inventario</td><td>✅</td><td>—</td><td>—</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="card">
+            <strong>Respaldos</strong>
+            <div class="field"><span class="k">Último respaldo</span><span>Hoy, 02:00 <span class="tag ok">Correcto</span></span></div>
+            <div class="field"><span class="k">Frecuencia</span><span>Diaria + copia semanal externa</span></div>
+            <div class="field"><span class="k">Última restauración de prueba</span><span>Hace 12 días <span class="tag ok">Verificada</span></span></div>
+          </div>
+        </section>
+
+        <!-- REQ-09 -->
+        <section class="screen" id="req09">
+          <div class="crumb">Ajustes › Calidad de datos</div>
+          <h1>Depuración y migración del catálogo</h1>
+          <div class="kpis">
+            <div class="kpi"><div class="v">214</div><div class="l">Filas en Excel original</div></div>
+            <div class="kpi"><div class="v" style="color:var(--amber)">37</div><div class="l">Duplicados unificados</div></div>
+            <div class="kpi"><div class="v" style="color:var(--red)">9</div><div class="l">Registros sin dato obligatorio</div></div>
+            <div class="kpi"><div class="v" style="color:var(--teal)">168</div><div class="l">Listos para migrar</div></div>
+          </div>
+          <div class="card tbl-scroll">
+            <table>
+              <thead><tr><th>Registro original</th><th>Problema</th><th>Corrección</th><th>Estado</th></tr></thead>
+              <tbody>
+                <tr><td>“cartera negra A” / “Cart. Negra mod A”</td><td>Nombre duplicado</td><td>Cartera Negra Mod. A · RB-CNA-001</td><td><span class="tag ok">Unificado</span></td></tr>
+                <tr><td>Despacho 14/03 · Trujillo</td><td>Sin monto cobrado</td><td>Consultar con Ventas</td><td><span class="tag warn">Pendiente</span></td></tr>
+                <tr><td>Bolso crema (sin código)</td><td>Sin código</td><td>RB-BCC-003</td><td><span class="tag ok">Asignado</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="note">El Excel original de 2026 se conserva intacto como evidencia; la depuración se hace sobre una copia.</p>
+        </section>
+
+        <!-- REQ-10 -->
+        <section class="screen" id="req10">
+          <div class="crumb">Capacitación › Avance por rol</div>
+          <h1>Adopción y transferencia de control</h1>
+          <div class="grid2">
+            <div class="card"><strong>Ventas</strong>
+              <div class="check"><span class="box on">✓</span>Registrar venta</div>
+              <div class="check"><span class="box on">✓</span>Consultar stock en celular</div>
+              <div class="check"><span class="box">&nbsp;</span>Confirmar despacho completo</div>
+            </div>
+            <div class="card"><strong>Producción</strong>
+              <div class="check"><span class="box on">✓</span>Registrar ingreso de producción</div>
+              <div class="check"><span class="box on">✓</span>Transferir entre talleres</div>
+              <div class="check"><span class="box on">✓</span>Conteo semanal</div>
+            </div>
+            <div class="card"><strong>Gerencia</strong>
+              <div class="check"><span class="box on">✓</span>Leer panel de indicadores</div>
+              <div class="check"><span class="box">&nbsp;</span>Aprobar ajustes de inventario</div>
+              <div class="check"><span class="box">&nbsp;</span>Recibir control como Comité de Datos</div>
+            </div>
+          </div>
+          <div class="toolbar"><button class="btn primary">Firmar conformidad</button><button class="btn">Ver manual por rol</button></div>
+        </section>
+      </div>
+
+      <!-- ─── Descripción de la tarea seleccionada ─── -->
+      <aside class="spec" id="spec" aria-live="polite"></aside>
+    </main>
+  </div>
+
+  <footer>Maqueta ilustrativa · Proyecto de Transformación Digital Roma Bag's · Requisitos del Capítulo 06</footer>
+
+  <script>
+    // Solo navegación entre pantallas: la demo no ejecuta ninguna lógica de negocio.
+    const SPEC = {
+      req01: { t: 'Fuente única de inventario y ventas', tasks: ['Registrar todo producto, venta e ingreso en un solo sistema.', 'Reemplazar las hojas de Excel dispersas como registro oficial.', 'Mostrar el último movimiento de cada modelo.'], ok: 'Registro consistente y Odoo como fuente oficial tras el corte.', edt: 'EDT-1.3.03 / EDT-1.4.03', act: '1.3.16, 1.3.21, 1.4.10, 1.5.13' },
+      req02: { t: 'Consulta móvil de stock', tasks: ['Buscar un modelo desde el celular sin instalar apps.', 'Mostrar el stock por taller.', 'Avisar cuando un modelo está en stock crítico.'], ok: 'Consulta cronometrada en menos de 2 minutos.', edt: 'EDT-1.3.03', act: '1.3.18–1.3.19' },
+      req03: { t: 'Conciliación semanal ágil', tasks: ['Comparar stock del sistema contra el conteo físico.', 'Resaltar diferencias y exigir un motivo.', 'Aplicar ajustes con registro de quién los aprobó.'], ok: 'Tiempo real de conciliación menor a la línea base de 1 día semanal.', edt: 'EDT-1.4.04 / EDT-1.5.01', act: '1.4.17–1.4.18, 1.5.16–1.5.17' },
+      req04: { t: 'Despacho completo y trazable', tasks: ['Seguir el flujo obligatorio Venta → Stock → Despacho.', 'Bloquear el despacho si faltan agencia, monto o destino.', 'Guardar evidencia (guía, foto) del envío.'], ok: 'Casos UAT aprobados y ≤ 5 % de registros incompletos tras la salida en vivo.', edt: 'EDT-1.3.02 / EDT-1.4.04', act: '1.3.10–1.3.11, 1.4.17–1.4.19' },
+      req05: { t: 'Reportes de stock, calidad y rentabilidad', tasks: ['Mostrar ventas del día, stock crítico y despachos incompletos.', 'Calcular margen por modelo.', 'Restringir el panel al perfil Gerencia.'], ok: 'Gerencia valida cifras, fuentes y acceso por rol.', edt: 'EDT-1.5.01', act: '1.5.1–1.5.4, 1.5.16' },
+      req06: { t: 'Operación en celulares y dos talleres', tasks: ['Separar el stock por taller.', 'Registrar transferencias entre talleres.', 'Funcionar con la red de cada taller y respaldo móvil.'], ok: 'Pruebas de conectividad y de flujo aprobadas en cada ubicación.', edt: 'EDT-1.3.01 / EDT-1.4.04', act: '1.3.4, 1.4.14–1.4.15, 1.4.21' },
+      req07: { t: 'Coexistencia controlada y corte del piloto', tasks: ['Mantener Excel y piloto en paralelo solo durante la transición.', 'Conciliar saldos antes del corte.', 'Bloquear el piloto después de la salida en vivo.'], ok: 'Un responsable de la fuente oficial; piloto bloqueado tras la salida.', edt: 'EDT-1.3.03 / EDT-1.5.03', act: '1.3.20, 1.5.11–1.5.13' },
+      req08: { t: 'Respaldo, seguridad y permisos', tasks: ['Dar a cada rol solo las acciones que necesita.', 'Ocultar costos y márgenes fuera de Gerencia.', 'Respaldar a diario y probar la restauración.'], ok: 'Respaldo verificable y acceso probado por rol.', edt: 'EDT-1.3.02 / EDT-1.4.02', act: '1.3.12–1.3.13, 1.4.5–1.4.6' },
+      req09: { t: 'Datos depurados, conciliados y preservados', tasks: ['Unificar modelos duplicados y asignar códigos.', 'Señalar registros sin datos obligatorios.', 'Conservar el Excel original de 2026 sin cambios.'], ok: 'Conteos y saldos conciliados; originales de 2026 preservados.', edt: 'EDT-1.3.02 / EDT-1.4.03', act: '1.3.14–1.3.15, 1.4.8–1.4.11' },
+      req10: { t: 'Adopción y transferencia de control', tasks: ['Capacitar a cada rol en sus tareas del sistema.', 'Registrar evidencia de uso real.', 'Transferir el control al Comité de Datos.'], ok: 'Capacitación por rol, evidencias de uso y responsables firmados.', edt: 'EDT-1.5.02 / EDT-1.5.04', act: '1.5.5–1.5.9, 1.5.15–1.5.22' }
+    };
+
+    const spec = document.getElementById('spec');
+    const buttons = document.querySelectorAll('.task-btn');
+
+    function show(id) {
+      buttons.forEach(b => b.classList.toggle('active', b.dataset.target === id));
+      document.querySelectorAll('.screen').forEach(s => s.classList.toggle('active', s.id === id));
+      const s = SPEC[id];
+      spec.innerHTML =
+        '<div class="req">' + id.replace('req', 'REQ-') + '</div>' +
+        '<h3>' + s.t + '</h3>' +
+        '<h4>El sistema debe</h4><ul>' + s.tasks.map(t => '<li>' + t + '</li>').join('') + '</ul>' +
+        '<h4>Criterio de aceptación</h4><div class="accept">' + s.ok + '</div>' +
+        '<h4>Trazabilidad</h4><div class="meta"><span><b>Paquete:</b> ' + s.edt + '</span><span><b>Actividades:</b> ' + s.act + '</span></div>';
+    }
+
+    buttons.forEach(b => b.addEventListener('click', () => show(b.dataset.target)));
+    show('req01');
+  </script>
+</body>
+</html>
